@@ -9,6 +9,7 @@ const functionObject = Object.assign(() => true, {
 
 test('Should return true because key is present', (t) => {
   t.is(hasStatus({ status: 200 }), true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   t.is(hasStatus(functionObject as any), true);
 });
 test('Should return false because key is not present', (t) => {
