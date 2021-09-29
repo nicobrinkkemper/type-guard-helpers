@@ -60,6 +60,7 @@
     "nyc": "^15.1.0",
     "open-cli": "^7.0.1",
     "prettier": "^2.4.1",
+    "source-map-support": "^0.5.20",
     "standard-version": "^9.3.1",
     "ts-node": "^10.2.1",
     "typedoc": "^0.22.4",
