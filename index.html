@@ -1,0 +1,210 @@
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>type-guard-helpers</title><meta name="description" content="Documentation for type-guard-helpers"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">type-guard-helpers</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>type-guard-helpers</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h1>Installation</h1>
+</a>
+<pre><code><span class="hl-4">npm</span><span class="hl-1"> </span><span class="hl-4">install</span><span class="hl-1"> </span><span class="hl-4">type</span><span class="hl-1">-</span><span class="hl-4">guard</span><span class="hl-1">-</span><span class="hl-4">helpers</span>
+</code></pre>
+
+<a href="#type-guard-basics" id="type-guard-basics" style="color: inherit; text-decoration: none;">
+  <h1>Type Guard Basics</h1>
+</a>
+<p>A quick introduction to Type Guards in Typescript.</p>
+<blockquote>
+<p><a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html">Check out the official documentation</a></p>
+</blockquote>
+
+<a href="#idiomatic-type-guard" id="idiomatic-type-guard" style="color: inherit; text-decoration: none;">
+  <h2>Idiomatic Type Guard</h2>
+</a>
+<p>A Type Guard is a technique to narrow down the type of a variable.
+They are really just if-statements:</p>
+<pre><code class="language-ts"><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-4">status</span><span class="hl-1"> === </span><span class="hl-6">&#39;success&#39;</span><span class="hl-1">) </span><span class="hl-4">status</span><span class="hl-1">; </span><span class="hl-8">// status: &#39;success&#39;</span>
+</code></pre>
+
+<a href="#user-defined-type-guard" id="user-defined-type-guard" style="color: inherit; text-decoration: none;">
+  <h2>User Defined Type Guard</h2>
+</a>
+<p>Type Guards can be compartmentalized by defining a function using the <code>is</code> keyword:</p>
+<pre><code class="language-ts"><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-3">isSuccess</span><span class="hl-1"> = (</span><span class="hl-4">value</span><span class="hl-1">: </span><span class="hl-5">unknown</span><span class="hl-1">): </span><span class="hl-4">value</span><span class="hl-1"> </span><span class="hl-0">is</span><span class="hl-1"> </span><span class="hl-6">&#39;success&#39;</span><span class="hl-1"> </span><span class="hl-0">=&gt;</span><span class="hl-1"> </span><span class="hl-4">value</span><span class="hl-1"> === </span><span class="hl-6">&#39;success&#39;</span><span class="hl-1">;</span><br/><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-3">isSuccess</span><span class="hl-1">(</span><span class="hl-4">status</span><span class="hl-1">)) </span><span class="hl-4">status</span><span class="hl-1">; </span><span class="hl-8">// status: &#39;success&#39;</span>
+</code></pre>
+
+<a href="#provided-helpers" id="provided-helpers" style="color: inherit; text-decoration: none;">
+  <h1>Provided Helpers</h1>
+</a>
+
+<a href="#standard-type-guards" id="standard-type-guards" style="color: inherit; text-decoration: none;">
+  <h2>Standard Type Guards</h2>
+</a>
+<p>Some standard Type Guards are provided by this library. These are purposefully simple functions using the <code>typeof</code> syntax under the hood.</p>
+
+<a href="#isarrayltvaluegt" id="isarrayltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isArray&lt;value&gt;</code></h3>
+</a>
+<p>Value is array</p>
+<blockquote>
+<p>This just <code>Array.isArray</code> with a modern Typescript definition that doesn&#39;t use any.</p>
+</blockquote>
+
+<a href="#isfunctionltvaluegt" id="isfunctionltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isFunction&lt;value&gt;</code></h3>
+</a>
+<p>Value is function</p>
+
+<a href="#isnilltvaluegt" id="isnilltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isNil&lt;value&gt;</code></h3>
+</a>
+<p>Value is null or undefined</p>
+
+<a href="#isnullltvaluegt" id="isnullltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isNull&lt;value&gt;</code></h3>
+</a>
+<p>Value is null</p>
+
+<a href="#isnumberltvaluegt" id="isnumberltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isNumber&lt;value&gt;</code></h3>
+</a>
+<p>Value is number</p>
+
+<a href="#isobjectltvaluegt" id="isobjectltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isObject&lt;value&gt;</code></h3>
+</a>
+<p>Value is object</p>
+
+<a href="#ispropertykeyltvaluegt" id="ispropertykeyltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isPropertyKey&lt;value&gt;</code></h3>
+</a>
+<p>Value is string, number or symbol</p>
+
+<a href="#isundefinedltvaluegt" id="isundefinedltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isUndefined&lt;value&gt;</code></h3>
+</a>
+<p>Value is undefined</p>
+
+<a href="#higher-order-type-guards" id="higher-order-type-guards" style="color: inherit; text-decoration: none;">
+  <h2>Higher Order Type Guards</h2>
+</a>
+<p>These functions can be used to compose detailed types of arrays, objects or strings.</p>
+
+<a href="#isarraylikeltguardgtltvaluegt" id="isarraylikeltguardgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isArrayLike&lt;guard&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is array that only contain values matching the given guard.</p>
+<pre><code class="language-ts"><span class="hl-3">isArrayLike</span><span class="hl-1">(</span><span class="hl-4">isArray</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: unknown[][]</span>
+</code></pre>
+
+<a href="#iskeyltkeygtltvaluegt" id="iskeyltkeygtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isKey&lt;key&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is object that contains the given key.</p>
+<pre><code class="language-ts"><span class="hl-3">isKey</span><span class="hl-1">(</span><span class="hl-6">&#39;message&#39;</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value {message:unknown}</span>
+</code></pre>
+
+<a href="#iskeyofltschemagtltvaluegt" id="iskeyofltschemagtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isKeyOf&lt;schema&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is a key of schema object.</p>
+<pre><code class="language-ts"><span class="hl-3">isKeyOf</span><span class="hl-1">(</span><span class="hl-4">obj</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: keyof obj</span>
+</code></pre>
+
+<a href="#isnotltguardgtltvaluegt" id="isnotltguardgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isNot&lt;guard&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value does not match the given guard.</p>
+<pre><code class="language-ts"><span class="hl-3">isNot</span><span class="hl-1">(</span><span class="hl-4">isString</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value = Exclude&lt;typeof value,string&gt;</span>
+</code></pre>
+
+<a href="#isobjectlikeltschemagtltvaluegt" id="isobjectlikeltschemagtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isObjectLike&lt;schema&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is object with key/values exactly like given schema.</p>
+<pre><code class="language-ts"><span class="hl-3">isObjectLike</span><span class="hl-1">({ </span><span class="hl-4">articles:</span><span class="hl-1"> </span><span class="hl-4">isArray</span><span class="hl-1"> })(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: {articles: unknown[]}</span>
+</code></pre>
+
+<a href="#isobjectwithltschemagtltvaluegt" id="isobjectwithltschemagtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isObjectWith&lt;schema&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is object with the same key/values as given schema.</p>
+<blockquote>
+<p>Will allow unknown key/values, useful for duck-typing approach.</p>
+</blockquote>
+<pre><code class="language-ts"><span class="hl-3">isObjectWith</span><span class="hl-1">({ </span><span class="hl-4">articles:</span><span class="hl-1"> </span><span class="hl-4">isArray</span><span class="hl-1"> })(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: {articles: unknown[]} &amp; typeof value</span>
+</code></pre>
+
+<a href="#isstringlikeltkeysgtltvaluegt" id="isstringlikeltkeysgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isStringLike&lt;...keys[]&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is string that matches any of the keys given as arguments.</p>
+<pre><code class="language-ts"><span class="hl-3">isStringLike</span><span class="hl-1">(</span><span class="hl-6">&#39;success&#39;</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: &#39;success&#39;</span>
+</code></pre>
+
+<a href="#isstringinltkeysgtltvaluegt" id="isstringinltkeysgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>isStringIn&lt;keys[]&gt;&lt;value&gt;</code></h3>
+</a>
+<p>Value is string that matches any of the keys given as array.</p>
+<pre><code class="language-ts"><span class="hl-3">isStringIn</span><span class="hl-1">([</span><span class="hl-6">&#39;success&#39;</span><span class="hl-1">, </span><span class="hl-6">&#39;error&#39;</span><span class="hl-1">] </span><span class="hl-7">as</span><span class="hl-1"> </span><span class="hl-0">const</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: &#39;success&#39; | &#39;error&#39;</span>
+</code></pre>
+
+<a href="#type-guard-modifiers" id="type-guard-modifiers" style="color: inherit; text-decoration: none;">
+  <h2>Type Guard Modifiers</h2>
+</a>
+<p>These helper functions upgrade existing type guards so they may allow for alternative values.</p>
+
+<a href="#maybeemptyarrayltguardgtltvaluegt" id="maybeemptyarrayltguardgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>maybeEmptyArray&lt;guard&gt;&lt;value&gt;</code></h3>
+</a>
+<pre><code class="language-ts"><span class="hl-3">maybeEmptyArray</span><span class="hl-1">(</span><span class="hl-4">isString</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: [] | string</span>
+</code></pre>
+
+<a href="#maybenullltguardgtltvaluegt" id="maybenullltguardgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>maybeNull&lt;guard&gt;&lt;value&gt;</code></h3>
+</a>
+<pre><code class="language-ts"><span class="hl-3">maybeNull</span><span class="hl-1">(</span><span class="hl-4">isString</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: null | string</span>
+</code></pre>
+
+<a href="#maybeundefinedltguardgtltvaluegt" id="maybeundefinedltguardgtltvaluegt" style="color: inherit; text-decoration: none;">
+  <h3><code>maybeUndefined&lt;guard&gt;&lt;value&gt;</code></h3>
+</a>
+<pre><code class="language-ts"><span class="hl-3">maybeUndefined</span><span class="hl-1">(</span><span class="hl-4">isString</span><span class="hl-1">)(</span><span class="hl-4">value</span><span class="hl-1">); </span><span class="hl-8">// value: undefined | string</span>
+</code></pre>
+
+<a href="#type-guard-generics" id="type-guard-generics" style="color: inherit; text-decoration: none;">
+  <h2>Type Guard Generics</h2>
+</a>
+<p>These types are exported by this library. You can use them to work with Type Guards.</p>
+
+<a href="#anyguardtype" id="anyguardtype" style="color: inherit; text-decoration: none;">
+  <h3><code>AnyGuardType</code></h3>
+</a>
+<p>Returns the type on which other guards extend.</p>
+<pre><code class="language-ts"><span class="hl-1">&lt;</span><span class="hl-5">GUARD</span><span class="hl-1"> </span><span class="hl-0">extends</span><span class="hl-1"> </span><span class="hl-5">AnyGuardType</span><span class="hl-1">&gt;(</span><span class="hl-4">guard</span><span class="hl-1">: </span><span class="hl-5">GUARD</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> </span><span class="hl-3">guard</span><span class="hl-1">();</span>
+</code></pre>
+
+<a href="#guardschemaltschemagt" id="guardschemaltschemagt" style="color: inherit; text-decoration: none;">
+  <h3><code>GuardSchema&lt;schema&gt;</code></h3>
+</a>
+<p>Returns the type on which a object schema extends.</p>
+<pre><code class="language-ts"><span class="hl-1">&lt;</span><span class="hl-5">SCHEMA</span><span class="hl-1"> </span><span class="hl-0">extends</span><span class="hl-1"> </span><span class="hl-5">GuardSchema</span><span class="hl-1">&lt;</span><span class="hl-5">SCHEMA</span><span class="hl-1">&gt;&gt;(</span><span class="hl-4">schema</span><span class="hl-1">: </span><span class="hl-5">SCHEMA</span><span class="hl-1">) </span><span class="hl-0">=&gt;</span><span class="hl-1"> </span><span class="hl-3">isObjectLike</span><span class="hl-1">(</span><span class="hl-4">schema</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#guardtypeltguardgt" id="guardtypeltguardgt" style="color: inherit; text-decoration: none;">
+  <h3><code>GuardType&lt;guard&gt;</code></h3>
+</a>
+<p>Returns the type that a Guard will assign to a variable.</p>
+<pre><code class="language-ts"><span class="hl-4">GuardType</span><span class="hl-1">&lt;</span><span class="hl-0">typeof</span><span class="hl-1"> </span><span class="hl-4">isString</span><span class="hl-1">&gt; </span><span class="hl-8">// string</span><br/><span class="hl-4">GuardType</span><span class="hl-1">&lt;</span><span class="hl-0">typeof</span><span class="hl-1"> </span><span class="hl-5">Array</span><span class="hl-1">.</span><span class="hl-4">isArray</span><span class="hl-1">&gt; </span><span class="hl-8">// any[]</span>
+</code></pre>
+
+<a href="#using-third-party-type-guards" id="using-third-party-type-guards" style="color: inherit; text-decoration: none;">
+  <h2>Using third-party Type Guards</h2>
+</a>
+<p>Other libraries may also provide Type Guards. Some are even provided natively, such as <code>Array.isArray</code>. They should work with any of the helper functions listed here. Feel free to use and combine them.</p>
+<blockquote>
+<p>Keep in mind that the implementation of third-party helpers may differ substantially. For example, the <code>isObject</code> listed here is very different from Lodash&#39;s <code>isObject</code>.</p>
+</blockquote>
+
+<a href="#foobar-example" id="foobar-example" style="color: inherit; text-decoration: none;">
+  <h1>FooBar Example</h1>
+</a>
+<p>The code below uses several helper functions to create Guard Types for specific configurations. The comments relate to what you would see when hovering over the variables in your code editor.</p>
+<pre><code class="language-ts"><span class="hl-7">import</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-4">isArrayLike</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">isObjectLike</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">isObjectWith</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">isStringLike</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">isStringIn</span><span class="hl-1">,</span><br/><span class="hl-1">} </span><span class="hl-7">from</span><span class="hl-1"> </span><span class="hl-6">&#39;type-guard-helpers&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">test</span><span class="hl-1"> = {} </span><span class="hl-7">as</span><span class="hl-1"> </span><span class="hl-5">unknown</span><span class="hl-1">; </span><span class="hl-8">// unknown</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">isBar</span><span class="hl-1"> = </span><span class="hl-3">isStringLike</span><span class="hl-1">(</span><span class="hl-6">&#39;bar&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">isFoo</span><span class="hl-1"> = </span><span class="hl-3">isStringLike</span><span class="hl-1">(</span><span class="hl-6">&#39;foo&#39;</span><span class="hl-1">);</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">isFooBar</span><span class="hl-1"> = </span><span class="hl-3">isObjectLike</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">foo:</span><span class="hl-1"> </span><span class="hl-4">isFoo</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">bar:</span><span class="hl-1"> </span><span class="hl-4">isBar</span><span class="hl-1">,</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">isFooBarNested</span><span class="hl-1"> = </span><span class="hl-3">isObjectWith</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">foobar:</span><span class="hl-1"> </span><span class="hl-4">isFooBar</span><span class="hl-1">,</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">isFooBarArray</span><span class="hl-1"> = </span><span class="hl-3">isArrayLike</span><span class="hl-1">(</span><span class="hl-4">isFooBar</span><span class="hl-1">);</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">isFooOrBar</span><span class="hl-1"> = </span><span class="hl-3">isStringIn</span><span class="hl-1">([</span><span class="hl-6">&#39;foo&#39;</span><span class="hl-1">, </span><span class="hl-6">&#39;bar&#39;</span><span class="hl-1">] </span><span class="hl-7">as</span><span class="hl-1"> </span><span class="hl-0">const</span><span class="hl-1">);</span><br/><br/><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-3">isFooBar</span><span class="hl-1">(</span><span class="hl-4">test</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-4">test</span><span class="hl-1">.</span><span class="hl-4">foo</span><span class="hl-1">; </span><span class="hl-8">// foo: &quot;foo&quot;</span><br/><span class="hl-1">  </span><span class="hl-4">test</span><span class="hl-1">.</span><span class="hl-4">bar</span><span class="hl-1">; </span><span class="hl-8">// bar: &quot;bar&quot;</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-3">isFooBarArray</span><span class="hl-1">(</span><span class="hl-4">test</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-4">test</span><span class="hl-1">; </span><span class="hl-8">// readonly { readonly foo: &quot;foo&quot;; readonly bar: &quot;bar&quot;; }[]</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-3">isFooBarNested</span><span class="hl-1">(</span><span class="hl-4">test</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-4">test</span><span class="hl-1">.</span><span class="hl-4">foobar</span><span class="hl-1">; </span><span class="hl-8">// { readonly foo: &quot;foo&quot;; readonly bar: &quot;bar&quot;; }</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-7">if</span><span class="hl-1"> (</span><span class="hl-3">isFooOrBar</span><span class="hl-1">(</span><span class="hl-4">test</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-4">test</span><span class="hl-1">; </span><span class="hl-8">// &quot;bar&quot; | &quot;foo&quot;</span><br/><span class="hl-1">}</span>
+</code></pre>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#findInvalidEntry" class="tsd-kind-icon">find<wbr/>Invalid<wbr/>Entry</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#findInvalidValue" class="tsd-kind-icon">find<wbr/>Invalid<wbr/>Value</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#findMissingKey" class="tsd-kind-icon">find<wbr/>Missing<wbr/>Key</a></li><li class="tsd-kind-function"><a href="modules.html#isArray" class="tsd-kind-icon">is<wbr/>Array</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isArrayLike" class="tsd-kind-icon">is<wbr/>Array<wbr/>Like</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isKey" class="tsd-kind-icon">is<wbr/>Key</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isKeyOf" class="tsd-kind-icon">is<wbr/>Key<wbr/>Of</a></li><li class="tsd-kind-function"><a href="modules.html#isNil" class="tsd-kind-icon">is<wbr/>Nil</a></li><li class="tsd-kind-function"><a href="modules.html#isNull" class="tsd-kind-icon">is<wbr/>Null</a></li><li class="tsd-kind-function"><a href="modules.html#isNumber" class="tsd-kind-icon">is<wbr/>Number</a></li><li class="tsd-kind-function"><a href="modules.html#isObject" class="tsd-kind-icon">is<wbr/>Object</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#isObjectLike" class="tsd-kind-icon">is<wbr/>Object<wbr/>Like</a></li><li class="tsd-kind-function"><a href="modules.html#isPropertyKey" class="tsd-kind-icon">is<wbr/>Property<wbr/>Key</a></li><li class="tsd-kind-function"><a href="modules.html#isString" class="tsd-kind-icon">is<wbr/>String</a></li><li class="tsd-kind-function"><a href="modules.html#isUndefined" class="tsd-kind-icon">is<wbr/>Undefined</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#maybeEmptyArray" class="tsd-kind-icon">maybe<wbr/>Empty<wbr/>Array</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#maybeNull" class="tsd-kind-icon">maybe<wbr/>Null</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="modules.html#maybeUndefined" class="tsd-kind-icon">maybe<wbr/>Undefined</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
