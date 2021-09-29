@@ -1,6 +1,6 @@
 {
   "name": "type-guard-helpers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A set of helper functions for type guarding in Typescript.",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -81,7 +81,7 @@
       "rewritePaths": {
         "src/": "build/main/"
       },
-			"compile": false
+      "compile": false
     },
     "files": [
       "!build/module/**"
