@@ -15,6 +15,7 @@ export { isNull } from './lib/isNull';
 export { isNumber } from './lib/isNumber';
 export { isObject } from './lib/isObject';
 export { isObjectLike } from './lib/isObjectLike';
+export { isObjectWith } from './lib/isObjectWith';
 export { isPropertyKey } from './lib/isPropertyKey';
 export { isString } from './lib/isString';
 export { isStringIn } from './lib/isStringIn';
