@@ -1,3 +1,5 @@
+import { AnyGuardType, GuardType } from './types';
+
 /**
  * @example ```ts
  * const test = [] as string | readonly string[];

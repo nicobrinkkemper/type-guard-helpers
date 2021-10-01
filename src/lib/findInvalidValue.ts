@@ -1,4 +1,5 @@
 import { isNot } from './isNot';
+import { AnyGuardType } from './types';
 
 /** Takes a type-guard and returns a function that takes an array. Returned function will return the first value in the array not matching the type-guard  */
 const findInvalidValue = <GUARD extends AnyGuardType>(guard: GUARD) => {

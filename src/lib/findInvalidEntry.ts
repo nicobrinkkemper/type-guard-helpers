@@ -1,4 +1,5 @@
 import { isNot } from './isNot';
+import { AnyGuardType } from './types';
 
 /** Takes a schema object and returns a function that takes an object. Returned function will return the first key/value pair in the object not matching the schema type-guards. */
 const findInvalidEntry = <GUARD extends AnyGuardType>(guard: GUARD) => {
