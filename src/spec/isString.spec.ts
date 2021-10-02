@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isString } from './isString';
+import { isString } from '../lib/isString';
 
 test('Should return true for a string', (t) => {
   t.is(isString(''), true);

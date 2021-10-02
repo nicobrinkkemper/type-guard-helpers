@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { isString } from './isString';
-import { maybeEmptyArray } from './maybeEmptyArray';
+import { isString } from '../lib/isString';
+import { maybeEmptyArray } from '../lib/maybeEmptyArray';
 
 const isEmptyArrayOrString = maybeEmptyArray(isString);
 test('Should return true for a undefined or null', (t) => {

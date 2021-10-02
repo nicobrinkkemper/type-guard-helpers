@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isArray } from './isArray';
+import { isArray } from '../lib/isArray';
 
 test('Should return true for a array', (t) => {
   t.is(isArray([]), true);

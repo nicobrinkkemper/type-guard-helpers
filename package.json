@@ -1,10 +1,10 @@
 {
   "name": "type-guard-helpers",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "A set of helper functions for type guarding in Typescript.",
-  "main": "build/main/index.js",
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
+  "main": "build/main/lib/index.js",
+  "typings": "build/main/lib/types.d.ts",
+  "module": "build/module/lib/index.js",
   "repository": "https://github.com/nicobrinkkemper/type-guard-helpers",
   "license": "MIT",
   "keywords": [],
@@ -67,10 +67,8 @@
     "typescript": "^4.4.3"
   },
   "files": [
-    "build/main",
-    "build/module",
-    "!**/*.spec.*",
-    "!**/*.json",
+    "/build/main/lib",
+    "/build/module/lib",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"

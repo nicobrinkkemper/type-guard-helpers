@@ -1,8 +1,8 @@
 import test from 'ava';
 
-import { isArrayLike } from './isArrayLike';
-import { isObjectLike } from './isObjectLike';
-import { isStringLike } from './isStringLike';
+import { isArrayLike } from '../lib/isArrayLike';
+import { isObjectLike } from '../lib/isObjectLike';
+import { isStringLike } from '../lib/isStringLike';
 
 const isBar = isStringLike('bar');
 const isFoo = isStringLike('foo');

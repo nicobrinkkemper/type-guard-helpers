@@ -1,4 +1,5 @@
 import { isUndefined } from './isUndefined';
+import { AnyGuardType, GuardType } from './types';
 
 /**
  * Enhances a Type Guard so it allows a undefined value

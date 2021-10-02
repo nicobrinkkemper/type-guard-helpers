@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isNumber } from './isNumber';
+import { isNumber } from '../lib/isNumber';
 
 test('Should return true for a number', (t) => {
   t.is(isNumber(1), true);

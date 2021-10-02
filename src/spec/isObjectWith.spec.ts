@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isObjectWith } from './isObjectWith';
+import { isObjectWith } from '../lib/isObjectWith';
 
 test('Should return false when specified values are not present', (t) => {
   t.is(

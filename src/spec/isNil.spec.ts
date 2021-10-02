@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isNil } from './isNil';
+import { isNil } from '../lib/isNil';
 
 test('Should return true for null or undefined', (t) => {
   t.is(isNil(null), true);

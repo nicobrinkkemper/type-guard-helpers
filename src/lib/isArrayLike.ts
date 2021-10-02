@@ -1,5 +1,6 @@
 import { findInvalidValue } from './findInvalidValue';
 import { isArray } from './isArray';
+import { AnyGuardType, GuardType } from './types';
 
 /**
  * Takes a Type Guard and returns a Type Guard that takes a unknown value. The returned Type Guard will return true

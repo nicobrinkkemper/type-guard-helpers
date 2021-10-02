@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isStringLike } from './isStringLike';
+import { isStringLike } from '../lib/isStringLike';
 
 const isBar = isStringLike('bar');
 const isFoo = isStringLike('foo');

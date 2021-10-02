@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isStringIn } from './isStringIn';
+import { isStringIn } from '../lib/isStringIn';
 
 const isFooOrBar = isStringIn(['foo', 'bar']);
 test('Should return true for either foo or bar', (t) => {

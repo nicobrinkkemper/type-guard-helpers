@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isKey } from './isKey';
+import { isKey } from '../lib/isKey';
 
 const hasStatus = isKey('status');
 const functionObject = Object.assign(() => true, {

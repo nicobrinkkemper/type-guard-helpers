@@ -1,4 +1,5 @@
 import { isNot } from './isNot';
+import { AnyGuardType } from './types';
 
 /** Takes a Guard and returns a function that takes an object. Returned function will return the first key/value pair in the object not matching the Type Guard. */
 const findInvalidEntry = <GUARD extends AnyGuardType>(guard: GUARD) => {

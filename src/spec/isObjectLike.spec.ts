@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isObjectLike } from './isObjectLike';
+import { isObjectLike } from '../lib/isObjectLike';
 
 test('Should work with anonymous Type Guard functions', (t) => {
   t.is(

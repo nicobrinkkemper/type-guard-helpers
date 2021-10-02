@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isObject } from './isObject';
+import { isObject } from '../lib/isObject';
 
 test('Should return true for a object, array or class', (t) => {
   t.is(isObject({}), true);

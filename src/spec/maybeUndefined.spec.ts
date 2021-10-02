@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { isString } from './isString';
-import { maybeUndefined } from './maybeUndefined';
+import { isString } from '../lib/isString';
+import { maybeUndefined } from '../lib/maybeUndefined';
 
 const isStringOrUndefined = maybeUndefined(isString);
 test('Should return true for a string or undefined', (t) => {

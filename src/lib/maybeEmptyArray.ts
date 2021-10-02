@@ -1,4 +1,5 @@
 import { isArray } from './isArray';
+import { AnyGuardType, GuardType } from './types';
 
 /**
  * Enhances a Type Guard so it allows a empty array

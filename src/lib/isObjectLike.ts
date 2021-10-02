@@ -2,6 +2,7 @@ import { findInvalidEntry } from './findInvalidEntry';
 import { findMissingKey } from './findMissingKey';
 import { isKeyOf } from './isKeyOf';
 import { isObject } from './isObject';
+import { GuardSchema, GuardType } from './types';
 
 const isRequiredEntry = <SCHEMA extends GuardSchema<SCHEMA>>(
   schema: SCHEMA

@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { isUndefined } from './isUndefined';
-import { maybeNull } from './maybeNull';
+import { isUndefined } from '../lib/isUndefined';
+import { maybeNull } from '../lib/maybeNull';
 
 const isUndefinedOrNull = maybeNull(isUndefined);
 test('Should return true for a undefined or null', (t) => {

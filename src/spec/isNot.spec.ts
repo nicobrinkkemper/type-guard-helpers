@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { isNot } from './isNot';
-import { isNull } from './isNull';
+import { isNot } from '../lib/isNot';
+import { isNull } from '../lib/isNull';
 
 test('Should return true for anything but null', (t) => {
   t.is(isNot(isNull)(false), true);

@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isFunction } from './isFunction';
+import { isFunction } from '../lib/isFunction';
 
 test('Should return true for a function', (t) => {
   t.is(

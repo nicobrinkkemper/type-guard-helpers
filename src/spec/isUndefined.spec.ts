@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isUndefined } from './isUndefined';
+import { isUndefined } from '../lib/isUndefined';
 
 test('Should return true for undefined', (t) => {
   t.is(isUndefined(undefined), true);

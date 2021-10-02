@@ -1,3 +1,8 @@
+[![Node version](https://img.shields.io/node/v/type-guard-helpers.svg?style=flat)](http://nodejs.org/download/)
+![build](https://github.com/nicobrinkkemper/type-guard-helpers/actions/workflows/node.js.yml/badge.svg)
+
+[![https://nodei.co/npm/type-guard-helpers.png?downloads=true&downloadRank=true&stars=true](https://nodei.co/npm/type-guard-helpers.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/type-guard-helpers)
+
 # Installation
 
 ```
@@ -29,6 +34,8 @@ if (isSuccess(status)) status; // status: 'success'
 ```
 
 # Provided Helpers
+
+See [documentation](https://nicobrinkkemper.github.io/type-guard-helpers/) for a complete overview.
 
 ## Standard Type Guards
 

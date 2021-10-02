@@ -9,3 +9,5 @@ declare type GuardSchema<
 > = {
   readonly [KEY in keyof SCHEMA]: AnyGuardType;
 };
+
+export { GuardSchema, GuardType, AnyGuardType };

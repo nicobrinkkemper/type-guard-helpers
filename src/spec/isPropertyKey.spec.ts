@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { isPropertyKey } from './isPropertyKey';
+import { isPropertyKey } from '../lib/isPropertyKey';
 
 test('Should return true for number, string or symbol', (t) => {
   t.is(isPropertyKey(1), true);
