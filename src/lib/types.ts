@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-/** Extracts the type from a Guard would assign to a variable when passed. */
+/** Extracts the type a Guard would assign to a variable when passed. */
 declare type GuardType<GUARD> = GUARD extends (o: unknown) => o is infer U
   ? U
   : never;
