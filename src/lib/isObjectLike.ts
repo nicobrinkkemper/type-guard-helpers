@@ -19,11 +19,13 @@ const isRequiredEntry = <SCHEMA extends GuardSchema<SCHEMA>>(
  * in the schema with the same key. Returns false when a key is encountered that is not in the schema.
  *
  * @example ```ts
- * const isFoo = isObjectLike({
- *            foo: (value: unknown): value is 'foo' => value === 'foo',
- * })
+ * import { isObjectLike, isString } from 'type-guard-helpers'
  * const test = {foo:'foo'} as unknown
- * if(isFoo(test)){
+ * const isFoo = isStringLike('foo');
+ * const isFooObject = isObjectLike({
+ *            foo:isFoo
+ * })
+ * if(isFooObject(test)){
  *            test; // hover will show: { readonly foo: "foo"; }
  * }
  * ```

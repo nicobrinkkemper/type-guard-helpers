@@ -8,7 +8,7 @@ import { AnyGuardType, GuardType } from './types';
  * @example ```ts
  * import { isString, isArrayLike } from 'type-guard-helpers';
  * const isStringArray = isArrayLike(isString)
- * if(isStringArray(test)) test: readonly string[]
+ * if(isStringArray(test)) test; // test: readonly string[]
  * ```
  */
 const isArrayLike = <GUARD extends AnyGuardType>(guard: GUARD) => {

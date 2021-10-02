@@ -2,8 +2,10 @@ import { AnyGuardType, GuardType } from './types';
 
 /**
  * @example ```ts
+ * import { isNot, isString } from 'type-guard-helpers'
  * const test = [] as string | readonly string[];
- * if (isNot(isString)(test)) {
+ * const isNotString = isNot(isString);
+ * if (isNotString(test)) {
  *   test; // string[]
  * }
  * ```

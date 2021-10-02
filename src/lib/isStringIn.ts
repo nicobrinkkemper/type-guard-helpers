@@ -1,6 +1,7 @@
 /**
  * Creates a Type Guard for one or multiple strings. Same as `isStringLike`, but does not use spread parameters and instead requires the first parameter to be a array.
  * @example ```ts
+ * import { isStringIn } from 'type-guard-helpers'
  * const test = 'foo' as unknown;
  * const isFooOrBar = isStringIn(['foo','bar'] as const)
  * if (isFooOrBar(test)) {

@@ -4,11 +4,12 @@ import { AnyGuardType, GuardType } from './types';
 /**
  * Enhances a Type Guard so it allows a empty array
  * @example ```ts
- * const isFoo = (value:unknown):value is 'foo'=>value === 'foo')
- * const isFooOrEmptyArray = maybeEmptyArray(isFoo);
+ * import { maybeEmptyArray, isStringLike } from 'type-guard-helpers'
  * const test = 'foo' as unknown;
+ * const isFoo = isStringLike('foo')
+ * const isFooOrEmptyArray = maybeEmptyArray(isFoo);
  * if (isFooOrEmptyArray(test)) {
- *                  test; // hover will show: "foo" | readonly []
+ *                  test; // "foo" | readonly []
  * }
  * ```
  */

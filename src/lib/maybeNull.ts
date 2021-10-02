@@ -3,10 +3,11 @@ import { AnyGuardType, GuardType } from './types';
 /**
  * Enhances a Type Guard so it allows a null value
  * @example ```ts
- * const isArrayOrNull = maybeNull(Array.isArray);
+ * import { maybeNull, isArray } from 'type-guard-helpers'
  * const response = ['hi'] as unknown;
+ * const isArrayOrNull = maybeNull(isArray);
  * if (isArrayOrNull(response)) {
- *              response; // when hovered any[] | null, "any[]" because of native Array.isArray implementation
+ *              response; // readonly unknown[] | null
  * }
  * ```
  */

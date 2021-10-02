@@ -19,11 +19,13 @@ const isOptionalEntry = <SCHEMA extends GuardSchema<SCHEMA>>(
  * in the schema with the same key. Does not return false when encountering keys not in the schema.
  *
  * @example ```ts
- * const isFoo = isObjectWith({
- *            foo: (value: unknown): value is 'foo' => value === 'foo',
- * })
+ * import { isObjectLike, isString } from 'type-guard-helpers'
  * const test = {foo:'foo', bar: 'bar'}
- * if(isFoo(test)) test; // hover will show: { foo: "foo"; bar: string }
+ * const isFoo = isStringLike('foo');
+ * const isFooObject = isObjectWith({
+ *            foo: isFoo,
+ * })
+ * if(isFooObject(test)) test; // { foo: "foo"; bar: string }
  * ```
  */
 const isObjectWith = <SCHEMA extends GuardSchema<SCHEMA>>(schema: SCHEMA) => {

@@ -1,9 +1,10 @@
 /**
  * Type Guard for string values
  * @example ```ts
+ * import { isString } from 'type-guard-helpers'
  * const test = 'foobar' as unknown;
  * if (isString(test)) {
- *                  test; // hover will show: string
+ *                  test; // string
  * }
  * ```
  */

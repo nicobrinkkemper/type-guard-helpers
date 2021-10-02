@@ -4,8 +4,9 @@ import { AnyGuardType, GuardType } from './types';
 /**
  * Enhances a Type Guard so it allows a undefined value
  * @example ```ts
- * const isArrayOrUndefined = maybeUndefined(Array.isArray);
+ * import { maybeUndefined, isArray } from 'type-guard-helpers'
  * const response = ['hi'] as unknown;
+ * const isArrayOrUndefined = maybeUndefined(isArray);
  * if (isArrayOrUndefined(response)) {
  *              response; // any[] | undefined
  * }
