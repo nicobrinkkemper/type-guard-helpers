@@ -1,5 +1,5 @@
 /**
- * Type-guard for undefined values
+ * Type Guard for undefined values
  * @example ```ts
  * const test = undefined as unknown;
  * if (isUndefined(test)) {

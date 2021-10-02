@@ -1,7 +1,7 @@
 import { isArray } from './isArray';
 
 /**
- * Enhances a type-guard so it allows a empty array
+ * Enhances a Type Guard so it allows a empty array
  * @example ```ts
  * const isFoo = (value:unknown):value is 'foo'=>value === 'foo')
  * const isFooOrEmptyArray = maybeEmptyArray(isFoo);

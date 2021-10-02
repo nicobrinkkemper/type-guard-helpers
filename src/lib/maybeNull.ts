@@ -1,6 +1,6 @@
 import { isNull } from './isNull';
 /**
- * Enhances a type-guard so it allows a null value
+ * Enhances a Type Guard so it allows a null value
  * @example ```ts
  * const isArrayOrNull = maybeNull(Array.isArray);
  * const response = ['hi'] as unknown;

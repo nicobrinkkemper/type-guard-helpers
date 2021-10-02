@@ -1,4 +1,4 @@
-/** Takes a key and returns a type-guard to check if that key exists on a unknown object. Type-guard will pass if key is present in given value via `key in value`. */
+/** Takes a key and returns a Type Guard to check if that key exists on a unknown object. Type Guard will pass if key is present in given value via `key in value`. */
 const isKey =
   <KEY extends PropertyKey>(key: KEY) =>
   <VALUE extends Record<PropertyKey, unknown>>(

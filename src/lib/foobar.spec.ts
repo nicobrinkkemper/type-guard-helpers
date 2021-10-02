@@ -36,6 +36,7 @@ test("Should return false because it's not a correct nested foo bar 3", (t) => {
   t.is(
     isFooNested({
       foobar: { foo: 'foo', bar: 'BAD' },
+      extra: 'no-problem',
     }),
     false
   );

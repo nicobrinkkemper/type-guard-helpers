@@ -14,7 +14,7 @@ const isRequiredEntry = <SCHEMA extends GuardSchema<SCHEMA>>(
 };
 
 /**
- * Takes a schema and return a type-guard that takes a unknown value. The returned type-guard will return true if the given value matches a type-guard
+ * Takes a schema and return a Type Guard that takes a unknown value. The returned Type Guard will return true if the given value matches a type-guard
  * in the schema with the same key. Returns false when a key is encountered that is not in the schema.
  *
  * @example ```ts

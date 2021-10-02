@@ -2,7 +2,7 @@ import test from 'ava';
 
 import { isObjectLike } from './isObjectLike';
 
-test('Should work with anonymous type-guard functions', (t) => {
+test('Should work with anonymous Type Guard functions', (t) => {
   t.is(
     isObjectLike({
       foo: (value: unknown): value is 'foo' => value === 'foo',

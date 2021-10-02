@@ -14,7 +14,7 @@ const isOptionalEntry = <SCHEMA extends GuardSchema<SCHEMA>>(
 };
 
 /**
- * Takes a schema and return a type-guard that takes a unknown value. The returned type-guard will return true if the given value matches a type-guard
+ * Takes a schema and return a Type Guard that takes a unknown value. The returned Type Guard will return true if the given value matches a type-guard
  * in the schema with the same key. Does not return false when encountering keys not in the schema.
  *
  * @example ```ts

@@ -1,5 +1,5 @@
 /**
- * Type-guard for string values
+ * Type Guard for string values
  * @example ```ts
  * const test = 'foobar' as unknown;
  * if (isString(test)) {
