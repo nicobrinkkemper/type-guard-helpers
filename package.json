@@ -36,6 +36,7 @@
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
     "reset-hard": "git clean -dfx && git reset --hard && npm i",
+    "prepare-dryrun": "npm pack --dry-run",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
   },
   "engines": {
@@ -68,7 +69,11 @@
   },
   "files": [
     "/build/main/lib",
+    "/build/main/index.js",
+    "/build/main/index.d.ts",
     "/build/module/lib",
+    "/build/module/index.js",
+    "/build/module/index.d.ts",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
