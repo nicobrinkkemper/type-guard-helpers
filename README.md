@@ -9,11 +9,15 @@
 npm install type-guard-helpers
 ```
 
+# Documentation
+
+> [Typedoc generated documentation](https://nicobrinkkemper.github.io/type-guard-helpers/)
+
+> [Official documentation about narrowing in Typescript](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
+
 # Type Guard Basics
 
 A quick introduction to Type Guards in Typescript.
-
-> [Check out the official documentation about narrowing in Typescript](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 
 ## Idiomatic Type Guard
 
@@ -33,11 +37,11 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-# Provided Helpers
-
-> [Check out the documentation of this project](https://nicobrinkkemper.github.io/type-guard-helpers/) for a complete overview.
-
 # Naming conventions
+
+Naming things is the hardest thing in programming, so a lot of effort was put in to getting it right so we can have a stable code base.
+
+If the function takes one or more guards as input, it will be prefixed with `guard`
 
 # Examples
 
@@ -92,7 +96,7 @@ if (isHiddenKey(test)) {
 
 ```ts
 const isFoo = matchString('foo');
-const isbar = matchString('bar');
+const isBar = matchString('bar');
 
 if (isFoo(test) || isBar(test)) {
 	test; // "foo" | "bar"
