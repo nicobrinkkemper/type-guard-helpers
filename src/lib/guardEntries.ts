@@ -17,7 +17,7 @@ import type { EntryTypeGuard, GuardType } from './types';
  * 	  test; //  { readonly total: number; readonly tax: number; }
  * }
  * ```
- * @category Type Guard Enhancer
+ * @category Type Guard Composer
  */
 const guardEntries =
 	<Guard extends EntryTypeGuard>(guard: Guard) =>
