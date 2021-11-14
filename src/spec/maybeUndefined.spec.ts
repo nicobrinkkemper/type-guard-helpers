@@ -1,18 +1,20 @@
 import test from 'ava';
 
-import { isString } from '../lib/isString';
-import { maybeUndefined } from '../lib/maybeUndefined';
+import { guardOption } from '../lib/guardOption';
+import { isTypeString } from '../lib/isTypeString';
+import { isTypeUndefined } from '../lib/isTypeUndefined';
 
-const isStringOrUndefined = maybeUndefined(isString);
+const isStringOrUndefined = guardOption(isTypeUndefined, isTypeString);
+
 test('Should return true for a string or undefined', (t) => {
-  t.is(isStringOrUndefined(''), true);
-  t.is(isStringOrUndefined(undefined), true);
+	t.is(isStringOrUndefined(''), true);
+	t.is(isStringOrUndefined(undefined), true);
 });
 
 test('Should return false for anything else', (t) => {
-  t.is(isStringOrUndefined([]), false);
-  t.is(isStringOrUndefined(1), false);
-  t.is(isStringOrUndefined(true), false);
-  t.is(isStringOrUndefined({}), false);
-  t.is(isStringOrUndefined(Symbol()), false);
+	t.is(isStringOrUndefined([]), false);
+	t.is(isStringOrUndefined(1), false);
+	t.is(isStringOrUndefined(true), false);
+	t.is(isStringOrUndefined({}), false);
+	t.is(isStringOrUndefined(Symbol()), false);
 });
