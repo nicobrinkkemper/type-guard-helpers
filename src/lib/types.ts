@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+/**
+ * A type to convert the string returned by `typeof x` to its typescript type
+ */
 type MatchType<Type> = Type extends 'boolean'
 	? boolean
 	: Type extends 'bigint'
