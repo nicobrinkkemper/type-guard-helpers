@@ -4,7 +4,7 @@
   "description": "A set of helper functions for type guarding in Typescript.",
   "main": "build/main/lib/index.js",
   "typings": "build/main/lib/index.d.ts",
-  "module": "build/main/module/index.js",
+  "module": "build/main/module/lib/index.js",
   "repository": "https://github.com/nicobrinkkemper/type-guard-helpers",
   "license": "MIT",
   "keywords": [],
@@ -40,9 +40,6 @@
     "prepare-dryrun": "npm pack --dry-run",
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
   },
-  "engines": {
-    "node": ">=10"
-  },
   "devDependencies": {
     "@ava/typescript": "^2.0.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -71,12 +68,12 @@
     "typescript": "^4.4.3"
   },
   "files": [
-    "/lib",
-    "/lib/index.js",
-    "/lib/index.d.ts",
-    "/module/lib",
-    "/module/index.js",
-    "/module/index.d.ts",
+    "/build/main/lib",
+    "/build/main/index.js",
+    "/build/main/index.d.ts",
+    "/build/module/lib",
+    "/build/module/index.js",
+    "/build/module/index.d.ts",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
