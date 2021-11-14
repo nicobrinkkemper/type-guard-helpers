@@ -12,7 +12,7 @@ import { matchType } from './matchType';
  *    test; // undefined
  * }
  * ```
- * @category  Type Guard
+ * @category Type Guard
  */
 const isTypeUndefined = matchType('undefined');
 

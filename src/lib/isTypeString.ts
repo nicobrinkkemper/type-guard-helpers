@@ -12,7 +12,7 @@ import { matchType } from './matchType';
  *                  test; // string
  * }
  * ```
- * @category  Type Guard
+ * @category Type Guard
  */
 const isTypeString = matchType('string');
 

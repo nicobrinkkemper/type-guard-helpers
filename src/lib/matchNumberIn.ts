@@ -16,7 +16,7 @@ import { matchIn } from './matchIn';
  *     test; // 1 | 2 | 3
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchNumberIn: <NumberLiterals extends readonly number[]>(
 	keys: NumberLiterals

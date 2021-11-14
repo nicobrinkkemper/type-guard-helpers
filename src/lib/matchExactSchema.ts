@@ -27,7 +27,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *    test; // { readonly foo: "foo"; readonly bar: "bar"; }
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchExactSchema = <
 	Schema extends {

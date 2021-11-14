@@ -14,7 +14,7 @@ import type { AnyTypeGuard } from './types';
  *   test; // string || null
  * }
  * ```
- * @category  Type Guard Composer
+ * @category Type Guard Composer
  */
 const guardEither = <Guards extends readonly AnyTypeGuard[]>(
 	...guards: Guards

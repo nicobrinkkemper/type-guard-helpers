@@ -21,7 +21,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *    test; // { readonly foo?: "foo" | undefined; readonly bar?: "bar" | undefined; }
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchPartialSchema = <
 	Schema extends {

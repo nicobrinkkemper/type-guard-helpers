@@ -16,7 +16,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *    test; // test: readonly [string, ...string[]]
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const guardNonEmptyArray = <Guard extends AnyTypeGuard>(guard: Guard) => {
 	const isValid = guardArray(guard);

@@ -12,7 +12,7 @@
  * 	 test; // { readonly foo: unknown; }
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchObjectKey =
 	<Key extends PropertyKey>(key: Key) =>

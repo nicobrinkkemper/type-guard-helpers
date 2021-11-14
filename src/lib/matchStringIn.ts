@@ -16,7 +16,7 @@ import { matchIn } from './matchIn';
  *     test; // 'foo' | 'bar'
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchStringIn: <StringLiterals extends readonly string[]>(
 	keys: StringLiterals

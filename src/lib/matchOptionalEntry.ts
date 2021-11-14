@@ -6,7 +6,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * A optional entry is valid if the value passes the Type Guard for the key or if the key does not exist on the Schema object.
  *
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchOptionalEntry = <
 	Schema extends {

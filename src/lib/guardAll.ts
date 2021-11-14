@@ -13,7 +13,7 @@ import type { AnyTypeGuard } from './types';
  *    isSchema({ bar: matchKey('bar') })
  * ); // val is { readonly foo: "foo"; } & { readonly bar: "bar"; }
  * ```
- * @category  Type Guard Composer
+ * @category Type Guard Composer
  *  */
 const guardAll = <Guards extends readonly AnyTypeGuard[]>(...guards: Guards) =>
 	guardAllIn(guards);

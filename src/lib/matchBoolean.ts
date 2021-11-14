@@ -14,7 +14,7 @@ import { match } from './match';
  *    test; // true
  * }
  * ```
- * @category  Type Guard Creator
+ * @category Type Guard Creator
  */
 const matchBoolean: <BooleanLiteral extends boolean>(
 	boolean: BooleanLiteral

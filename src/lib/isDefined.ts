@@ -11,7 +11,7 @@ import { negateGuard } from './negateGuard';
  *   	test; // string
  * }
  * ```
- * @category  Type Guard
+ * @category Type Guard
  */
 const isDefined = negateGuard(isTypeUndefined);
 

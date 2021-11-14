@@ -13,7 +13,7 @@ import type { AnyTypeGuard, UnionToIntersection } from './types';
  *     isSchema({ bar: match'bar') })
  * ]); // val is { readonly foo: "foo"; } & { readonly bar: "bar"; }
  * ```
- * @category  Type Guard Composer
+ * @category Type Guard Composer
  */
 const guardAllIn =
 	<Guards extends readonly AnyTypeGuard[]>(guards: Guards) =>

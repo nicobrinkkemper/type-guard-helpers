@@ -1,7 +1,7 @@
 import { matchType } from './matchType';
 
 /**
- * @category  Type Guard
+ * @category Type Guard
  * @example
  * ```ts
  *

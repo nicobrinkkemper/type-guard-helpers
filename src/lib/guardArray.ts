@@ -12,7 +12,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *    test; // test: readonly string[]
  * }
  * ```
- * @category  Type Guard Composer
+ * @category Type Guard Composer
  */
 const guardArray =
 	<Guard extends AnyTypeGuard>(guard: Guard) =>
