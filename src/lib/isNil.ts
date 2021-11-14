@@ -1,3 +1,8 @@
+/**
+ * A Type Guard that will check if the given value is equal to null or is of type "undefined"
+ *
+ * @category | Type Guard
+ */
 const isNil = (value: unknown): value is undefined | null =>
-  value === null || typeof value === 'undefined';
+	value === null || typeof value === 'undefined';
 export { isNil };

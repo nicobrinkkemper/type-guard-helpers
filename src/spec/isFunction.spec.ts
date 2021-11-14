@@ -1,35 +1,38 @@
 import test from 'ava';
 
-import { isFunction } from '../lib/isFunction';
+import { isTypeFunction } from '../lib/isTypeFunction';
 
 test('Should return true for a function', (t) => {
-  t.is(
-    isFunction(() => true),
-    true
-  );
-  t.is(
-    isFunction(function namedFunction() {
-      return false;
-    }),
-    true
-  );
-  const constArrowFunc = () => false;
-  t.is(isFunction(constArrowFunc), true);
+	t.is(
+		// eslint-disable-next-line functional/functional-parameters
+		isTypeFunction(() => true),
+		true
+	);
+	t.is(
+		// eslint-disable-next-line functional/functional-parameters
+		isTypeFunction(function namedFunction() {
+			return false;
+		}),
+		true
+	);
+	// eslint-disable-next-line functional/functional-parameters
+	const constArrowFunc = () => false;
+	t.is(isTypeFunction(constArrowFunc), true);
 });
 
 test('Should return false for anything else', (t) => {
-  t.is(isFunction(1), false);
-  t.is(isFunction(true), false);
-  t.is(isFunction('1'), false);
-  t.is(isFunction(Symbol()), false);
+	t.is(isTypeFunction(1), false);
+	t.is(isTypeFunction(true), false);
+	t.is(isTypeFunction('1'), false);
+	t.is(isTypeFunction(Symbol()), false);
 
-  t.is(isFunction({}), false);
-  t.is(isFunction([]), false);
-  t.is(
-    isFunction(
-      // eslint-disable-next-line functional/no-class
-      new (class {})()
-    ),
-    false
-  );
+	t.is(isTypeFunction({}), false);
+	t.is(isTypeFunction([]), false);
+	t.is(
+		isTypeFunction(
+			// eslint-disable-next-line functional/no-class
+			new (class {})()
+		),
+		false
+	);
 });

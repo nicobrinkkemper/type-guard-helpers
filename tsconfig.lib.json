@@ -2,9 +2,7 @@
 	"extends": "./tsconfig",
 	"compilerOptions": {
 		"rootDir": "src/lib",
-		"target": "esnext",
-		"module": "esnext",
-		"outDir": "module"
+		"outDir": "lib"
 	},
 	"include": ["src/lib/*.ts"],
 	"exclude": ["node_modules/**"]

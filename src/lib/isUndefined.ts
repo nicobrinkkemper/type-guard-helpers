@@ -1,11 +1,10 @@
+import { match } from './match';
+
 /**
- * Type Guard for undefined values
- * @example ```ts
- * const test = undefined as unknown;
- * if (isUndefined(test)) {
- *                  test; // hover will show: undefined
- * }
- * ```
+ * A Type Guard that will check if the given value is equal to undefined
+ *
+ * @category | Type Guard
  */
-const isUndefined = (value: unknown): value is undefined => value === undefined;
+const isUndefined = match(undefined);
+
 export { isUndefined };

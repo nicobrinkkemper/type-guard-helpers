@@ -1,34 +1,37 @@
 import test from 'ava';
 
-import { isObject } from '../lib/isObject';
+import { isTypeObject } from '../lib/isTypeObject';
 
 test('Should return true for a object, array or class', (t) => {
-  t.is(isObject({}), true);
-  t.is(isObject([]), true);
-  t.is(
-    isObject(
-      // eslint-disable-next-line functional/no-class
-      new (class {})()
-    ),
-    true
-  );
+	t.is(isTypeObject({}), true);
+	t.is(isTypeObject([]), true);
+	t.is(
+		isTypeObject(
+			// eslint-disable-next-line functional/no-class
+			new (class {})()
+		),
+		true
+	);
 });
 
 test('Should return false for anything else', (t) => {
-  t.is(isObject(1), false);
-  t.is(isObject(true), false);
-  t.is(isObject('1'), false);
-  t.is(isObject(Symbol()), false);
-  t.is(
-    isObject(() => true),
-    false
-  );
-  t.is(
-    isObject(function namedFunction() {
-      return false;
-    }),
-    false
-  );
-  const constArrowFunc = () => false;
-  t.is(isObject(constArrowFunc), false);
+	t.is(isTypeObject(1), false);
+	t.is(isTypeObject(true), false);
+	t.is(isTypeObject('1'), false);
+	t.is(isTypeObject(Symbol()), false);
+	t.is(
+		// eslint-disable-next-line functional/functional-parameters
+		isTypeObject(() => true),
+		false
+	);
+	t.is(
+		// eslint-disable-next-line functional/functional-parameters
+		isTypeObject(function namedFunction() {
+			return false;
+		}),
+		false
+	);
+	// eslint-disable-next-line functional/functional-parameters
+	const constArrowFunc = () => false;
+	t.is(isTypeObject(constArrowFunc), false);
 });

@@ -1,6 +1,8 @@
 .idea/*
 .nyc_output
 build
+lib
+module
 node_modules
 src/**.js
 coverage
