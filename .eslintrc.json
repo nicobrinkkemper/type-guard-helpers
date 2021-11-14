@@ -15,6 +15,7 @@
 	],
 	"globals": { "BigInt": true, "console": true, "WebAssembly": true },
 	"rules": {
+		"@typescript-eslint/explicit-module-boundary-types": "off",
 		"@typescript-eslint/consistent-type-imports": "error",
 		"functional/functional-parameters": [
 			"error",
