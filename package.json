@@ -108,8 +108,5 @@
     "exclude": [
       "**/*.spec.js"
     ]
-  },
-  "dependencies": {
-    "fp-ts": "^2.11.5"
   }
 }
