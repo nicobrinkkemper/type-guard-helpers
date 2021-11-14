@@ -4,7 +4,7 @@
   "description": "A set of helper functions for type guarding in Typescript.",
   "main": "build/main/lib/index.js",
   "typings": "build/main/lib/index.d.ts",
-  "module": "build/main/module/index.js",
+  "module": "build/main/module/lib/index.js",
   "repository": "https://github.com/nicobrinkkemper/type-guard-helpers",
   "license": "MIT",
   "keywords": [],
