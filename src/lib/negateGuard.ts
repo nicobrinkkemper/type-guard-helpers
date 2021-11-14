@@ -11,7 +11,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *   test; // string
  * }
  * ```
- * @category | Type Guard Composer
+ * @category  Type Guard Composer
  */
 const negateGuard =
 	<Guard extends AnyTypeGuard>(guard: Guard) =>

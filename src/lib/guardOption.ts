@@ -13,7 +13,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *   test; // string || null
  * }
  * ```
- * @category | Type Guard Composer
+ * @category  Type Guard Composer
  */
 const guardOption =
 	<LeftGuard extends AnyTypeGuard, RightGuard extends AnyTypeGuard>(

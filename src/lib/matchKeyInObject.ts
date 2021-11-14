@@ -1,7 +1,7 @@
 /**
  * Given an object, will return a Type guard that checks if the given value is a key in given object.
  *
- * @category | Type Guard Creator
+ * @category  Type Guard Creator
  */
 const matchKeyInObject =
 	<AnyObject extends { readonly [k in PropertyKey]: unknown }>(

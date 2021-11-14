@@ -37,9 +37,85 @@ if (isSuccess(status)) status; // status: 'success'
 
 > [Check out the documentation of this project](https://nicobrinkkemper.github.io/type-guard-helpers/) for a complete overview.
 
-# FooBar Example
+# Naming conventions
 
-The code below uses several helper functions to create Guard Types for specific configurations. The comments relate to what you would see when hovering over the variables in your code editor.
+# Examples
+
+The examples will show how to create Type Guards that will cast it to a different Type based on their Type Guard.. The comments relate to what you would see when hovering over the variables in your code editor.
+
+Imagine the following unknown typed variable being available for all the examples.
+
+```ts
+const test = {} as unknown; // unknown
+```
+
+## Matching a single string
+
+```ts
+const isFoo = matchString('foo');
+
+if (isFoo(test)) {
+	test; // "foo"
+}
+```
+
+## Matching a single number
+
+```ts
+const isSuccess = matchNumber(200);
+
+if (isSuccess(test)) {
+	test; // 200
+}
+```
+
+## Matching a single PropertyKey
+
+> A PropertyKey is a type that can be used to index objects
+
+```ts
+const isStringKey = matchKey('tag');
+const isNumberKey = matchKey(0);
+const isSymbolKey = matchKey(Symbol('first'));
+if (isStringKey(test)) {
+	test; // "tag"
+}
+if (isKey(test)) {
+	test; // 0
+}
+if (isHiddenKey(test)) {
+	test; // symbol
+}
+```
+
+## Combining Type Guards
+
+```ts
+const isFoo = matchString('foo');
+const isbar = matchString('bar');
+
+if (isFoo(test) || isBar(test)) {
+	test; // "foo" | "bar"
+}
+```
+
+Matching multiple strings
+
+```ts
+const isFooBar = matchStrings('home', 'user', 'about');
+if (isFooOrBar(test)) {
+	test; // "home" | "user" | "about"
+}
+```
+
+Alternatively
+
+```ts
+const isFooBar = matchStringIn(['home', 'user', 'about'] as const);
+if (isFooOrBar(test)) {
+	test; // "home" | "user" | "about"
+}
+```
 
 ```ts
 import {

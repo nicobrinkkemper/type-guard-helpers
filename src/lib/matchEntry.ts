@@ -6,7 +6,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * A required entry key must exist and pass the corresponding Type Guard in Schema.
  *
- * @category | Type Guard Creator
+ * @category  Type Guard Creator
  */
 const matchEntry = <
 	Schema extends {

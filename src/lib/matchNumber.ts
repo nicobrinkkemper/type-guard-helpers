@@ -15,7 +15,7 @@ import { match } from './match';
  *    test; // 6
  * }
  * ```
- * @category | Type Guard Creator
+ * @category  Type Guard Creator
  */
 const matchNumber: <NumberLiteral extends number>(
 	number: NumberLiteral

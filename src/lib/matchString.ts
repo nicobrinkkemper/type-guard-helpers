@@ -14,7 +14,7 @@ import { match } from './match';
  *    test; // 'foo'
  * }
  * ```
- * @category | Type Guard Creator
+ * @category  Type Guard Creator
  */
 const matchString: <StringLiteral extends string>(
 	string: StringLiteral

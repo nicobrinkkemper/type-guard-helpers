@@ -13,7 +13,7 @@ import { match } from './match';
  *    test; // 'foo'
  * }
  * ```
- * @category | Type Guard Creator
+ * @category  Type Guard Creator
  */
 const matchKey: <Key extends PropertyKey>(
 	key: Key

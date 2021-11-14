@@ -14,7 +14,7 @@ import { matchType } from './matchType';
  *    test.test;
  * }
  * ```
- * @category | Type Guard
+ * @category  Type Guard
  */
 const isTypeObject = matchType('object');
 

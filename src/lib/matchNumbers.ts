@@ -13,7 +13,7 @@ import { matchArgs } from './matchArgs';
  *    test; // 'foo' | 'bar'
  * }
  * ```
- * @category | Type Guard Creator
+ * @category  Type Guard Creator
  */
 const matchNumbers: <StringLiterals extends readonly number[]>(
 	...keys: StringLiterals
