@@ -88,9 +88,11 @@ The difference between `matchSchema` and `matchExactSchema` is that the latter w
 
 ```ts
 const isStringArray = guardArray(isTypeString);
+const isRGB = matchArray(['red', 'green', 'blue']);
 if (isStringArray(test)) {
 	test; // readonly string[]
 }
+if (isRGB(test)) {
+	test; // readonly ['red', 'green', 'blue']
+}
 ```
-
-If you also want to match the order of you array

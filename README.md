@@ -11,7 +11,7 @@ npm install type-guard-helpers
 
 # Documentation
 
-> [Typedoc generated documentation](https://nicobrinkkemper.github.io/type-guard-helpers/)
+> [Documentation](https://nicobrinkkemper.github.io/type-guard-helpers/)
 
 > [Official documentation about narrowing in Typescript](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 
@@ -87,8 +87,8 @@ if (
 }
 ```
 
+[Go checkout the documentation.](https://nicobrinkkemper.github.io/type-guard-helpers/)
+
 ## Using third-party Type Guards
 
 Other libraries may also provide Type Guards. Some are even provided natively, such as `Array.isArray`. They should work with any of the helper functions listed here. Feel free to use and combine them.
-
-> Keep in mind that the implementation of third-party helpers may differ substantially. For example, the `isObject` listed here is very different from Lodash's `isObject`.
