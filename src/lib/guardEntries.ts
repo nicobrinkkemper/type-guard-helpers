@@ -6,11 +6,11 @@ import type { EntryTypeGuard, GuardType } from './types';
  *
  * @example
  * ```ts
- * import { isKeys, isNumber, guardEntries } from "type-guard-helpers"
+ * import { matchKeys, isNumber, guardEntries } from "type-guard-helpers"
  *
  * const test = {} as unknown;
  * const isCart = guardEntries(
- * 	  isEntryLike([isKeys('total', 'tax'), isNumber])
+ * 	  isEntryLike([matchKeys('total', 'tax'), isNumber])
  * );
  *
  * if (isCart(test)) {

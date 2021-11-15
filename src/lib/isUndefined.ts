@@ -1,7 +1,7 @@
 import { match } from './match';
 
 /**
- * A Type Guard that will check if the given value is equal to undefined
+ * A Type Guard that checks if the given value is equal to undefined
  *
  * @category Type Guard
  */

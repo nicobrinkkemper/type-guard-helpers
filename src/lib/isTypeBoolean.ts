@@ -1,7 +1,7 @@
 import { matchType } from './matchType';
 
 /**
- * A Type Guard that will check if the given value is a boolean
+ * A Type Guard that checks if the given value is a boolean
  *
  * @category Type Guard
  */

@@ -1,10 +1,10 @@
 import { guardEntries } from './guardEntries';
 import { isRecord } from './isRecord';
-import { matchOptionalEntry } from './matchOptionalEntry';
+import { matchSchemaEntry } from './matchSchemaEntry';
 import type { AnyTypeGuard, GuardType } from './types';
 
 /**
- * Given a Schema, returns a Type Guard that will check if the given value is a Partial representation of Schema.
+ * Given a Schema, returns a Type Guard that checks if the given value is a Partial representation of Schema.
  * A partial representation should at least have the same type, but all entries are optional and there is no check for missing or unknown keys.
  *
  * @example
@@ -30,7 +30,7 @@ const matchPartialSchema = <
 >(
 	schema: Schema
 ) => {
-	const hasValidEntries = guardEntries(matchOptionalEntry(schema));
+	const hasValidEntries = guardEntries(matchSchemaEntry(schema));
 	return (
 		value: unknown
 	): value is {

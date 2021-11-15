@@ -1,7 +1,7 @@
 import { matchTypeIn } from './matchTypeIn';
 
 /**
- * Given one or more type names as arguments, returns a Type Guard that will check if the type of the given value matches at least one of the type names.
+ * Given one or more type names as arguments, returns a Type Guard that checks if the type of the given value matches at least one of the type names.
  *
  * @category Type Guard Creator
  */

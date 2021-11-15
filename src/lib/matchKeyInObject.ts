@@ -1,13 +1,11 @@
 /**
- * Given an object, will return a Type guard that checks if the given value is a key in given object.
+ * Given an object, returns a Type guard that checks if the given value is a key in given object.
  *
  * @category Type Guard Creator
  */
 const matchKeyInObject =
-	<AnyObject extends { readonly [k in PropertyKey]: unknown }>(
-		object: AnyObject
-	) =>
-	(value: PropertyKey): value is keyof AnyObject =>
+	<A extends { readonly [k in PropertyKey]: unknown }>(object: A) =>
+	(value: PropertyKey): value is keyof A =>
 		value in object;
 
 export { matchKeyInObject };

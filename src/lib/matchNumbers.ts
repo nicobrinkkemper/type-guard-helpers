@@ -15,8 +15,8 @@ import { matchArgs } from './matchArgs';
  * ```
  * @category Type Guard Creator
  */
-const matchNumbers: <StringLiterals extends readonly number[]>(
-	...keys: StringLiterals
-) => (value: unknown) => value is StringLiterals[number] = matchArgs;
+const matchNumbers: <As extends readonly number[]>(
+	...keys: As
+) => (value: unknown) => value is As[number] = matchArgs;
 
 export { matchNumbers };

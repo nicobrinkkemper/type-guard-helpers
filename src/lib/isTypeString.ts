@@ -9,11 +9,10 @@ import { matchType } from './matchType';
  * import { isString } from 'type-guard-helpers'
  * const test = 'foobar' as unknown;
  * if (isString(test)) {
- *                  test; // string
+ *     test; // string
  * }
  * ```
  * @category Type Guard
  */
 const isTypeString = matchType('string');
-
 export { isTypeString };

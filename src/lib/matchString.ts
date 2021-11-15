@@ -1,7 +1,7 @@
 import { match } from './match';
 
 /**
- * Given a string, returns a Type Guard that will check if the given value exactly matches the given string.
+ * Given a string, returns a Type Guard that checks if the given value exactly matches the given string.
  *
  * The results would be the same as using {@linkcode match}, but has a type definition better suited for working with string literals.
  *
@@ -16,8 +16,8 @@ import { match } from './match';
  * ```
  * @category Type Guard Creator
  */
-const matchString: <StringLiteral extends string>(
-	string: StringLiteral
-) => (value: unknown) => value is StringLiteral = match;
+const matchString: <A extends string>(
+	string: A
+) => (value: unknown) => value is A = match;
 
 export { matchString };

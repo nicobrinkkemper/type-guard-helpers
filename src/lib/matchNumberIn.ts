@@ -18,8 +18,8 @@ import { matchIn } from './matchIn';
  * ```
  * @category Type Guard Creator
  */
-const matchNumberIn: <NumberLiterals extends readonly number[]>(
-	keys: NumberLiterals
-) => (value: unknown) => value is NumberLiterals[number] = matchIn;
+const matchNumberIn: <As extends readonly number[]>(
+	keys: As
+) => (value: unknown) => value is As[number] = matchIn;
 
 export { matchNumberIn };

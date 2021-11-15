@@ -1,7 +1,7 @@
 import { match } from './match';
 
 /**
- * Given a boolean, returns a Type Guard that will check if the given value exactly matches the given boolean.
+ * Given a boolean, returns a Type Guard that checks if the given value exactly matches the given boolean.
  *
  * The results would be the same as using {@linkcode match}, but has a type definition better suited for working with string literals.
  *
@@ -16,8 +16,8 @@ import { match } from './match';
  * ```
  * @category Type Guard Creator
  */
-const matchBoolean: <BooleanLiteral extends boolean>(
-	boolean: BooleanLiteral
-) => (value: unknown) => value is BooleanLiteral = match;
+const matchBoolean: <A extends boolean>(
+	boolean: A
+) => (value: unknown) => value is A = match;
 
 export { matchBoolean };

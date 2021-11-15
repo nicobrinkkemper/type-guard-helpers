@@ -1,7 +1,7 @@
 import { matchBoolean } from './matchBoolean';
 
 /**
- * A Type Guard that will check if the given value is equal to false
+ * A Type Guard that checks if the given value is equal to false
  *
  * @category Type Guard
  */

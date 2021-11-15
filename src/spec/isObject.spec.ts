@@ -2,8 +2,9 @@ import test from 'ava';
 
 import { isTypeObject } from '../lib/isTypeObject';
 
-test('Should return true for a object, array or class', (t) => {
+test('Should return true for null, object, array or class', (t) => {
 	t.is(isTypeObject({}), true);
+	t.is(isTypeObject(null), true);
 	t.is(isTypeObject([]), true);
 	t.is(
 		isTypeObject(
