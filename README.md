@@ -37,133 +37,53 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-# Naming conventions
-
-Naming things is the hardest thing in programming, so a lot of effort was put in to getting it right so we can have a stable code base.
-
-If the function takes one or more guards as input, it will be prefixed with `guard`
-
-# Examples
-
-The examples will show how to create Type Guards that will cast it to a different Type based on their Type Guard.. The comments relate to what you would see when hovering over the variables in your code editor.
-
-Imagine the following unknown typed variable being available for all the examples.
+## Examples
 
 ```ts
 const test = {} as unknown; // unknown
-```
-
-## Matching a single string
-
-```ts
-const isFoo = matchString('foo');
-
-if (isFoo(test)) {
-	test; // "foo"
-}
-```
-
-## Matching a single number
-
-```ts
-const isSuccess = matchNumber(200);
-
-if (isSuccess(test)) {
-	test; // 200
-}
-```
-
-## Matching a single PropertyKey
-
-> A PropertyKey is a type that can be used to index objects
-
-```ts
-const isStringKey = matchKey('tag');
-const isNumberKey = matchKey(0);
-const isSymbolKey = matchKey(Symbol('first'));
-if (isStringKey(test)) {
-	test; // "tag"
-}
-if (isKey(test)) {
-	test; // 0
-}
-if (isHiddenKey(test)) {
-	test; // symbol
-}
-```
-
-## Combining Type Guards
-
-```ts
-const isFoo = matchString('foo');
-const isBar = matchString('bar');
-
-if (isFoo(test) || isBar(test)) {
-	test; // "foo" | "bar"
-}
-```
-
-Matching multiple strings
-
-```ts
-const isFooBar = matchStrings('home', 'user', 'about');
-if (isFooOrBar(test)) {
-	test; // "home" | "user" | "about"
-}
-```
-
-Alternatively
-
-```ts
-const isFooBar = matchStringIn(['home', 'user', 'about'] as const);
-if (isFooOrBar(test)) {
-	test; // "home" | "user" | "about"
-}
-```
-
-```ts
-import {
-	guardArray,
-	matchSchema,
-	matchExactSchema,
-	matchString,
-	matchStrings,
-} from 'type-guard-helpers';
-
-const test = {} as unknown; // unknown
-
-const isBar = matchString('bar');
-
-const isFoo = matchString('foo');
-
-const isFooOrBar = matchStrings(['foo', 'bar'] as const);
-
-const isFooBar = matchSchema({
+const foo = 'foo';
+const bar = 'bar';
+const isBar = matchString(bar);
+const isFoo = matchString(foo);
+const isFooBarRecord = matchSchema({
 	foo: isFoo,
 	bar: isBar,
 });
+const isFooBarRecords = guardArray(isFooBarRecord);
 
-const isFooBarNested = matchExactSchema({
-	foobar: isFooBar,
-});
-
-const isFooBarArray = guardArray(isFooBar);
-
-if (isFooBar(test)) {
-	test.foo; // foo: "foo"
-	test.bar; // bar: "bar"
+if (isFooBarRecord(test)) {
+	test; // readonly { readonly foo: "foo"; readonly bar: "bar"; }
 }
 
 if (isFooBarArray(test)) {
 	test; // readonly { readonly foo: "foo"; readonly bar: "bar"; }[]
 }
 
-if (isFooBarNested(test)) {
-	test.foobar; // { readonly foo: "foo"; readonly bar: "bar"; }
-}
-
 if (isFooOrBar(test)) {
 	test; // "bar" | "foo"
+}
+
+// composition
+
+if (isFoo(test) || isBar(test)) {
+	test; // "foo" | "bar"
+}
+
+if (matchStrings(foo, bar)(test)) {
+	test; // "foo" | "bar"
+}
+
+if (matchStringIn([foo, bar] as const)(test)) {
+	test; // "foo" | "bar"
+}
+
+if (
+	guardPipe(
+		isTypeString,
+		(str): value is `foo${string}` => str.startsWith(foo) // (parameter) str: string
+	)(test)
+) {
+	test; // `foo${string}`
 }
 ```
 

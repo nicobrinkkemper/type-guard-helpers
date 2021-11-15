@@ -2,7 +2,6 @@ import type { AnyTypeGuard, GuardType } from './types';
 
 /**
  * Negates the output of any given Type Guard and types accordingly using Exclude.
- * See {@linkcode bindIsNot} for a curried version.
  * @example
  * ```ts
  * import { negateGuard, isNull } from 'type-guard-helpers'

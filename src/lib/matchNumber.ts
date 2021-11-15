@@ -1,7 +1,7 @@
 import { match } from './match';
 
 /**
- * Given a number, returns a Type Guard that will check if the given value exactly matches the given number.
+ * Given a number, returns a Type Guard that checks if the given value exactly matches the given number.
  *
  * The results would be the same as using {@linkcode match}, but has a type definition better suited for working with string literals.
  *
@@ -17,8 +17,8 @@ import { match } from './match';
  * ```
  * @category Type Guard Creator
  */
-const matchNumber: <NumberLiteral extends number>(
-	number: NumberLiteral
-) => (value: unknown) => value is NumberLiteral = match;
+const matchNumber: <A extends number>(
+	number: A
+) => (value: unknown) => value is A = match;
 
 export { matchNumber };

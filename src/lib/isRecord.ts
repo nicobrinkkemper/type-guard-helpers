@@ -1,5 +1,5 @@
 /**
- * A Type Guard that will check if the given value is not equal to null and is of type "object"
+ * A Type Guard that checks if the given value is not equal to null and is of type "object"
  *
  * @category Type Guard
  */

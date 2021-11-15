@@ -9,7 +9,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  * @returns A new Type Guard that takes an array and passes if all its values pass the given guard.
  * @example
  * ```ts
- * import { isString, guardNonEmptyArray } from 'type-guard-helpers';
+ * import { matchString, guardNonEmptyArray } from 'type-guard-helpers';
  * const test = [] as unknown
  * const isStringArray = guardNonEmptyArray(isString)
  * if(isStringArray(test)){

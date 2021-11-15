@@ -1,4 +1,5 @@
 export * from './guardAll';
+export * from './guardAllAsLast';
 export * from './guardAllIn';
 export * from './guardArray';
 export * from './guardEither';
@@ -6,6 +7,9 @@ export * from './guardEitherIn';
 export * from './guardEntries';
 export * from './guardNonEmptyArray';
 export * from './guardOption';
+export * from './guardPipe';
+export * from './guardRecord';
+export * from './guardTwo';
 export * from './isArray';
 export * from './isDefined';
 export * from './isEmptyArray';
@@ -27,8 +31,9 @@ export * from './isUndefined';
 export * from './match';
 export * from './matchAllObjectKeys';
 export * from './matchArgs';
+export * from './matchArray';
 export * from './matchBoolean';
-export * from './matchEntry';
+export * from './matchExactSchemaEntry';
 export * from './matchExactSchema';
 export * from './matchIn';
 export * from './matchKey';
@@ -39,7 +44,7 @@ export * from './matchNumber';
 export * from './matchNumberIn';
 export * from './matchNumbers';
 export * from './matchObjectKey';
-export * from './matchOptionalEntry';
+export * from './matchSchemaEntry';
 export * from './matchPartialSchema';
 export * from './matchSchema';
 export * from './matchString';
@@ -54,6 +59,7 @@ export type {
 	GuardType,
 	EntryTypeGuard,
 	AnyTypeGuard,
+	OneArgGuardType,
 	UnionToIntersection,
 	KeyTypeGuard,
 } from './types';

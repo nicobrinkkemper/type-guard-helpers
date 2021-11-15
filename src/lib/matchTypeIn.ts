@@ -1,7 +1,7 @@
 import type { MatchType } from './types';
 
 /**
- * Given one or more type names as array, returns a Type Guard that will check if the type of the given value matches at least one of the given type names.
+ * Given one or more type names as array, returns a Type Guard that checks if the type of the given value matches at least one of the given type names.
  *
  * @category Type Guard Creator
  */

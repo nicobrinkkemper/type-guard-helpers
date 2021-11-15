@@ -2,7 +2,7 @@ import { isTypeUndefined } from './isTypeUndefined';
 import { negateGuard } from './negateGuard';
 
 /**
- * A Type Guard that will check if the given value is not undefined
+ * A Type Guard that checks if the given value is not undefined
  *
  * @example
  * ```ts

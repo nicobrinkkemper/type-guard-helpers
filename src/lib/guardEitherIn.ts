@@ -6,7 +6,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * @example
  * ```ts
- * import { isNull, isString, isEitherIn } from 'type-guard-helpers';
+ * import { isNull, matchString, isEitherIn } from 'type-guard-helpers';
  * const isStringOrNull = isEitherIn([isNull, isString]);
  * const test = {} as unknown;
  * if (isStringOrNull(test)) {

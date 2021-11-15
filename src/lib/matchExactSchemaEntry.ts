@@ -1,4 +1,3 @@
-import { matchKeyInObject } from './matchKeyInObject';
 import type { AnyTypeGuard, GuardType } from './types';
 
 /**
@@ -8,18 +7,17 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * @category Type Guard Creator
  */
-const matchEntry = <
-	Schema extends {
-		readonly [k: PropertyKey]: AnyTypeGuard;
-	}
->(
-	schema: Schema
-) => {
-	const isKeyInSchema = matchKeyInObject(schema);
-	return (
+const matchExactSchemaEntry =
+	<
+		Schema extends {
+			readonly [k: PropertyKey]: AnyTypeGuard;
+		}
+	>(
+		schema: Schema
+	) =>
+	(
 		entry: readonly [PropertyKey, unknown]
 	): entry is readonly [keyof Schema, GuardType<Schema[keyof Schema]>] =>
-		isKeyInSchema(entry[0]) && schema[entry[0]](entry[1]);
-};
+		entry[0] in schema && schema[entry[0]](entry[1]);
 
-export { matchEntry };
+export { matchExactSchemaEntry };

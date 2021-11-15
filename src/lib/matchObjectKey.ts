@@ -1,7 +1,7 @@
 /**
  * Given a key, returns a Type Guard that checks if the given key is a key in given value.
  *
- * This is the opposite of {@linkcode isKeyIn}, because the order in which the key and object are given is reversed.
+ * This is the opposite of {@linkcode matchKeyIn}, because the order in which the key and object are given is reversed.
  * @example
  * ```ts
  * import { matchObjectKey, isRecord } from "type-guard-helpers"

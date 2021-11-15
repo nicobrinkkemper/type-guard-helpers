@@ -1,5 +1,5 @@
 /**
- * A Type Guard that will check if the given value is an array
+ * A Type Guard that checks if the given value is an array
  *
  * @category Type Guard
  */
