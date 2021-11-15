@@ -62,4 +62,7 @@ export type {
 	OneArgGuardType,
 	UnionToIntersection,
 	KeyTypeGuard,
+	IterableTypeGuard,
+	PipedTypeGuard,
+	Last,
 } from './types';
