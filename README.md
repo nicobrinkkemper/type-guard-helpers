@@ -78,7 +78,7 @@ if (matchStringIn([foo, bar] as const)(test)) {
 }
 
 if (
-	guardPipe(
+	guardAll(
 		isTypeString,
 		(str): value is `foo${string}` => str.startsWith(foo) // (parameter) str: string
 	)(test)
