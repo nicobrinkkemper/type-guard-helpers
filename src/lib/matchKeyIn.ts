@@ -3,7 +3,7 @@ import { matchIn } from './matchIn';
 /**
  * Given one or more keys as array, creates a Type Guard to check if the given value matches at least one of the given Keys.
  *
- * By giving a array, some type information may be lost unless `as const` is used. If you don't wish to write `as const`, use
+ * By giving an array, some type information may be lost unless `as const` is used. If you don't wish to write `as const`, use
  * {@linkcode matchKeys}.
  *
  * @example

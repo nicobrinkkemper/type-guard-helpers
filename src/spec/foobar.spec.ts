@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { guardArray } from '../lib/guardArray';
+import { guardArrayValues } from '../lib/guardArrayValues';
 import { matchExactSchema } from '../lib/matchExactSchema';
 import { matchString } from '../lib/matchString';
 
@@ -11,7 +11,8 @@ const isFooBar = matchExactSchema({
 	bar: isBar,
 });
 
-const isFooBarArray = guardArray(isFooBar);
+const isFooBarArray = guardArrayValues(isFooBar);
+
 const isFooNested = matchExactSchema({
 	foobar: isFooBar,
 });
@@ -72,5 +73,11 @@ test("Should return false because it's not a foo bar array", (t) => {
 });
 
 test("Should return true because it's a correct foo bar array", (t) => {
-	t.is(isFooBarArray([{ foo: 'foo', bar: 'bar' }]), true);
+	t.is(
+		isFooBarArray([
+			{ foo: 'foo', bar: 'bar' },
+			{ foo: 'foo', bar: 'bar' },
+		]),
+		true
+	);
 });

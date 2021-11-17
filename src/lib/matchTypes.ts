@@ -1,3 +1,4 @@
+import type { MatchableTypes } from './matchType';
 import { matchTypeIn } from './matchTypeIn';
 
 /**
@@ -5,19 +6,7 @@ import { matchTypeIn } from './matchTypeIn';
  *
  * @category Type Guard Creator
  */
-const matchTypes = <
-	Types extends readonly (
-		| 'boolean'
-		| 'function'
-		| 'number'
-		| 'bigint'
-		| 'object'
-		| 'string'
-		| 'symbol'
-		| 'undefined'
-	)[]
->(
-	...types: Types
-) => matchTypeIn(types);
+const matchTypes = <Types extends readonly MatchableTypes[]>(...types: Types) =>
+	matchTypeIn(types);
 
 export { matchTypes };

@@ -1,47 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/**
- * A type to convert the string returned by `typeof x` to its typescript type
- */
-type MatchType<Type> = Type extends 'boolean'
-	? boolean
-	: Type extends 'bigint'
-	? bigint
-	: Type extends 'function'
-	? (...args: readonly unknown[]) => unknown
-	: Type extends 'number'
-	? number
-	: Type extends 'object'
-	? { readonly [k: PropertyKey]: unknown } | null
-	: Type extends 'string'
-	? string
-	: Type extends 'symbol'
-	? symbol
-	: Type extends 'undefined'
-	? undefined
-	: never;
-/**
- * A type to convert `A | B` to `A & B`
- */
-type UnionToIntersection<U> = (
-	U extends unknown ? (k: U) => unknown : never
-) extends (k: infer I) => unknown
-	? I
-	: never;
-
-/**
- * A type that a Guard will assign to a variable.
- * @example
- * ```ts
- * GuardType<typeof isString> // string
- * GuardType<typeof Array.isArray> // any[]
- * ```
- */
-declare type GuardType<Guard extends AnyTypeGuard> = Guard extends (
-	value: unknown,
-	...args: readonly any[]
-) => value is infer U
-	? U
-	: never;
 
 /**
  * A type on which Type Guard may extend.
@@ -50,8 +7,8 @@ declare type GuardType<Guard extends AnyTypeGuard> = Guard extends (
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyTypeGuard = (
-	value: any,
+declare type AnyTypeGuard<Value = any> = (
+	value: Value,
 	...args: readonly any[]
 ) => value is any;
 
@@ -59,68 +16,76 @@ declare type AnyTypeGuard = (
  * A type on which iterable Type Guards may extend.
  * @example
  * ```ts
- * <Guard extends IterableTypeGuard>
+ * <Guard extends AnyIterableTypeGuard>
  * ```
  */
-declare type IterableTypeGuard =
-	| ((value: any) => value is any)
-	| ((value: any, i: number) => value is any)
-	| ((value: any, i: number, values: readonly any[]) => value is any);
-
-/**
- * A Type Guard on which Type Guards for object keys can extend
- */
-declare type KeyTypeGuard = (value: any) => value is PropertyKey;
-
-/**
- * A Type Guard on which Type Guards for objects entries can extend
- */
-declare type EntryTypeGuard =
-	| ((value: any) => value is readonly [PropertyKey, any])
-	| ((value: any, i: number) => value is readonly [PropertyKey, any])
+declare type AnyIterableTypeGuard<Value = any> =
+	| ((value: Value, ...args: readonly any[]) => value is any)
+	| ((value: Value, i: number) => value is any)
 	| ((
-			value: any,
+			value: Value,
 			i: number,
-			values: readonly any[]
-	  ) => value is readonly [PropertyKey, any]);
+			values: readonly typeof value[]
+	  ) => value is any);
 
 /**
- * Given any generic array, returns the last type of the given array.
+ * Returns a type that a Guard will assign to a variable.
+ * @example
+ * ```ts
+ * GuardType<typeof isTypeString> // string
+ * GuardType<typeof Array.isArray> // unknown[]
+ * ```
  */
-type Last<
-	Tuple extends readonly any[],
-	Default = never
-> = Tuple extends readonly []
-	? Default
-	: Tuple extends readonly [infer FirstElement]
-	? FirstElement
-	: Tuple extends ReadonlyArray<infer Element>
-	? readonly Element[] extends Tuple
-		? Element
-		: Tuple extends readonly [any, ...infer Next]
-		? Last<Next>
-		: never
-	: Default;
+declare type GuardType<Guard> = Guard extends (
+	value: any,
+	...args: readonly any[]
+) => value is infer U
+	? U
+	: never;
 
 /**
- * A Type Guard that only allows one argument
+ * Given an array of Types Guards, will return a intersection of all the Guard Types.
  */
-type OneArgGuardType = (value: any) => value is any;
+type CombineGuardType<
+	Arr extends readonly unknown[],
+	Result = unknown
+> = Arr extends readonly []
+	? Result
+	: Arr extends readonly [infer Head, ...infer Tail]
+	? CombineGuardType<Tail, Result & GuardType<Head>>
+	: never;
 
-type PipedTypeGuard<A, B> = (
-	value: A,
+/**
+ * Given a parameter and a predicate, return a new generic Type Guard that implements those
+ */
+type IterableTypeGuard<Value, Predicate> =
+	| ((
+			value: Value,
+			i: number,
+			values: readonly typeof value[]
+	  ) => value is Predicate extends Value ? Predicate : never)
+	| ((value: Value) => value is Predicate extends Value ? Predicate : never)
+	| ((
+			value: Value,
+			i: number
+	  ) => value is Predicate extends Value ? Predicate : never);
+
+/**
+ * Given a parameter and a predicate, return a new generic Type Guard that implements those
+ */
+type TypeGuard<Value, Predicate> = (
+	value: Value,
 	...args: readonly unknown[]
-) => value is B extends A ? B : never;
+) => value is Predicate extends Value ? Predicate : never;
 
+/**
+ * Given an array of Types Guards, will return a new array of Type Guards where the returned Guard Type value is piped to the arguments of the next function.
+ */
 export type {
-	PipedTypeGuard,
-	OneArgGuardType,
-	Last,
-	MatchType,
-	GuardType,
-	EntryTypeGuard,
 	IterableTypeGuard,
+	TypeGuard,
+	GuardType,
+	AnyIterableTypeGuard,
 	AnyTypeGuard,
-	UnionToIntersection,
-	KeyTypeGuard,
+	CombineGuardType,
 };

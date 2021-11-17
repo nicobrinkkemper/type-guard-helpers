@@ -1,6 +1,4 @@
-import type { AnyTypeGuard, UnionToIntersection } from './types';
-
-import type { GuardType } from '.';
+import type { AnyTypeGuard, CombineGuardType } from './types';
 
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard that checks if the given value matches all given Type Guards.
@@ -17,7 +15,9 @@ import type { GuardType } from '.';
  */
 const guardAllIn =
 	<Guards extends readonly AnyTypeGuard[]>(guards: Guards) =>
-	(value: unknown): value is UnionToIntersection<GuardType<Guards[number]>> =>
+	<Value, Predicate = CombineGuardType<Guards>>(
+		value: Value
+	): value is Predicate extends Value ? Predicate : never =>
 		guards.findIndex((guard) => !guard(value)) === -1;
 
 export { guardAllIn };

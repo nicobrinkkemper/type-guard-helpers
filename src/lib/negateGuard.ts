@@ -12,9 +12,16 @@ import type { AnyTypeGuard, GuardType } from './types';
  * ```
  * @category Type Guard Composer
  */
-const negateGuard =
-	<Guard extends AnyTypeGuard>(guard: Guard) =>
-	<Value>(value: Value): value is Exclude<Value, GuardType<Guard>> =>
-		!guard(value);
+const negateGuard: NegateGuardFn =
+	(guard) =>
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	<Value>(value: Value, ...args: readonly unknown[]): value is any =>
+		!guard(value, ...args);
+
+type NegateGuardFn = <Guard extends AnyTypeGuard>(
+	guard: Guard
+) => <Value, Predicate = Exclude<Value, GuardType<Guard>>>(
+	value: Value
+) => value is Predicate extends Value ? Predicate : never;
 
 export { negateGuard };

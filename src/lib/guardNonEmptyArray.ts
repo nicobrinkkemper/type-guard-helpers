@@ -1,4 +1,3 @@
-import { guardArray } from './guardArray';
 import { isNonEmptyArray } from './isNonEmptyArray';
 import type { AnyTypeGuard, GuardType } from './types';
 
@@ -18,12 +17,13 @@ import type { AnyTypeGuard, GuardType } from './types';
  * ```
  * @category Type Guard Creator
  */
-const guardNonEmptyArray = <Guard extends AnyTypeGuard>(guard: Guard) => {
-	const isValid = guardArray(guard);
-	return (
+const guardNonEmptyArray =
+	<Guard extends AnyTypeGuard<readonly [unknown, ...(readonly unknown[])]>>(
+		guard: Guard
+	) =>
+	(
 		value: unknown
-	): value is readonly [GuardType<Guard>, ...(readonly GuardType<Guard>[])] =>
-		isNonEmptyArray(value) && isValid(value);
-};
+	): value is readonly [GuardType<Guard>, ...ReadonlyArray<GuardType<Guard>>] =>
+		isNonEmptyArray(value) && guard(value);
 
 export { guardNonEmptyArray };

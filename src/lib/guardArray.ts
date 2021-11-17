@@ -1,24 +1,28 @@
 import { isArray } from './isArray';
-import { negateGuard } from './negateGuard';
-import type { GuardType, IterableTypeGuard } from './types';
+import type { TypeGuard } from './types';
 
 /**
- * Given a Type Guard, returns a Type Guard that takes an array and checks if all its values match the given Type Guard.
+ * Given a Type Guard, returns a Type Guard that checks if the given value is an array and matches the given Type Guard.
  *
  * @example
  * ```ts
- * import { isTypeString, guardArray } from 'type-guard-helpers';
- * const isStringArray = guardArray(isTypeString)
- * if(isStringArray(test)){
- *    test; // test: readonly string[]
+ * import { guardArray } from 'type-guard-helpers';
+ *
+ * const isStringArray = guardArray(
+ * 	(value): value is readonly string[] =>
+ * 		value.findIndex((item) => typeof item !== 'string') === -1
+ * );
+ *
+ * const test = {} as unknown;
+ * if (isStringArray(test)) {
+ * 	  test; // test: readonly string[]
  * }
  * ```
  * @category Type Guard Composer
  */
-const guardArray = <Guard extends IterableTypeGuard>(guard: Guard) => {
-	const finder = negateGuard(guard);
-	return (value: unknown): value is readonly GuardType<Guard>[] =>
-		isArray(value) && value.findIndex(finder) === -1;
-};
+const guardArray =
+	<Predicate>(guard: TypeGuard<readonly unknown[], Predicate>) =>
+	<Value>(value: Value): value is Predicate extends Value ? Predicate : never =>
+		isArray(value) && guard(value);
 
 export { guardArray };

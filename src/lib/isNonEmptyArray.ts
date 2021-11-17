@@ -6,6 +6,6 @@
 const isNonEmptyArray = (
 	value: unknown
 ): value is readonly [unknown, ...(readonly unknown[])] =>
-	Array.isArray(value) && value.length !== 0;
+	Array.isArray(value) && value.length > 0;
 
 export { isNonEmptyArray };

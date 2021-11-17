@@ -1,6 +1,4 @@
-import { guardEntries } from './guardEntries';
 import { isRecord } from './isRecord';
-import { matchSchemaEntry } from './matchSchemaEntry';
 import type { AnyTypeGuard, GuardType } from './types';
 
 /**
@@ -23,19 +21,22 @@ import type { AnyTypeGuard, GuardType } from './types';
  * ```
  * @category Type Guard Creator
  */
-const matchPartialSchema = <
-	Schema extends {
-		readonly [k in keyof Schema]: AnyTypeGuard;
-	}
->(
-	schema: Schema
-) => {
-	const hasValidEntries = guardEntries(matchSchemaEntry(schema));
-	return (
+const matchPartialSchema =
+	<
+		Schema extends {
+			readonly [k in PropertyKey]: AnyTypeGuard;
+		}
+	>(
+		schema: Schema
+	) =>
+	(
 		value: unknown
 	): value is {
 		readonly [k in keyof Schema]?: GuardType<Schema[k]>;
-	} => isRecord(value) && hasValidEntries(value);
-};
+	} =>
+		isRecord(value) &&
+		Object.entries(schema).findIndex(
+			([key, guard]) => !(key in value) || !guard(value[key])
+		) === -1;
 
 export { matchPartialSchema };

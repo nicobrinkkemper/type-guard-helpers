@@ -1,14 +1,14 @@
-import { guardArray } from '.';
+import { guardArrayValues } from './guardArrayValues';
 
 /**
- * Given a array, returns a Type Guard that checks if the given value is like the array.
+ * Given an array, returns a Type Guard that checks if the given value is like the array.
  *
  * @category Type Guard Creator
  */
 const matchArray = <ArraySubject extends readonly unknown[]>(
 	array: ArraySubject
 ) =>
-	guardArray(
+	guardArrayValues(
 		(value: unknown, i: number): value is ArraySubject => value === array[i]
 	);
 

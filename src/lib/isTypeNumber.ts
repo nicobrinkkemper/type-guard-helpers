@@ -5,9 +5,9 @@ import { matchType } from './matchType';
  * @example
  * ```ts
  *
- * import { isNumber } from 'type-guard-helpers'
+ * import { isTypeNumber } from 'type-guard-helpers'
  * const test = 1 as unknown;
- * if (isNumber(test)) {
+ * if (isTypeNumber(test)) {
  *    test + 3;
  * }
  * ```

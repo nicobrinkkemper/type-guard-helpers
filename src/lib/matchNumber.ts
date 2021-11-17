@@ -1,5 +1,5 @@
 import { match } from './match';
-
+import type { MatchFn } from './match';
 /**
  * Given a number, returns a Type Guard that checks if the given value exactly matches the given number.
  *
@@ -17,8 +17,6 @@ import { match } from './match';
  * ```
  * @category Type Guard Creator
  */
-const matchNumber: <A extends number>(
-	number: A
-) => (value: unknown) => value is A = match;
+const matchNumber: MatchFn<number> = match;
 
 export { matchNumber };

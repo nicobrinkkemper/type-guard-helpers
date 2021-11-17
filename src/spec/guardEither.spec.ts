@@ -1,10 +1,10 @@
 import test from 'ava';
 
-import { guardEither, guardPipe, matchType } from '../lib/';
+import { guardAll, guardEither, matchType } from '../lib/';
 
 const isBar = guardEither(
 	matchType('undefined'),
-	guardPipe(matchType('string'), (val): val is `bar${string}` =>
+	guardAll(matchType('string'), (val): val is `bar${string}` =>
 		val.startsWith('bar')
 	)
 );

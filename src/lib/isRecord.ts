@@ -3,9 +3,7 @@
  *
  * @category Type Guard
  */
-const isRecord = (
-	val: unknown
-): val is { readonly [k in PropertyKey]: unknown } =>
+const isRecord = (val: unknown): val is Record<PropertyKey, unknown> =>
 	val !== null && typeof val === 'object';
 
 export { isRecord };
