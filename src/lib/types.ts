@@ -58,17 +58,11 @@ type CombineGuardType<
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
-type IterableTypeGuard<Value, Predicate> =
-	| ((
-			value: Value,
-			i: number,
-			values: readonly typeof value[]
-	  ) => value is Predicate extends Value ? Predicate : never)
-	| ((value: Value) => value is Predicate extends Value ? Predicate : never)
-	| ((
-			value: Value,
-			i: number
-	  ) => value is Predicate extends Value ? Predicate : never);
+type IterableTypeGuard<Value, Predicate> = (
+	value: Value,
+	i: number,
+	values: readonly typeof value[]
+) => value is Predicate extends Value ? Predicate : never;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those

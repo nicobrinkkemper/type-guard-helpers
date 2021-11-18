@@ -23,8 +23,22 @@ import type { AnyTypeGuard } from './types';
  */
 const logGuard = <Guard extends AnyTypeGuard<unknown, unknown>>(
 	guard: Guard,
-	before = console.info,
-	after = ({ result }: { readonly result: boolean }) => console.info({ result })
+	before = ({
+		value,
+		guard,
+	}: {
+		readonly value: unknown;
+		readonly guard: Guard;
+	}) => console.info({ value, guard }),
+	after = ({
+		result,
+		value,
+		guard,
+	}: {
+		readonly result: boolean;
+		readonly value: unknown;
+		readonly guard: Guard;
+	}) => console.info({ result, value, guard })
 ) => hookGuard(guard, before, after);
 
 export { logGuard };

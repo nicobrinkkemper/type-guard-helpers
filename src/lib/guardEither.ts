@@ -3,7 +3,7 @@ import type { TypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
- * Same as {@link isEither}, but accepts multiple arguments instead of a single array
+ * Same as {@link guardEither}, but accepts multiple arguments instead of a single array
  *
  * @example
  * ```ts

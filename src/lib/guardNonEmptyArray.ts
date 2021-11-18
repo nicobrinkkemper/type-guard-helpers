@@ -18,12 +18,10 @@ import type { TypeGuard } from './types';
  * @category Type Guard Creator
  */
 const guardNonEmptyArray =
-	<A>(guard: TypeGuard<readonly [unknown, ...(readonly unknown[])], A>) =>
-	<Value>(
+	<A>(guard: TypeGuard<readonly [unknown, ...ReadonlyArray<unknown>], A>) =>
+	<Value, Predicate = readonly [A, ...ReadonlyArray<A>]>(
 		value: Value
-	): value is readonly [A, ...ReadonlyArray<A>] extends Value
-		? readonly [A, ...ReadonlyArray<A>]
-		: never =>
+	): value is Predicate extends Value ? Predicate : never =>
 		isNonEmptyArray(value) && guard(value);
 
 export { guardNonEmptyArray };

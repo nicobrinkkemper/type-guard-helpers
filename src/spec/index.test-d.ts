@@ -31,6 +31,12 @@ const isBar = matchString(bar);
 const isFooBarItem = guardOption(isFoo, isBar);
 const isStatus = matchNumbers(200, 404);
 const isFooBarArray = guardArrayValues(isFooBarItem);
+guardArrayValues((val, i, values): val is string => {
+	expectType<unknown>(val);
+	expectType<number>(i);
+	expectType<readonly unknown[]>(values);
+	return typeof val === 'string';
+});
 const isResponse = matchSchema({
 	items: isFooBarArray,
 	status: isStatus,

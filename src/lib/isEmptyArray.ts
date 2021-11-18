@@ -3,7 +3,9 @@
  *
  * @category Type Guard
  */
-const isEmptyArray = (value: unknown): value is readonly [] =>
+const isEmptyArray = <Value, Predicate = readonly unknown[]>(
+	value: Value
+): value is Predicate extends Value ? Predicate : never =>
 	Array.isArray(value) && value.length === 0;
 
 export { isEmptyArray };

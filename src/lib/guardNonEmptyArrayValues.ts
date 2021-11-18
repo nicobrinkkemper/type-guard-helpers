@@ -23,11 +23,9 @@ import type { IterableTypeGuard } from './types';
  */
 const guardNonEmptyArrayValues =
 	<A>(guard: IterableTypeGuard<unknown, A>) =>
-	<Value>(
+	<Value, Predicate = readonly [A, ...ReadonlyArray<A>]>(
 		value: Value
-	): value is readonly [A, ...ReadonlyArray<A>] extends Value
-		? readonly [A, ...ReadonlyArray<A>]
-		: never =>
+	): value is Predicate extends Value ? Predicate : never =>
 		isNonEmptyArray(value) && value.findIndex(negateGuard(guard)) === -1;
 
 export { guardNonEmptyArrayValues };

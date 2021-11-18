@@ -4,12 +4,8 @@ import { isTypeUndefined } from '../lib/isTypeUndefined';
 import { isUndefined } from '../lib/isUndefined';
 
 test('Should return true for undefined', (t) => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	t.is((isTypeUndefined as any)(), true);
 	t.is(isTypeUndefined(undefined), true);
 	t.is(isUndefined(undefined), true);
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	t.is((isTypeUndefined as any)(), true);
 });
 
 test('Should return false for anything else', (t) => {

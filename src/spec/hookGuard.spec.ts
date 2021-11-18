@@ -7,8 +7,8 @@ const startsWithFoo = hookGuard(
 	guardAll(matchType('string'), (val): val is `foo${string}` => {
 		return !!val.startsWith('foo');
 	}),
-	console.log,
-	console.log
+	(val) => val,
+	(val) => val
 );
 
 const isFooArray = guardArrayValues(startsWithFoo);

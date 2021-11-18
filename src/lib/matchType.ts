@@ -1,3 +1,6 @@
+/**
+ * Possible strings to pass to {@linkcode matchType}
+ */
 type MatchableTypes =
 	| 'boolean'
 	| 'function'

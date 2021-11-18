@@ -2,7 +2,7 @@ import type { TypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
- * Same as {@link isEither}, but accepts a single array instead of multiple arguments
+ * Same as {@link guardEither}, but accepts a single array instead of multiple arguments
  *
  * @example
  * ```ts
@@ -17,7 +17,7 @@ import type { TypeGuard } from './types';
  */
 const guardEitherIn =
 	<A>(guards: readonly TypeGuard<unknown, A>[]) =>
-	(val: unknown): val is A =>
+	<Value>(val: Value): val is A extends Value ? A : never =>
 		guards.findIndex((guard) => guard(val)) !== -1;
 
 export { guardEitherIn };
