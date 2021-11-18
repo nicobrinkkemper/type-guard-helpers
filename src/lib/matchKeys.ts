@@ -19,6 +19,8 @@ import { matchArgs } from './matchArgs';
  */
 const matchKeys: <Keys extends readonly PropertyKey[]>(
 	...keys: Keys
-) => (value: unknown) => value is Keys[number] = matchArgs;
+) => <Value, Predicate = Keys[number]>(
+	value: Value
+) => value is Predicate extends Value ? Predicate : never = matchArgs;
 
 export { matchKeys };

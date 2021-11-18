@@ -3,7 +3,7 @@ import type { AnyTypeGuard, GuardType } from './types';
 
 /**
  *
- * Given a Schema, returns a Type Guard that checks the the given value is a object exactly implementing the entries of the Schema.
+ * Given a Schema, returns a Type Guard that checks that the given value is a object exactly implementing the entries of the Schema.
  *
  * This Type Guard returns false if a given value contains keys that are not specified in the Schema.
  * If you want to allow unknown keys, see {@linkcode matchSchema}

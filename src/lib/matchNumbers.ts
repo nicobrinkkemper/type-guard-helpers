@@ -15,11 +15,10 @@ import { matchArgs } from './matchArgs';
  * ```
  * @category Type Guard Creator
  */
-const matchNumbers: <Numbers extends readonly number[]>(
-	...keys: Numbers
+const matchNumbers: <Predicate extends number>(
+	...keys: readonly Predicate[]
 ) => <Value>(
 	value: Value
-) => value is Numbers[number] extends Value ? Numbers[number] : never =
-	matchArgs;
+) => value is Predicate extends Value ? Predicate : never = matchArgs;
 
 export { matchNumbers };

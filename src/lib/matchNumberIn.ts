@@ -18,8 +18,10 @@ import { matchIn } from './matchIn';
  * ```
  * @category Type Guard Creator
  */
-const matchNumberIn: <As extends readonly number[]>(
-	keys: As
-) => (value: unknown) => value is As[number] = matchIn;
+const matchNumberIn: <Predicate extends number>(
+	keys: readonly Predicate[]
+) => <Value>(
+	value: unknown
+) => value is Predicate extends Value ? Predicate : never = matchIn;
 
 export { matchNumberIn };

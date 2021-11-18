@@ -17,6 +17,6 @@ import { match } from './match';
  */
 const matchKey: <Key extends PropertyKey>(
 	key: Key
-) => (value: unknown) => value is Key = match;
+) => <Value>(value: Value) => value is Key extends Value ? Key : Value = match;
 
 export { matchKey };
