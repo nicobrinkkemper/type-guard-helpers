@@ -45,7 +45,7 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "ava": "^3.15.0",
+    "ava": "^4.0.0-rc.1",
     "codecov": "^3.8.3",
     "cspell": "^5.10.1",
     "cz-conventional-changelog": "^3.0.1",
@@ -104,7 +104,10 @@
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
     "exclude": [
-      "**/*.spec.js"
+      "**/spec/**"
     ]
+  },
+  "dependencies": {
+    "c8": "^7.10.0"
   }
 }
