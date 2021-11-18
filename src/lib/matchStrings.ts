@@ -17,6 +17,8 @@ import { matchArgs } from './matchArgs';
  */
 const matchStrings: <As extends readonly string[]>(
 	...keys: As
-) => (value: unknown) => value is As[number] = matchArgs;
+) => <Value, Predicate = As[number]>(
+	value: Value
+) => value is Predicate extends Value ? Predicate : never = matchArgs;
 
 export { matchStrings };
