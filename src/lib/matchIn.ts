@@ -4,7 +4,9 @@
  */
 const matchIn =
 	<AnyArray extends readonly unknown[]>(arr: AnyArray) =>
-	(value: unknown): value is AnyArray[number] =>
+	<Value, Predicate = AnyArray[number]>(
+		value: unknown
+	): value is Predicate extends Value ? Predicate : never =>
 		arr.indexOf(value) !== -1;
 
 export { matchIn };

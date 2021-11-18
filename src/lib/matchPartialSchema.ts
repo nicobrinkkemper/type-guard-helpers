@@ -29,14 +29,17 @@ const matchPartialSchema =
 	>(
 		schema: Schema
 	) =>
-	(
-		value: unknown
-	): value is {
-		readonly [k in keyof Schema]?: GuardType<Schema[k]>;
-	} =>
+	<
+		Value,
+		Predicate = {
+			readonly [k in keyof Schema]?: GuardType<Schema[k]>;
+		}
+	>(
+		value: Value
+	): value is Predicate extends Value ? Predicate : never =>
 		isRecord(value) &&
 		Object.entries(schema).findIndex(
-			([key, guard]) => !(key in value) || !guard(value[key])
+			([key, guard]) => !(key in value && guard(value[key]))
 		) === -1;
 
 export { matchPartialSchema };
