@@ -1,5 +1,5 @@
 import { guardEitherIn } from './guardEitherIn';
-import type { AnyTypeGuard } from './types';
+import type { TypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
@@ -16,8 +16,7 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardEither = <Guards extends readonly AnyTypeGuard[]>(
-	...guards: Guards
-) => guardEitherIn(guards);
+const guardEither = <A>(...guards: readonly TypeGuard<unknown, A>[]) =>
+	guardEitherIn(guards);
 
 export { guardEither };

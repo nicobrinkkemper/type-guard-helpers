@@ -4,10 +4,12 @@ import {
 	guardAll,
 	guardAllIn,
 	guardArrayValues,
+	guardOption,
 	hookGuard,
 	isNull,
 	isTypeString,
 	logGuard,
+	matchNumbers,
 	matchSchema,
 	matchString,
 	matchType,
@@ -23,9 +25,24 @@ const stringOrNull = {} as string | null;
 const test = {} as unknown;
 const testArr = [''];
 
-// match
+// readme examples
 const isFoo = matchString(foo);
 const isBar = matchString(bar);
+const isFooBarItem = guardOption(isFoo, isBar);
+const isStatus = matchNumbers(200, 404);
+const isFooBarArray = guardArrayValues(isFooBarItem);
+const isResponse = matchSchema({
+	items: isFooBarArray,
+	status: isStatus,
+});
+if (isResponse(test)) {
+	expectType<{
+		readonly items: readonly ('foo' | 'bar')[];
+		readonly status: 200 | 404;
+	}>(test);
+}
+
+// match
 if (isFoo(testArr)) {
 	expectType<never>(testArr);
 }

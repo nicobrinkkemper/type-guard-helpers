@@ -1,4 +1,4 @@
-import type { AnyTypeGuard, GuardType } from './types';
+import type { TypeGuard } from './types';
 
 /**
  * Given two Type Guards as arguments, returns a Type Guard to check if the given value matches at least one of the given Type Guards.
@@ -16,11 +16,8 @@ import type { AnyTypeGuard, GuardType } from './types';
  * @category Type Guard Composer
  */
 const guardOption =
-	<LeftGuard extends AnyTypeGuard, RightGuard extends AnyTypeGuard>(
-		leftGuard: LeftGuard,
-		rightGuard: RightGuard
-	) =>
-	(value: unknown): value is GuardType<LeftGuard> | GuardType<RightGuard> =>
-		leftGuard(value) || rightGuard(value);
+	<A, B>(guard1: TypeGuard<unknown, A>, guard2: TypeGuard<unknown, B>) =>
+	<Value>(value: Value): value is A | B extends Value ? A | B : never =>
+		guard1(value) || guard2(value);
 
 export { guardOption };

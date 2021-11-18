@@ -50,6 +50,7 @@ export * from './matchTypeIn';
 export * from './matchTypes';
 export * from './negateGuard';
 export type {
+	IterableTypeGuard,
 	TypeGuard,
 	GuardType,
 	AnyTypeGuard,

@@ -37,7 +37,12 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-## Examples
+## About these helpers
+
+These helper functions offer TypeSafe composing of Guards. All provided functions focus on conveniently working with Type Guard functions.
+The functions handle most of the predicate handling.
+
+## Composing objects
 
 ```ts
 const test = {} as unknown; // unknown
@@ -45,50 +50,30 @@ const foo = 'foo';
 const bar = 'bar';
 const isBar = matchString(bar);
 const isFoo = matchString(foo);
-const isFooBarRecord = matchSchema({
-	foo: isFoo,
-	bar: isBar,
+const isFooBarItem = guardEither(isFoo, isBar);
+const isStatus = matchNumbers(200, 404);
+const isFooBarArray = guardArrayValues(isFooBarItem);
+const isResponse = matchSchema({
+	items: isFooBarArray,
+	status: isStatus,
 });
-const isFooBarRecords = guardArray(isFooBarRecord);
 
-if (isFooBarRecord(test)) {
-	test; // readonly { readonly foo: "foo"; readonly bar: "bar"; }
-}
-
-if (isFooBarArray(test)) {
-	test; // readonly { readonly foo: "foo"; readonly bar: "bar"; }[]
-}
-
-if (isFooOrBar(test)) {
-	test; // "bar" | "foo"
-}
-
-// composition
-
-if (isFoo(test) || isBar(test)) {
-	test; // "foo" | "bar"
-}
-
-if (matchStrings(foo, bar)(test)) {
-	test; // "foo" | "bar"
-}
-
-if (matchStringIn([foo, bar] as const)(test)) {
-	test; // "foo" | "bar"
-}
-
-if (
-	guardAll(
-		isTypeString,
-		(str): value is `foo${string}` => str.startsWith(foo) // (parameter) str: string
-	)(test)
-) {
-	test; // `foo${string}`
+if (isResponse(test)) {
+	expectType<{
+		readonly items: readonly ('foo' | 'bar')[];
+		readonly status: 200 | 404;
+	}>(test);
 }
 ```
 
+## Composing guards
+
+```ts
+const isError = guardOption(isTypeString)
+const isErrorResponse = matchSchema({
+	error: isError
+});
+const isFooBarArray = guardAll(, isFooBarArray);
+```
+
 [Go checkout the documentation.](https://nicobrinkkemper.github.io/type-guard-helpers/)
-
-## Using third-party Type Guards
-
-Other libraries may also provide Type Guards. Some are even provided natively, such as `Array.isArray`. They should work with any of the helper functions listed here. Feel free to use and combine them.

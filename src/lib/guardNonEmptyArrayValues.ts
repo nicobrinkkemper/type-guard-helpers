@@ -1,6 +1,6 @@
 import { isNonEmptyArray } from './isNonEmptyArray';
 import { negateGuard } from './negateGuard';
-import type { AnyIterableTypeGuard, GuardType } from './types';
+import type { IterableTypeGuard } from './types';
 
 /**
  * Given a Type Guard, returns a Type Guard that checks if the given value is an array and if all its values match the given Type Guard.
@@ -22,10 +22,12 @@ import type { AnyIterableTypeGuard, GuardType } from './types';
  * @category Type Guard Composer
  */
 const guardNonEmptyArrayValues =
-	<Guard extends AnyIterableTypeGuard<unknown>>(guard: Guard) =>
-	(
-		value: unknown
-	): value is readonly [GuardType<Guard>, ...ReadonlyArray<GuardType<Guard>>] =>
+	<A>(guard: IterableTypeGuard<unknown, A>) =>
+	<Value>(
+		value: Value
+	): value is readonly [A, ...ReadonlyArray<A>] extends Value
+		? readonly [A, ...ReadonlyArray<A>]
+		: never =>
 		isNonEmptyArray(value) && value.findIndex(negateGuard(guard)) === -1;
 
 export { guardNonEmptyArrayValues };

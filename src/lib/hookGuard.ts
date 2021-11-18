@@ -14,19 +14,19 @@ import type { AnyTypeGuard } from './types';
  * // hooking to log
  * const before = (value: unknown, guard: unknown) => console.info(`Calling:`, { guard, value })
  * const after = (result: unknown) => console.info(`Result:`, { result })
- * const hookLog = hookGuard(isNull, before, after)
+ * const isNullWithLog = hookGuard(isNull, before, after)
  * ```
  * @category Type Guard Debugger
  */
-const hookGuard = <Guard extends AnyTypeGuard>(
+const hookGuard = <Guard extends AnyTypeGuard<unknown, unknown>>(
 	guard: Guard,
 	before?: (beforeResult: {
 		readonly value: unknown;
-		readonly guard: AnyTypeGuard;
+		readonly guard: Guard;
 	}) => unknown,
 	after?: (afterResult: {
 		readonly value: unknown;
-		readonly guard: AnyTypeGuard;
+		readonly guard: Guard;
 		readonly result: boolean;
 	}) => unknown
 ): Guard =>

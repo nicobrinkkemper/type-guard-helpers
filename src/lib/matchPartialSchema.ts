@@ -24,7 +24,7 @@ import type { AnyTypeGuard, GuardType } from './types';
 const matchPartialSchema =
 	<
 		Schema extends {
-			readonly [k in PropertyKey]: AnyTypeGuard;
+			readonly [k in PropertyKey]: AnyTypeGuard<unknown, unknown>;
 		}
 	>(
 		schema: Schema

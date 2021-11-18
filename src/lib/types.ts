@@ -7,10 +7,10 @@
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyTypeGuard<Value = any> = (
+declare type AnyTypeGuard<Value = any, Predicate = any> = (
 	value: Value,
 	...args: readonly any[]
-) => value is any;
+) => value is Predicate extends Value ? Predicate : never;
 
 /**
  * A type on which iterable Type Guards may extend.
@@ -74,8 +74,7 @@ type IterableTypeGuard<Value, Predicate> =
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
 type TypeGuard<Value, Predicate> = (
-	value: Value,
-	...args: readonly unknown[]
+	value: Value
 ) => value is Predicate extends Value ? Predicate : never;
 
 /**

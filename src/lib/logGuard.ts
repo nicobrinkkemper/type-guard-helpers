@@ -21,7 +21,7 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category Type Guard Debugger
  */
-const logGuard = <Guard extends AnyTypeGuard>(
+const logGuard = <Guard extends AnyTypeGuard<unknown, unknown>>(
 	guard: Guard,
 	before = console.info,
 	after = ({ result }: { readonly result: boolean }) => console.info({ result })
