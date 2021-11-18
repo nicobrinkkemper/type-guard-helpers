@@ -9,15 +9,11 @@
 npm install type-guard-helpers
 ```
 
-# Documentation
-
-> [Documentation](https://nicobrinkkemper.github.io/type-guard-helpers/)
-
-> [Official documentation about narrowing in Typescript](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
-
 # Type Guard Basics
 
 A quick introduction to Type Guards in Typescript.
+
+> [Check out the official documentation about narrowing in Typescript](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 
 ## Idiomatic Type Guard
 
@@ -37,43 +33,62 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-## About these helpers
+# Provided Helpers
 
-These helper functions offer TypeSafe composing of Guards. All provided functions focus on conveniently working with Type Guard functions.
-The functions handle most of the predicate handling.
+> [Check out the documentation of this project](https://nicobrinkkemper.github.io/type-guard-helpers/) for a complete overview.
 
-## Composing objects
+# FooBar Example
+
+The code below uses several helper functions to create Guard Types for specific configurations. The comments relate to what you would see when hovering over the variables in your code editor.
 
 ```ts
+import {
+	guardArray,
+	matchSchema,
+	matchExactSchema,
+	matchString,
+	matchStrings,
+} from 'type-guard-helpers';
+
 const test = {} as unknown; // unknown
-const foo = 'foo';
-const bar = 'bar';
-const isBar = matchString(bar);
-const isFoo = matchString(foo);
-const isFooBarItem = guardEither(isFoo, isBar);
-const isStatus = matchNumbers(200, 404);
-const isFooBarArray = guardArrayValues(isFooBarItem);
-const isResponse = matchSchema({
-	items: isFooBarArray,
-	status: isStatus,
+
+const isBar = matchString('bar');
+
+const isFoo = matchString('foo');
+
+const isFooOrBar = matchStrings(['foo', 'bar'] as const);
+
+const isFooBar = matchSchema({
+	foo: isFoo,
+	bar: isBar,
 });
 
-if (isResponse(test)) {
-	expectType<{
-		readonly items: readonly ('foo' | 'bar')[];
-		readonly status: 200 | 404;
-	}>(test);
+const isFooBarNested = matchExactSchema({
+	foobar: isFooBar,
+});
+
+const isFooBarArray = guardArray(isFooBar);
+
+if (isFooBar(test)) {
+	test.foo; // foo: "foo"
+	test.bar; // bar: "bar"
+}
+
+if (isFooBarArray(test)) {
+	test; // readonly { readonly foo: "foo"; readonly bar: "bar"; }[]
+}
+
+if (isFooBarNested(test)) {
+	test.foobar; // { readonly foo: "foo"; readonly bar: "bar"; }
+}
+
+if (isFooOrBar(test)) {
+	test; // "bar" | "foo"
 }
 ```
 
-## Composing guards
+## Using third-party Type Guards
 
-```ts
-const isError = guardOption(isTypeString)
-const isErrorResponse = matchSchema({
-	error: isError
-});
-const isFooBarArray = guardAll(, isFooBarArray);
-```
+Other libraries may also provide Type Guards. Some are even provided natively, such as `Array.isArray`. They should work with any of the helper functions listed here. Feel free to use and combine them.
 
-[Go checkout the documentation.](https://nicobrinkkemper.github.io/type-guard-helpers/)
+> Keep in mind that the implementation of third-party helpers may differ substantially. For example, the `isObject` listed here is very different from Lodash's `isObject`.
