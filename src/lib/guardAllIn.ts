@@ -14,10 +14,15 @@ import type { AnyTypeGuard, CombineGuardType } from './types';
  * @category Type Guard Composer
  */
 const guardAllIn =
-	<Guards extends readonly AnyTypeGuard[]>(guards: Guards) =>
-	<Value, Predicate = CombineGuardType<Guards>>(
-		value: Value
-	): value is Predicate extends Value ? Predicate : never =>
+	<
+		Guards extends readonly AnyTypeGuard[],
+		Result extends CombineGuardType<Guards>
+	>(
+		guards: readonly [...Guards]
+	) =>
+	<Value, Predicate extends Result extends Value ? Result : never>(
+		value: Result extends Value ? Value : Result
+	): value is Predicate =>
 		guards.findIndex((guard) => !guard(value)) === -1;
 
 export { guardAllIn };

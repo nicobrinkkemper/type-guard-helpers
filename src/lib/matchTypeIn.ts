@@ -1,9 +1,14 @@
 import type { MatchType } from './matchType';
 import type { MatchableTypes } from './matchType';
 
-type MatchTypeInFn = <Types extends readonly MatchableTypes[]>(
+type MatchTypeInFn = <
+	Types extends readonly MatchableTypes[],
+	Result extends MatchType<Types[number]>
+>(
 	types: Types
-) => <Value>(value: Value) => value is Value & MatchType<Types[number]>;
+) => <Value, Predicate extends Result extends Value ? Result : never>(
+	value: Result extends Value ? Value : Result
+) => value is Predicate;
 
 /**
  * Given one or more type names as array, returns a Type Guard that checks if the type of the given value matches at least one of the given type names.

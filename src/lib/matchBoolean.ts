@@ -1,4 +1,5 @@
 import { match } from './match';
+import type { MatchFn } from './match';
 
 /**
  * Given a boolean, returns a Type Guard that checks if the given value exactly matches the given boolean.
@@ -16,8 +17,6 @@ import { match } from './match';
  * ```
  * @category Type Guard Creator
  */
-const matchBoolean: <A extends boolean>(
-	boolean: A
-) => (value: unknown) => value is A = match;
+const matchBoolean: MatchFn<boolean> = match;
 
 export { matchBoolean };

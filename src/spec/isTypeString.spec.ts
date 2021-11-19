@@ -7,9 +7,9 @@ test('Should return true for a string', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-	t.is(isTypeString([]), false);
-	t.is(isTypeString(1), false);
-	t.is(isTypeString(true), false);
-	t.is(isTypeString({}), false);
-	t.is(isTypeString(Symbol()), false);
+	t.is(isTypeString([] as unknown), false);
+	t.is(isTypeString(1 as unknown), false);
+	t.is(isTypeString(true as unknown), false);
+	t.is(isTypeString({} as unknown), false);
+	t.is(isTypeString(Symbol() as unknown), false);
 });

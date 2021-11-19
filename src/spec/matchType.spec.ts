@@ -1,15 +1,12 @@
 import test from 'ava';
 
-import { matchTypes } from '../lib/matchTypes';
+import { matchType } from '../lib/matchType';
 
 test('Should return true for corresponding types', (t) => {
-	t.is(matchTypes('undefined')(undefined), true);
-	t.is(matchTypes('bigint', 'number')(1), true);
-	t.is(matchTypes('string', 'object')(null), true);
-	t.is(matchTypes('string', 'object')(null), true);
+	t.is(matchType('undefined')(undefined), true);
 });
 
 test('Should return false for non corresponding types', (t) => {
-	t.is(matchTypes('string', 'object')(undefined), false);
-	t.is(matchTypes('object', 'undefined')('undefined'), false);
+	t.is(matchType('string')(undefined as unknown), false);
+	t.is(matchType('object')('undefined'), false);
 });

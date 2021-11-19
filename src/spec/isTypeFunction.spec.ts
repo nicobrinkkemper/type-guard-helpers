@@ -21,18 +21,13 @@ test('Should return true for a function', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-	t.is(isTypeFunction(1), false);
-	t.is(isTypeFunction(true), false);
-	t.is(isTypeFunction('1'), false);
-	t.is(isTypeFunction(Symbol()), false);
+	t.is(isTypeFunction(1 as unknown), false);
+	t.is(isTypeFunction(true as unknown), false);
+	t.is(isTypeFunction('1' as unknown), false);
+	t.is(isTypeFunction(Symbol() as unknown), false);
 
-	t.is(isTypeFunction({}), false);
-	t.is(isTypeFunction([]), false);
-	t.is(
-		isTypeFunction(
-			// eslint-disable-next-line functional/no-class
-			new (class {})()
-		),
-		false
-	);
+	t.is(isTypeFunction({} as unknown), false);
+	t.is(isTypeFunction([] as unknown), false);
+	// eslint-disable-next-line functional/no-class
+	t.is(isTypeFunction(new (class {})()), false);
 });

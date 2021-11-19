@@ -3,12 +3,14 @@ import test from 'ava';
 import { guardAll, matchType } from '../lib';
 import { guardArrayValues } from '../lib/guardArrayValues';
 
-const startsWithFoo = guardAll(
-	matchType('string'),
-	(val): val is `foo${string}` => {
-		return !!val.startsWith('foo');
-	}
-);
+const isString = matchType('string');
+test('Should return true for string', (t) => {
+	t.is(isString('fooBath'), true);
+});
+
+const startsWithFoo = guardAll(isString, (val): val is `foo${string}` => {
+	return !!val.startsWith('foo');
+});
 
 const isFooArray = guardArrayValues(startsWithFoo);
 
@@ -19,7 +21,7 @@ test('Should return true for things that start with foo', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-	t.is(isFooArray(['barf']), false);
-	t.is(startsWithFoo(['oo']), false);
+	t.is(isFooArray(['barf'] as unknown), false);
+	t.is(startsWithFoo(['oo'] as unknown), false);
 	t.is(startsWithFoo('bar'), false);
 });

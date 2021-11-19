@@ -1,4 +1,5 @@
 import { match } from './match';
+import type { MatchFn } from './match';
 
 /**
  * Given a key, returns a Type Guard that checks if the given value exactly matches the given key.
@@ -15,8 +16,6 @@ import { match } from './match';
  * ```
  * @category Type Guard Creator
  */
-const matchKey: <Key extends PropertyKey>(
-	key: Key
-) => <Value>(value: Value) => value is Key extends Value ? Key : Value = match;
+const matchKey: MatchFn<PropertyKey> = match;
 
 export { matchKey };

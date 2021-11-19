@@ -67,7 +67,7 @@ test("Should return false because it's not a foo bar array", (t) => {
 		isFooBarArray([
 			{ foo: 'foo', bar: 'bar' },
 			{ foo: 'foo', BAD: 'BAD' },
-		]),
+		] as unknown),
 		false
 	);
 });

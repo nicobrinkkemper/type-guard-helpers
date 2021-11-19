@@ -7,10 +7,10 @@ test('Should return true for true', (t) => {
 });
 test('Should return false for anything else', (t) => {
 	t.is(isTrue(false), false);
-	t.is(isTrue([]), false);
-	t.is(isTrue({}), false);
-	t.is(isTrue('1'), false);
-	t.is(isTrue('true'), false);
-	t.is(isTrue('false'), false);
-	t.is(isTrue(Symbol(1)), false);
+	t.is(isTrue([] as unknown), false);
+	t.is(isTrue({} as unknown), false);
+	t.is(isTrue('1' as unknown), false);
+	t.is(isTrue('true' as unknown), false);
+	t.is(isTrue('false' as unknown), false);
+	t.is(isTrue(Symbol(1) as unknown), false);
 });

@@ -90,7 +90,7 @@ const startsWithFoo = guardAll(
 	(val): val is `foo${string}` => val.startsWith('foo')
 );
 if (startsWithFoo(test)) {
-	expectType<string & `foo${string}`>(test);
+	expectType<`foo${string}`>(test);
 }
 
 const isFooBarGuardAll = guardAll(
@@ -104,7 +104,7 @@ if (isFooBarGuardAll(test)) {
 if (isFooBarGuardAll(foobar)) {
 	expectType<'foobar'>(foobar);
 } else {
-	expectType<'foobar'>(foobar);
+	expectType<never>(foobar);
 }
 
 if (isFooBarGuardAll(unknownFoobar)) {
@@ -154,10 +154,6 @@ const guardAllGivenSpread = guardAll(...isFooGuards);
 const guardAllGivenInline = guardAll(isFooGuards[0], isFooGuards[1]);
 const guardAllGivenArray = guardAllIn(isFooGuards);
 
-if (guardAllGivenInline(foobar)) {
-	expectType<never>(foobar);
-}
-
 if (guardAllGivenInline(unknownFoobar)) {
 	expectType<'foo'>(unknownFoobar);
 } else {
@@ -175,7 +171,7 @@ if (guardAllGivenArray(test)) {
 if (isFooBarInline(foobar)) {
 	expectType<'foobar'>(foobar);
 } else {
-	expectType<'foobar'>(foobar);
+	expectType<never>(foobar);
 }
 
 if (isFooBarInline(unknownFoobar)) {
@@ -248,4 +244,13 @@ const fooOrBar = 'foo' as 'foo' | 'bar';
 
 if (isNotFoo(fooOrBar)) {
 	expectType<'bar'>(fooOrBar);
+}
+
+const guardAllNoConst = guardAllIn(<const>[
+	(hi: unknown): hi is string => typeof hi === 'string',
+	(hi: string): hi is 'foo' => hi === 'foo',
+]);
+
+if (guardAllNoConst(test)) {
+	test;
 }

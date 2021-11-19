@@ -1,7 +1,5 @@
 import { guardAllIn } from './guardAllIn';
-import { isTypeUndefined } from './isTypeUndefined';
-import { negateGuard } from './negateGuard';
-import type { CombineType, TypeGuard } from './types';
+import type { AnyTypeGuard, CombineType, TypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard that checks if the given value matches all given Type Guards.
@@ -9,8 +7,21 @@ import type { CombineType, TypeGuard } from './types';
  *
  * @category Type Guard Composer
  *  */
-const guardAll: <A, B, C, D, E, F, G, H, I, J, K>(
-	guard1: TypeGuard<unknown, A>,
+const guardAll: <
+	A,
+	B,
+	C,
+	D,
+	E,
+	F,
+	G,
+	H,
+	I,
+	J,
+	K,
+	Result extends CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
+>(
+	guard1?: TypeGuard<unknown, A>,
 	guard2?: TypeGuard<A, B>,
 	guard3?: TypeGuard<B, C>,
 	guard5?: TypeGuard<C, D>,
@@ -22,12 +33,9 @@ const guardAll: <A, B, C, D, E, F, G, H, I, J, K>(
 	guard11?: TypeGuard<I, J>,
 	guard12?: TypeGuard<J, K>,
 	...guards: ReadonlyArray<TypeGuard<K, K>>
-) => <
-	Value,
-	Predicate = CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
->(
-	value: Value
-) => value is Predicate extends Value ? Predicate : never = (...guards) =>
-	guardAllIn(guards.filter(negateGuard(isTypeUndefined)));
+) => <Value, Predicate extends Result extends Value ? Result : never>(
+	value: Result extends Value ? Value : Result
+) => value is Predicate = (...guards) =>
+	guardAllIn(guards as readonly AnyTypeGuard[]);
 
 export { guardAll };

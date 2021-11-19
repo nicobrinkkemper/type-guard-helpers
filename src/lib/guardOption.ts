@@ -16,10 +16,13 @@ import type { TypeGuard } from './types';
  * @category Type Guard Composer
  */
 const guardOption =
-	<A, B>(guard1: TypeGuard<unknown, A>, guard2: TypeGuard<unknown, B>) =>
-	<Value, Predicate = A | B>(
-		value: Value
-	): value is Predicate extends Value ? Predicate : never =>
-		guard1(value) || guard2(value);
+	<A, B, Result extends A | B>(
+		guard1: TypeGuard<unknown, A>,
+		guard2: TypeGuard<unknown, B>
+	) =>
+	<Value, Predicate extends Result extends Value ? Result : never>(
+		value: Result extends Value ? Value : Result
+	): value is Predicate =>
+		guard1(value as unknown) || guard2(value as unknown);
 
 export { guardOption };
