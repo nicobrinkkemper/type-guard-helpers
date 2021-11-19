@@ -54,6 +54,17 @@ type CombineGuardType<
 	: Arr extends readonly [infer Head, ...infer Tail]
 	? CombineGuardType<Tail, Result & GuardType<Head>>
 	: never;
+/**
+ * Given an array of Types Guards, will return a intersection of all the Guard Types.
+ */
+type CombineType<
+	Arr extends readonly unknown[],
+	Result = unknown
+> = Arr extends readonly []
+	? Result
+	: Arr extends readonly [infer Head, ...infer Tail]
+	? CombineType<Tail, Head extends Result ? Head : Result>
+	: never;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
@@ -80,5 +91,6 @@ export type {
 	GuardType,
 	AnyIterableTypeGuard,
 	AnyTypeGuard,
+	CombineType,
 	CombineGuardType,
 };

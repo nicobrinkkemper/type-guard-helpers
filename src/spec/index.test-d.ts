@@ -23,11 +23,14 @@ const barOrString = bar as string | undefined;
 const unknownFoobar = 'foobar' as unknown;
 const stringOrNull = {} as string | null;
 const test = {} as unknown;
-const testArr = [''];
 
 // readme examples
 const isFoo = matchString(foo);
 const isBar = matchString(bar);
+if (isBar(test)) {
+	expectType<'bar'>(test);
+}
+
 const isFooBarItem = guardOption(isFoo, isBar);
 const isStatus = matchNumbers(200, 404);
 const isFooBarArray = guardArrayValues(isFooBarItem);
@@ -49,9 +52,6 @@ if (isResponse(test)) {
 }
 
 // match
-if (isFoo(testArr)) {
-	expectType<never>(testArr);
-}
 if (isBar(bar)) {
 	expectType<'bar'>(bar);
 } else {
@@ -104,7 +104,7 @@ if (isFooBarGuardAll(test)) {
 if (isFooBarGuardAll(foobar)) {
 	expectType<'foobar'>(foobar);
 } else {
-	expectType<never>(foobar);
+	expectType<'foobar'>(foobar);
 }
 
 if (isFooBarGuardAll(unknownFoobar)) {
@@ -120,7 +120,7 @@ const isFooArray = guardAll(
 	guardArrayValues(startsWithFoo)
 );
 if (isFooArray(test)) {
-	expectType<readonly (string & `foo${string}`)[]>(test);
+	expectType<readonly `foo${string}`[]>(test);
 }
 
 const isFooBarInline = guardAll(
@@ -175,7 +175,7 @@ if (guardAllGivenArray(test)) {
 if (isFooBarInline(foobar)) {
 	expectType<'foobar'>(foobar);
 } else {
-	expectType<never>(foobar);
+	expectType<'foobar'>(foobar);
 }
 
 if (isFooBarInline(unknownFoobar)) {
@@ -224,4 +224,28 @@ if (logHook(stringOrNull)) {
 
 if (logGuard(isNotNull)(stringOrNull)) {
 	expectType<string>(stringOrNull);
+}
+
+const readmeExample = guardAll(
+	(value): value is string => typeof value === 'string',
+	(value): value is `foo${string}` => value.startsWith('foo')
+	//	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
+);
+
+if (readmeExample(test)) {
+	const t = test.startsWith('foo'); //  no error
+	expectType<boolean>(t);
+	expectType<`foo${string}`>(test);
+}
+
+// Argument of type '"foo"' is not assignable to parameter of type 'null'
+// if (isNull(foo)) {
+// 	expectType<never>(foo);
+// }
+
+const isNotFoo = negateGuard(isFoo);
+const fooOrBar = 'foo' as 'foo' | 'bar';
+
+if (isNotFoo(fooOrBar)) {
+	expectType<'bar'>(fooOrBar);
 }

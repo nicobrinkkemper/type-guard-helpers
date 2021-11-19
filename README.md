@@ -70,14 +70,44 @@ if (isResponse(test)) {
 
 ```ts
 
-const isFooBarArray = guardAll(
+const isFooBar = guardAll(
 	(value): value is string = typeof value === 'string',
 	(value): value is `foo${string}` = value.startsWith('foo'),
 	(value): value is `foobar` = value === 'foobar'
 );
 
-if (isFooBarArray(test)) {
+if (isFooBar(test)) {
 	expectType<'foobar'>(test);
+}
+```
+
+## Error catching
+
+```ts
+const isFoo = guardAll(
+	(value): value is string => typeof value === 'string',
+	(value): value is `foo${string}` => value.startsWith('foo'),
+	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
+);
+```
+
+```ts
+const foo = 'foo';
+const isNull = match(null);
+// Argument of type '"foo"' is not assignable to parameter of type 'null'.
+if (isNull(foo)) {
+	expectType<never>(foo);
+}
+```
+
+## Negating guards
+
+```ts
+const isNotFoo = negateGuard(isFoo);
+const fooOrBar = 'foo' as 'foo' | 'bar';
+
+if (isNotFoo(fooOrBar)) {
+	expectType<'bar'>(fooOrBar);
 }
 ```
 

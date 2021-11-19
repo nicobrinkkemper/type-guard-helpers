@@ -1,5 +1,6 @@
+import { guardArray } from './guardArray';
 import { isNonEmptyArray } from './isNonEmptyArray';
-import type { TypeGuard } from './types';
+import type { AnyTypeGuard, GuardType } from './types';
 
 /**
  * Enhances a Type Guard so it can be used to check all values of an array.
@@ -8,20 +9,21 @@ import type { TypeGuard } from './types';
  * @returns A new Type Guard that takes an array and passes if all its values pass the given guard.
  * @example
  * ```ts
- * import { matchString, guardNonEmptyArray } from 'type-guard-helpers';
+ * import { isString, guardNonEmptyArray } from 'type-guard-helpers';
  * const test = [] as unknown
  * const isStringArray = guardNonEmptyArray(isString)
  * if(isStringArray(test)){
  *    test; // test: readonly [string, ...string[]]
  * }
  * ```
- * @category Type Guard Creator
+ * @category | Type Guard Creator
  */
-const guardNonEmptyArray =
-	<A>(guard: TypeGuard<readonly [unknown, ...ReadonlyArray<unknown>], A>) =>
-	<Value, Predicate = readonly [A, ...ReadonlyArray<A>]>(
-		value: Value
-	): value is Predicate extends Value ? Predicate : never =>
-		isNonEmptyArray(value) && guard(value);
+const guardNonEmptyArray = <Guard extends AnyTypeGuard>(guard: Guard) => {
+	const isValid = guardArray(guard);
+	return (
+		value: unknown
+	): value is readonly [GuardType<Guard>, ...(readonly GuardType<Guard>[])] =>
+		isNonEmptyArray(value) && isValid(value);
+};
 
 export { guardNonEmptyArray };

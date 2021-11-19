@@ -1,6 +1,8 @@
 type MatchFn<Type> = <A extends Type>(
-	subject: A
-) => <Value>(value: Value) => value is A extends Value ? A : never;
+	type: A
+) => <Value, Predicate extends A extends Value ? A : never>(
+	value: A extends Value ? Value : A
+) => value is Predicate;
 
 /**
  * Given any argument, returns a Type Guard that checks if the given value is strictly equal to the given argument.
