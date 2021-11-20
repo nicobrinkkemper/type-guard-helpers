@@ -48,10 +48,10 @@ The functions handle most of the predicate handling.
 const test = {} as unknown; // unknown
 const foo = 'foo';
 const bar = 'bar';
-const isBar = matchString(bar);
-const isFoo = matchString(foo);
+const isBar = match(bar);
+const isFoo = match(foo);
 const isFooBarItem = guardEither(isFoo, isBar);
-const isStatus = matchNumbers(200, 404);
+const isStatus = matchEither(200, 404);
 const isFooBarArray = guardArrayValues(isFooBarItem);
 const isResponse = matchSchema({
 	items: isFooBarArray,

@@ -1,4 +1,4 @@
-import { matchArgs } from './matchArgs';
+import { matchEither } from './matchEither';
 
 /**
  * Given one are more Numbers as arguments, creates a Type Guard to check if the given value matches at least one of the given Numbers.
@@ -19,6 +19,6 @@ const matchNumbers: <Predicate extends number>(
 	...keys: readonly Predicate[]
 ) => <Value>(
 	value: Value
-) => value is Predicate extends Value ? Predicate : never = matchArgs;
+) => value is Predicate extends Value ? Predicate : never = matchEither;
 
 export { matchNumbers };

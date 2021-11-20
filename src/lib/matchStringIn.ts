@@ -1,4 +1,4 @@
-import { matchIn } from './matchIn';
+import { matchEitherIn } from './matchEitherIn';
 
 /**
  * Given one or more strings as array, creates a Type Guard to check if the given value matches at least one of the given Keys.
@@ -20,6 +20,6 @@ import { matchIn } from './matchIn';
  */
 const matchStringIn: <As extends readonly string[]>(
 	keys: As
-) => (value: unknown) => value is As[number] = matchIn;
+) => (value: unknown) => value is As[number] = matchEitherIn;
 
 export { matchStringIn };

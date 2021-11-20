@@ -1,4 +1,4 @@
-import { matchIn } from './matchIn';
+import { matchEitherIn } from './matchEitherIn';
 
 /**
  * Given one or more numbers as array, creates a Type Guard to check if the given value matches at least one of the given numbers.
@@ -22,6 +22,6 @@ const matchNumberIn: <Predicate extends number>(
 	keys: readonly Predicate[]
 ) => <Value>(
 	value: unknown
-) => value is Predicate extends Value ? Predicate : never = matchIn;
+) => value is Predicate extends Value ? Predicate : never = matchEitherIn;
 
 export { matchNumberIn };

@@ -51,7 +51,7 @@ if (isStatus(test)) {
 For convenience, the below functions will use the spread operator to map the arguments to the the `matchIn` function. Thus, these would be drop in replacements for the above guards.
 
 ```ts
-const isNil = matchArgs(null, undefined);
+const isNil = matchEither(null, undefined);
 const isFooBar = matchStrings('foo', 'bar');
 const isStatus = matchNumbers(200, 404);
 ```

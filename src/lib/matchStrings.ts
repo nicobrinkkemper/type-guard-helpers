@@ -1,4 +1,4 @@
-import { matchArgs } from './matchArgs';
+import { matchEither } from './matchEither';
 
 /**
  * Given one are more strings as arguments, creates a Type Guard to check if the given value matches at least one of the given strings.
@@ -19,6 +19,6 @@ const matchStrings: <As extends readonly string[]>(
 	...keys: As
 ) => <Value, Predicate = As[number]>(
 	value: Value
-) => value is Predicate extends Value ? Predicate : never = matchArgs;
+) => value is Predicate extends Value ? Predicate : never = matchEither;
 
 export { matchStrings };
