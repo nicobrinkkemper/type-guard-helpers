@@ -33,9 +33,9 @@ const guardAll: <
 	guard11?: TypeGuard<I, J>,
 	guard12?: TypeGuard<J, K>,
 	...guards: ReadonlyArray<TypeGuard<K, K>>
-) => <Value, Predicate extends Result extends Value ? Result : never>(
-	value: Result extends Value ? Value : Result
-) => value is Predicate = (...guards) =>
+) => <Value>(
+	value: Result extends Value ? Value : Result & unknown
+) => value is Result extends Value ? Result : never = (...guards) =>
 	guardAllIn(guards as readonly AnyTypeGuard[]);
 
 export { guardAll };

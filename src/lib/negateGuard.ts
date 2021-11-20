@@ -14,14 +14,13 @@ import type { AnyTypeGuard } from './types';
  */
 const negateGuard: NegateGuardFn =
 	(guard) =>
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	(value: unknown, ...args: readonly unknown[]): value is any =>
+	(value: unknown, ...args: readonly unknown[]): value is never =>
 		!guard(value, ...args);
 
 type NegateGuardFn = <A>(
 	guard: AnyTypeGuard<unknown, A>
-) => <Value>(
+) => <Value, Result extends Exclude<Value, A>>(
 	value: Value
-) => value is Exclude<Value, A> extends Value ? Exclude<Value, A> : never;
+) => value is Result extends Value ? Result : never;
 
 export { negateGuard };

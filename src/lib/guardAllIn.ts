@@ -20,9 +20,9 @@ const guardAllIn =
 	>(
 		guards: readonly [...Guards]
 	) =>
-	<Value, Predicate extends Result extends Value ? Result : never>(
+	<Value>(
 		value: Result extends Value ? Value : Result
-	): value is Predicate =>
+	): value is Result extends Value ? Result : never =>
 		guards.findIndex((guard) => !guard(value)) === -1;
 
 export { guardAllIn };

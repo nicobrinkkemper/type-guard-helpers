@@ -251,6 +251,12 @@ const guardAllNoConst = guardAllIn(<const>[
 	(hi: string): hi is 'foo' => hi === 'foo',
 ]);
 
-if (guardAllNoConst(test)) {
-	test;
+const justNull = null;
+const unknownNull: unknown = null; // remove unknown and see error below
+if (guardAllNoConst(unknownNull)) {
+	expectType<'foo'>(unknownNull);
+}
+
+if (justNull === 'fwe') {
+	expectType<never>(justNull);
 }

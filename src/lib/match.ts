@@ -1,17 +1,18 @@
-type MatchFn<Type> = <A extends Type>(
-	type: A
-) => <Value, Predicate extends A extends Value ? A : never>(
-	value: A extends Value ? Value : A
+type MatchFn<Primitive = undefined | null | PropertyKey | boolean> = <
+	Result extends Primitive
+>(
+	type: Result
+) => <Value, Predicate extends Result extends Value ? Result : never>(
+	value: Result extends Value ? Value : Result
 ) => value is Predicate;
 
 /**
- * Given any argument, returns a Type Guard that checks if the given value is strictly equal to the given argument.
+ * Given any primitive, returns a Type Guard that checks if the given value is strictly equal to the given argument.
  * @category Type Guard Creator
  */
-const match: MatchFn<unknown> =
-	<Type>(argument: Type) =>
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	(value: unknown): value is any =>
+const match: MatchFn =
+	(argument) =>
+	(value): value is never =>
 		argument === value;
 
 export type { MatchFn };
