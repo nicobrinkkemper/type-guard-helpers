@@ -33,7 +33,7 @@ if (isNull(test)) {
 These functions all use `subject.indexOf(value) !== -1` under the hood.
 
 ```ts
-const isNil = matchIn([null, undefined]);
+const isNil = matchEitherIn([null, undefined]);
 const isFooBar = matchStringIn(['foo', 'bar'] as const);
 const isStatus = matchNumberIn([200, 404] as const);
 
@@ -48,7 +48,7 @@ if (isStatus(test)) {
 }
 ```
 
-For convenience, the below functions will use the spread operator to map the arguments to the the `matchIn` function. Thus, these would be drop in replacements for the above guards.
+For convenience, the below functions will use the spread operator to map the arguments to the the `matchEitherIn` function. Thus, these would be drop in replacements for the above guards.
 
 ```ts
 const isNil = matchEither(null, undefined);

@@ -331,8 +331,8 @@ window.searchData = {
 		{
 			id: 46,
 			kind: 64,
-			name: 'matchIn',
-			url: 'modules.html#matchIn',
+			name: 'matchEitherIn',
+			url: 'modules.html#matchEitherIn',
 			classes: 'tsd-kind-function tsd-has-type-parameter',
 		},
 		{
