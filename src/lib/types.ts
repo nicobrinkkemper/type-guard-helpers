@@ -42,11 +42,12 @@ declare type AnyIterableTypeGuard<Value = any, Predicate = any> =
  * GuardType<typeof Array.isArray> // unknown[]
  * ```
  */
-declare type GuardType<Guard> = Guard extends (
-	value: any,
-	...args: readonly any[]
-) => value is infer U
-	? U
+declare type GuardType<Guard> = Guard extends (value: infer X) => value is any
+	? Guard extends (value: X) => value is X & infer Z
+		? Guard extends (value: X) => value is X & Z
+			? Z
+			: never
+		: never
 	: never;
 
 /**
@@ -82,14 +83,15 @@ type CombineType<
 type IterableTypeGuard<Value, Predicate> = (
 	value: Value,
 	i: number,
-	values: readonly typeof value[]
+	values: readonly Value[]
 ) => value is Predicate extends Value ? Predicate : never;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
 type TypeGuard<Value, Predicate> = (
-	value: Value
+	value: Value,
+	...args: readonly any[]
 ) => value is Predicate extends Value ? Predicate : never;
 
 /**

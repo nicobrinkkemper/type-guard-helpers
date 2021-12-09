@@ -1,14 +1,14 @@
 import test from 'ava';
 
-import { matchStringIn } from '../lib/matchStringIn';
+import { matchIn } from '../lib/matchIn';
 
-const isFooOrBar = matchStringIn(['foo', 'bar'] as const);
+const isFooOrBar = matchIn(['foo', 'bar'] as const);
 test('Should return true for either foo or bar', (t) => {
 	t.is(isFooOrBar('foo'), true);
 	t.is(isFooOrBar('bar'), true);
 });
 
 test("Should return false because it's neither foo or bar", (t) => {
-	t.is(isFooOrBar('BAR'), false);
-	t.is(isFooOrBar(1), false);
+	t.is(isFooOrBar('BAR' as unknown), false);
+	t.is(isFooOrBar(1 as unknown), false);
 });

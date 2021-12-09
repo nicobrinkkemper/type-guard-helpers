@@ -7,7 +7,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * @example
  * ```ts
- * import { matchPartialSchema, matchString } from 'type-guard-helpers'
+ * import { matchPartialSchema,  match } from 'type-guard-helpers'
  * const test = {} as unknown
  * const isFoo = matchKey('foo');
  * const isBar = matchKey('bar');

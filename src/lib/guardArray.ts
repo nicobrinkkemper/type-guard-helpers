@@ -1,6 +1,4 @@
-import { isArray } from './isArray';
 import type { TypeGuard } from './types';
-
 /**
  * Given a Type Guard, returns a Type Guard that checks if the given value is an array and matches the given Type Guard.
  *
@@ -25,6 +23,6 @@ const guardArray =
 	<Value, Predicate extends A extends Value ? A : never>(
 		value: A extends Value ? Value : A
 	): value is Predicate extends Value ? Predicate : never =>
-		isArray(value) && guard(value);
+		Array.isArray(value) && guard(value);
 
 export { guardArray };

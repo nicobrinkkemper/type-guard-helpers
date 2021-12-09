@@ -1,11 +1,11 @@
 import test from 'ava';
 
-import { matchString } from '../lib/matchString';
-import { matchStrings } from '../lib/matchStrings';
+import { match } from '../lib/match';
+import { matches } from '../lib/matches';
 
-const isBar = matchString('bar');
-const isFoo = matchString('foo');
-const isFooOrBar = matchStrings('foo', 'bar');
+const isBar = match('bar');
+const isFoo = match('foo');
+const isFooOrBar = matches('foo', 'bar');
 
 test('Should return true for bar', (t) => {
 	t.is(isBar('bar'), true);

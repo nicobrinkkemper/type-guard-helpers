@@ -10,7 +10,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * @example
  * ```ts
- * import { matchExactSchema, matchString } from 'type-guard-helpers'
+ * import { matchExactSchema,  match } from 'type-guard-helpers'
  *
  * const test = {} as unknown
  * const isFoo = match'foo');
