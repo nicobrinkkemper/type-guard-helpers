@@ -84,6 +84,7 @@
   "ava": {
     "failFast": true,
     "timeout": "60s",
+    "node-args": [ "--experimental-modules" ],
     "typescript": {
       "rewritePaths": {
         "src/": "build/main/"
