@@ -9,9 +9,9 @@ import {
 	isNull,
 	isTypeString,
 	logGuard,
-	matchNumbers,
+	match,
+	matches,
 	matchSchema,
-	matchString,
 	matchType,
 	negateGuard,
 } from '../lib';
@@ -25,14 +25,14 @@ const stringOrNull = {} as string | null;
 const test = {} as unknown;
 
 // readme examples
-const isFoo = matchString(foo);
-const isBar = matchString(bar);
+const isFoo = match(foo);
+const isBar = match(bar);
 if (isBar(test)) {
 	expectType<'bar'>(test);
 }
 
 const isFooBarItem = guardOption(isFoo, isBar);
-const isStatus = matchNumbers(200, 404);
+const isStatus = matches(200, 404);
 const isFooBarArray = guardArrayValues(isFooBarItem);
 guardArrayValues((val, i, values): val is string => {
 	expectType<unknown>(val);
@@ -244,6 +244,12 @@ const fooOrBar = 'foo' as 'foo' | 'bar';
 
 if (isNotFoo(fooOrBar)) {
 	expectType<'bar'>(fooOrBar);
+}
+
+const wrappedNegatedGuard = guardAll(isNotFoo);
+
+if (wrappedNegatedGuard(fooOrBar)) {
+	expectType<'bar' | 'foo'>(fooOrBar);
 }
 
 const guardAllNoConst = guardAllIn(<const>[

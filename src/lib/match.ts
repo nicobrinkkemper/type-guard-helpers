@@ -7,7 +7,7 @@ type MatchFn<Primitive = undefined | null | PropertyKey | boolean> = <
 ) => value is Predicate;
 
 /**
- * Given any primitive, returns a Type Guard that checks if the given value is strictly equal to the given argument.
+ * Given a primitive, returns a Type Guard that checks if the given value is strictly equal to the given argument.
  * @category Type Guard Creator
  */
 const match: MatchFn =

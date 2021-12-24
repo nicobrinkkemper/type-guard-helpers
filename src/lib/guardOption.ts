@@ -6,7 +6,7 @@ import type { TypeGuard } from './types';
  *
  * @example
  * ```ts
- * import { isNull, matchString, guardOption } from 'type-guard-helpers';
+ * import { isNull,  match, guardOption } from 'type-guard-helpers';
  * const isStringOrNull = guardOption(isNull, isString);
  * const test = {} as unknown;
  * if (isStringOrNull(test)) {

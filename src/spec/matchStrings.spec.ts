@@ -1,8 +1,8 @@
 import test from 'ava';
 
-import { matchStrings } from '../lib/matchStrings';
+import { matches } from '../lib/matches';
 
-const isFooOrBar = matchStrings('foo', 'bar', 'FOO', 'BAR');
+const isFooOrBar = matches('foo', 'bar', 'FOO', 'BAR');
 
 test('Should return true for bar', (t) => {
 	t.is(isFooOrBar('bar'), true);
@@ -15,6 +15,8 @@ test('Should return true for foo', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-	t.is(isFooOrBar('BaR'), false);
-	t.is(isFooOrBar('FoO'), false);
+	const TestBar = 'BaR' as unknown;
+	const TestFoo = 'FoO' as unknown;
+	t.is(isFooOrBar(TestBar), false);
+	t.is(isFooOrBar(TestFoo), false);
 });

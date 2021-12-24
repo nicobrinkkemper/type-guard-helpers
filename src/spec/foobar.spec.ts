@@ -1,11 +1,11 @@
 import test from 'ava';
 
 import { guardArrayValues } from '../lib/guardArrayValues';
+import { match } from '../lib/match';
 import { matchExactSchema } from '../lib/matchExactSchema';
-import { matchString } from '../lib/matchString';
 
-const isBar = matchString('bar');
-const isFoo = matchString('foo');
+const isBar = match('bar');
+const isFoo = match('foo');
 const isFooBar = matchExactSchema({
 	foo: isFoo,
 	bar: isBar,

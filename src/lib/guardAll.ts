@@ -1,27 +1,26 @@
 import { guardAllIn } from './guardAllIn';
-import type { AnyTypeGuard, CombineType, TypeGuard } from './types';
+import type { CombineType, ExcludeFromTuple, TypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard that checks if the given value matches all given Type Guards.
  * Same as {@linkcode guardAllIn}, but accepts multiple arguments instead of a single array
+ * @example
+ * ```ts
+ * const isFooBar = guardAll(
+ *     matchType('string'),
+ *     (val): val is `foo${string}` => val.startsWith('foo'),
+ *     (val): val is 'foobar' => val === 'foobar'
+ * );
  *
+ * const test = {} as unknown;
+ * if(isFooBar(test)){
+ *     test; // 'foobar'
+ * }
+ * ```
  * @category Type Guard Composer
  *  */
-const guardAll: <
-	A,
-	B,
-	C,
-	D,
-	E,
-	F,
-	G,
-	H,
-	I,
-	J,
-	K,
-	Result extends CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
->(
-	guard1?: TypeGuard<unknown, A>,
+const guardAll: <Param, A, B, C, D, E, F, G, H, I, J, K>(
+	guard1?: TypeGuard<Param, A>,
 	guard2?: TypeGuard<A, B>,
 	guard3?: TypeGuard<B, C>,
 	guard5?: TypeGuard<C, D>,
@@ -33,9 +32,17 @@ const guardAll: <
 	guard11?: TypeGuard<I, J>,
 	guard12?: TypeGuard<J, K>,
 	...guards: ReadonlyArray<TypeGuard<K, K>>
-) => <Value>(
-	value: Result extends Value ? Value : Result & unknown
+) => <
+	Value,
+	Result extends CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
+>(
+	value: Result extends Value ? Value : Result
 ) => value is Result extends Value ? Result : never = (...guards) =>
-	guardAllIn(guards as readonly AnyTypeGuard[]);
+	guardAllIn(
+		guards.filter(
+			<Value>(val: Value): val is Exclude<Value, undefined> =>
+				typeof val !== 'undefined'
+		) as unknown as ExcludeFromTuple<typeof guards, undefined>
+	);
 
 export { guardAll };

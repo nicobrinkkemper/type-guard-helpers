@@ -10,11 +10,11 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * @example
  * ```ts
- * import { matchSchema, matchString } from 'type-guard-helpers'
+ * import { matchSchema,  match } from 'type-guard-helpers'
  *
  * const test = {} as unknown
- * const isFoo = matchString('foo');
- * const isBar = matchString('bar');
+ * const isFoo =  match('foo');
+ * const isBar =  match('bar');
  * const isFooObject = matchSchema({
  *    foo: isFoo,
  * 		isBar: isBar
@@ -38,8 +38,7 @@ const matchSchema =
 		value: unknown
 	): value is { readonly [k in keyof Schema]: GuardType<Schema[k]> } =>
 		isRecord(value) &&
-		Object.entries(schema).findIndex(
-			([key, guard]) => !(key in value && guard(value[key]))
-		) === -1;
+		Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
+			-1;
 
 export { matchSchema };

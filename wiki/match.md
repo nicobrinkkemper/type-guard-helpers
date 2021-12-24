@@ -4,9 +4,9 @@ These functions all use `subject === value` under the hood.
 
 ```ts
 const isNull = match(null);
-const isFoo = matchString('foo');
-const isSuccess = matchNumber(200);
-const isTrue = matchBoolean(true);
+const isFoo = match('foo');
+const isSuccess = match(200);
+const isTrue = match(true);
 
 if (isNull(test)) {
 	test; // null
@@ -34,7 +34,7 @@ These functions all use `subject.indexOf(value) !== -1` under the hood.
 
 ```ts
 const isNil = matchEitherIn([null, undefined]);
-const isFooBar = matchStringIn(['foo', 'bar'] as const);
+const isFooBar = matchIn(['foo', 'bar'] as const);
 const isStatus = matchNumberIn([200, 404] as const);
 
 if (isNil(test)) {
@@ -51,9 +51,9 @@ if (isStatus(test)) {
 For convenience, the below functions will use the spread operator to map the arguments to the the `matchEitherIn` function. Thus, these would be drop in replacements for the above guards.
 
 ```ts
-const isNil = matchEither(null, undefined);
-const isFooBar = matchStrings('foo', 'bar');
-const isStatus = matchNumbers(200, 404);
+const isNil = matches(null, undefined);
+const isFooBar = matches('foo', 'bar');
+const isStatus = matches(200, 404);
 ```
 
 This doesn't need the `as const` statement to infer the literals.
@@ -64,8 +64,8 @@ A schema is an object like `{key:guard}`.
 
 ```ts
 const fooBarSchema = {
-	foo: matchString('foo'),
-	bar: matchString('bar'),
+	foo: match('foo'),
+	bar: match('bar'),
 } as const;
 const isFooBar = matchSchema(fooBarSchema);
 const isExactFooBar = matchExactSchema(fooBarSchema);

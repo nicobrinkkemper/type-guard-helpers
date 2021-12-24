@@ -7,10 +7,10 @@
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyTypeGuard<Value = any, Predicate = any> = (
+declare type AnyTypeGuard<Value = any, Result = any> = (
 	value: Value,
 	...args: readonly any[]
-) => value is Predicate extends Value ? Predicate : never;
+) => value is Result extends Value ? Result : never;
 
 /**
  * A type on which iterable Type Guards may extend.
@@ -19,20 +19,20 @@ declare type AnyTypeGuard<Value = any, Predicate = any> = (
  * <Guard extends AnyIterableTypeGuard>
  * ```
  */
-declare type AnyIterableTypeGuard<Value = any, Predicate = any> =
+declare type AnyIterableTypeGuard<Value = any, Result = any> =
 	| ((
 			value: Value,
 			...args: readonly any[]
-	  ) => value is Predicate extends Value ? Predicate : never)
+	  ) => value is Result extends Value ? Result : never)
 	| ((
 			value: Value,
 			i: number
-	  ) => value is Predicate extends Value ? Predicate : never)
+	  ) => value is Result extends Value ? Result : never)
 	| ((
 			value: Value,
 			i: number,
 			values: readonly typeof value[]
-	  ) => value is Predicate extends Value ? Predicate : never);
+	  ) => value is Result extends Value ? Result : never);
 
 /**
  * Returns a type that a Guard will assign to a variable.
@@ -42,11 +42,12 @@ declare type AnyIterableTypeGuard<Value = any, Predicate = any> =
  * GuardType<typeof Array.isArray> // unknown[]
  * ```
  */
-declare type GuardType<Guard> = Guard extends (
-	value: any,
-	...args: readonly any[]
-) => value is infer U
-	? U
+declare type GuardType<Guard> = Guard extends (value: infer X) => value is any
+	? Guard extends (value: X) => value is X & infer Z
+		? Guard extends (value: X) => value is X & Z
+			? Z
+			: never
+		: never
 	: never;
 
 /**
@@ -82,15 +83,16 @@ type CombineType<
 type IterableTypeGuard<Value, Predicate> = (
 	value: Value,
 	i: number,
-	values: readonly typeof value[]
+	values: readonly Value[]
 ) => value is Predicate extends Value ? Predicate : never;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
-type TypeGuard<Value, Predicate> = (
-	value: Value
-) => value is Predicate extends Value ? Predicate : never;
+type TypeGuard<Value, Result> = (
+	value: Value,
+	...args: readonly any[]
+) => value is Result extends Value ? Result : never;
 
 /**
  * Given the resulting Type, returns a well typed TypeGuard function
@@ -101,6 +103,34 @@ type TypeGuardFn<Result> = <
 >(
 	value: Result extends Value ? Value : Result
 ) => value is Predicate;
+
+/** Excludes a type from a array while preserving const order
+ *  @example
+ * ```ts
+ * guardAllIn(
+ * 	 guards.filter(
+ * 		<Value>(val: Value): val is Exclude<Value, undefined> => val !== undefined
+ * 	 ) as unknown as ExcludeFromTuple<typeof guards, undefined>
+ * );
+ * ```
+ */
+type ExcludeFromTuple<
+	Arr extends readonly unknown[],
+	Filter,
+	Result = readonly []
+> = Arr extends readonly []
+	? Result
+	: Arr extends readonly [infer Head, ...infer Tail]
+	? Head extends Filter
+		? ExcludeFromTuple<Tail, Filter, Result>
+		: ExcludeFromTuple<
+				Tail,
+				Filter,
+				Result extends readonly unknown[]
+					? readonly [...Result, Head]
+					: readonly [Head]
+		  >
+	: Result;
 
 /**
  * Given an array of Types Guards, will return a new array of Type Guards where the returned Guard Type value is piped to the arguments of the next function.
@@ -114,4 +144,5 @@ export type {
 	AnyTypeGuard,
 	CombineType,
 	CombineGuardType,
+	ExcludeFromTuple,
 };

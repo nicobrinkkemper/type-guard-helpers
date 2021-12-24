@@ -10,6 +10,7 @@ type MatchableTypes =
 	| 'string'
 	| 'symbol'
 	| 'undefined';
+
 /**
  * A type to convert the string returned by `typeof x` to its typescript type
  */

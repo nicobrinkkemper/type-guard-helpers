@@ -7,7 +7,7 @@ import type { AnyTypeGuard, GuardType } from './types';
  *
  * @example
  * ```ts
- * import { matchPartialSchema, matchString } from 'type-guard-helpers'
+ * import { matchPartialSchema,  match } from 'type-guard-helpers'
  * const test = {} as unknown
  * const isFoo = matchKey('foo');
  * const isBar = matchKey('bar');
@@ -39,7 +39,7 @@ const matchPartialSchema =
 	): value is Predicate extends Value ? Predicate : never =>
 		isRecord(value) &&
 		Object.entries(schema).findIndex(
-			([key, guard]) => !(key in value && guard(value[key]))
+			([key, guard]) => value[key] !== undefined && !guard(value[key])
 		) === -1;
 
 export { matchPartialSchema };

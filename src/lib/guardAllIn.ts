@@ -5,8 +5,8 @@ import type { AnyTypeGuard, CombineGuardType } from './types';
  *
  * @example
  * ```ts
- * import { guardAll, matchString, matchSchema } from 'type-guard-helpers';
- * const isFooBar = guardAll([
+ * import { guardAll,  match, matchSchema } from 'type-guard-helpers';
+ * const isFooBar = guardAllIn([
  *     matchSchema({ foo: match'foo') }),
  *     matchSchema({ bar: match'bar') })
  * ]); // val is { readonly foo: "foo"; } & { readonly bar: "bar"; }

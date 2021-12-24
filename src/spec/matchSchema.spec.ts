@@ -1,5 +1,6 @@
 import test from 'ava';
 
+import { isTypeUndefined } from '../lib/isTypeUndefined';
 import { matchSchema } from '../lib/matchSchema';
 
 test('Should return false when specified values are not present', (t) => {
@@ -38,4 +39,29 @@ test('Should return true with additional unspecified values', (t) => {
 
 test('Should work with Array.isArray', (t) => {
 	t.is(matchSchema({ foo: Array.isArray })({ foo: [], bar: {} }), true);
+});
+
+test('Should not fail if a guard allows undefined and the key is not set', (t) => {
+	t.is(
+		matchSchema({
+			foo: isTypeUndefined,
+		})({}),
+		true
+	);
+	t.is(
+		matchSchema({
+			foo: isTypeUndefined,
+		})({
+			foo: undefined,
+		}),
+		true
+	);
+	t.is(
+		matchSchema({
+			foo: isTypeUndefined,
+		})({
+			bar: 'bar',
+		}),
+		true
+	);
 });
