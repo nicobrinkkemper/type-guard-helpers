@@ -7,10 +7,10 @@
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyTypeGuard<Value = any, Predicate = any> = (
+declare type AnyTypeGuard<Value = any, Result = any> = (
 	value: Value,
 	...args: readonly any[]
-) => value is Predicate extends Value ? Predicate : never;
+) => value is Result extends Value ? Result : never;
 
 /**
  * A type on which iterable Type Guards may extend.
@@ -19,20 +19,20 @@ declare type AnyTypeGuard<Value = any, Predicate = any> = (
  * <Guard extends AnyIterableTypeGuard>
  * ```
  */
-declare type AnyIterableTypeGuard<Value = any, Predicate = any> =
+declare type AnyIterableTypeGuard<Value = any, Result = any> =
 	| ((
 			value: Value,
 			...args: readonly any[]
-	  ) => value is Predicate extends Value ? Predicate : never)
+	  ) => value is Result extends Value ? Result : never)
 	| ((
 			value: Value,
 			i: number
-	  ) => value is Predicate extends Value ? Predicate : never)
+	  ) => value is Result extends Value ? Result : never)
 	| ((
 			value: Value,
 			i: number,
 			values: readonly typeof value[]
-	  ) => value is Predicate extends Value ? Predicate : never);
+	  ) => value is Result extends Value ? Result : never);
 
 /**
  * Returns a type that a Guard will assign to a variable.
