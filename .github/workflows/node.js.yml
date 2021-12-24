@@ -41,6 +41,6 @@ jobs:
         with:
           node-version: ${{ matrix.legacy-node-version }}
           cache: 'npm'
-      - run: npm ci
+      - run: npm ci # Ava needs this flag for node 10
       - run: npm run build --if-present
-      - run: npm test --ignore-engines
+      - run: npm test --experimental-modules
