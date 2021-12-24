@@ -38,8 +38,7 @@ const matchSchema =
 		value: unknown
 	): value is { readonly [k in keyof Schema]: GuardType<Schema[k]> } =>
 		isRecord(value) &&
-		Object.entries(schema).findIndex(
-			([key, guard]) => !(key in value && guard(value[key]))
-		) === -1;
+		Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
+			-1;
 
 export { matchSchema };

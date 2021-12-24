@@ -3,14 +3,14 @@ import test from 'ava';
 import { isTypeString } from '..';
 import { matchPartialSchema } from '../lib/matchPartialSchema';
 
-test('Should return false when specified values are not present', (t) => {
+test('Should return true when specified values are not present', (t) => {
 	t.is(
 		matchPartialSchema({
 			foo: (value: unknown): value is 'foo' => value === 'foo',
 		})({
 			bar: 'not checked',
 		}),
-		false
+		true
 	);
 });
 
@@ -42,5 +42,5 @@ test('Should work with Array.isArray', (t) => {
 });
 
 test('Should return true for empty object', (t) => {
-	t.is(matchPartialSchema({ key: isTypeString })({}), false);
+	t.is(matchPartialSchema({ key: isTypeString })({}), true);
 });
