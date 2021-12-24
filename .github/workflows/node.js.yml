@@ -15,7 +15,6 @@ jobs:
 
     strategy:
       matrix:
-        legacy-node-version: [10.x]
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
@@ -31,6 +30,10 @@ jobs:
       - run: npm test
   build-legacy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        legacy-node-version: [10.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
       - uses: actions/checkout@v2
       - name: Use Legacy Node.js ${{ matrix.legacy-node-version }}
