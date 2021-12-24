@@ -32,6 +32,7 @@ jobs:
   build-legacy:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Use Legacy Node.js ${{ matrix.legacy-node-version }}
         uses: actions/setup-node@v2
         with:
