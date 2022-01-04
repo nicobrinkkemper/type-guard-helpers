@@ -10,6 +10,7 @@ import {
 	guardAllIn,
 	guardArrayValues,
 	guardOption,
+	guardRecord,
 	hookGuard,
 	isNonNullable,
 	isNull,
@@ -305,3 +306,28 @@ const someGuards = [isFoo, undefined, isTypeString] as const;
 
 const noUndefinedGuards = excludeUndefined(someGuards);
 expectType<readonly [typeof isFoo, typeof isTypeString]>(noUndefinedGuards);
+
+/**
+ *
+ */
+
+const isTranslation = guardRecord(
+	(val): val is { readonly translation: string } =>
+		typeof val.translation === 'string'
+);
+const testTranslation = {
+	translation: 'string',
+	someOtherVar: 'var',
+} as const;
+if (isTranslation(testTranslation)) {
+	expectType<{
+		readonly translation: 'string';
+		readonly someOtherVar: 'var';
+	}>(testTranslation);
+}
+
+if (isTranslation(test)) {
+	expectType<{
+		readonly translation: string;
+	}>(test);
+}
