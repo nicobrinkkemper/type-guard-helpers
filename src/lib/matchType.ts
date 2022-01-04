@@ -5,7 +5,6 @@ type MatchableTypes =
 	| 'boolean'
 	| 'function'
 	| 'number'
-	| 'bigint'
 	| 'object'
 	| 'string'
 	| 'symbol'
@@ -16,8 +15,6 @@ type MatchableTypes =
  */
 type MatchType<Type> = Type extends 'boolean'
 	? boolean
-	: Type extends 'bigint'
-	? bigint
 	: Type extends 'function'
 	? (...args: readonly unknown[]) => unknown
 	: Type extends 'number'
