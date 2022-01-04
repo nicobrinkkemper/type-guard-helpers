@@ -3,8 +3,8 @@ import test from 'ava';
 import { isNonNullable } from '../lib/isNonNullable';
 
 test('Should return false for null and undefined', (t) => {
-	t.is(isNonNullable(null), true);
-	t.is(isNonNullable(undefined), true);
+	t.is(isNonNullable(null), false);
+	t.is(isNonNullable(undefined), false);
 });
 test('Should return true for anything else', (t) => {
 	t.is(isNonNullable(false as unknown), true);
