@@ -104,6 +104,9 @@ type TypeGuardFn<Result> = <
 	value: Result extends Value ? Value : Result
 ) => value is Predicate;
 
+/**
+ * Any primitive that would work with a strictly equal operator === or match function
+ */
 type AnyPrimitive = undefined | null | number | string | symbol | boolean;
 
 /**
