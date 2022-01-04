@@ -21,7 +21,9 @@ import type { TypeGuard } from './types';
  */
 const guardRecord =
 	<A>(guard: TypeGuard<Record<string, unknown>, A>) =>
-	<Value>(value: Value): value is A extends Value ? A : never =>
+	<Value, Result extends A>(
+		value: Result extends Value ? Value : Result
+	): value is Result extends Value ? Result : never =>
 		isRecord(value) && guard(value);
 
 export { guardRecord };

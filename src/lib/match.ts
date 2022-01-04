@@ -1,10 +1,10 @@
-type MatchFn<Primitive = undefined | null | PropertyKey | boolean> = <
-	Result extends Primitive
->(
-	type: Result
-) => <Value, Predicate extends Result extends Value ? Result : never>(
+import type { AnyPrimitive } from './types';
+
+type MatchFn<Subject = AnyPrimitive> = <Primitive extends Subject>(
+	type: Primitive
+) => <Value, Result extends Primitive>(
 	value: Result extends Value ? Value : Result
-) => value is Predicate;
+) => value is Result extends Value ? Result : never;
 
 /**
  * Given a primitive, returns a Type Guard that checks if the given value is strictly equal to the given argument.

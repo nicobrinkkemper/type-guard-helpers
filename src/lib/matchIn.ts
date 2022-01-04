@@ -4,7 +4,7 @@ type MatchInFn<Subject = AnyPrimitive> = <
 	Primitives extends readonly Subject[]
 >(
 	arr: Primitives
-) => <Value, Result extends Primitives[keyof Primitives]>(
+) => <Value, Result extends Primitives[number]>(
 	value: Result extends Value
 		? Value
 		: Result extends AnyPrimitive
