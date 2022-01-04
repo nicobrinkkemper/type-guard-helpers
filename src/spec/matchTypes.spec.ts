@@ -4,7 +4,6 @@ import { matchTypes } from '../lib/matchTypes';
 
 test('Should return true for corresponding types', (t) => {
 	t.is(matchTypes('undefined')(undefined), true);
-	t.is(matchTypes('bigint', 'number')(1), true);
 	t.is(matchTypes('string', 'object')(null), true);
 	t.is(matchTypes('string', 'object')(null), true);
 });
