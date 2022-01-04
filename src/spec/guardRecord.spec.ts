@@ -12,12 +12,13 @@ test('Should return true for objects with translations', (t) => {
 		translation: 'hi',
 		nameSpace: 'yo',
 	});
-	t.is(isTranslation({ translation: true as unknown }), true);
+	t.is(isTranslation({ translation: '' as unknown }), true);
 	t.is(isTranslation({ translation: 'true', someOtherThing: 'yes' }), true);
 	t.is(isTranslation(fnObj), true);
 });
 
 test('Should return true for translations', (t) => {
+	t.is(isTranslation({ translation: true as unknown }), true);
 	t.is(isTranslation(false as unknown), false);
 	t.is(isTranslation(null as unknown), false);
 });
