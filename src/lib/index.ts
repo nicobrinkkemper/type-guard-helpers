@@ -41,7 +41,7 @@ export * from './matchPartialSchema';
 export * from './matchSchema';
 export * from './matchType';
 export * from './matchTypeIn';
-export * from './matchTypeIn';
+export * from './matchTypes';
 export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
 export type {
