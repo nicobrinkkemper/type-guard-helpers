@@ -8,6 +8,8 @@ export * from './guardNonEmptyArrayValues';
 export * from './guardOption';
 export * from './guardArrayValues';
 export * from './guardRecord';
+export * from './excludeGuard';
+export * from './fixGuard';
 export * from './isArray';
 export * from './isDefined';
 export * from './isEmptyArray';
@@ -17,6 +19,8 @@ export * from './isNonEmptyArray';
 export * from './isNull';
 export * from './isPropertyKey';
 export * from './isRecord';
+export * from './isNullable';
+export * from './isNonNullable';
 export * from './isTrue';
 export * from './isTypeBoolean';
 export * from './isTypeFunction';
@@ -41,6 +45,8 @@ export * from './matchTypeIn';
 export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
 export type {
+	AnyPrimitive,
+	CombineType,
 	IterableTypeGuard,
 	TypeGuard,
 	GuardType,

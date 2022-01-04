@@ -1,13 +1,20 @@
 import { expectType } from 'tsd';
 
 import {
+	excludeGuard,
+	excludeNonNullable,
+	excludeUndefined,
+	fixExclude,
+	fixGuard,
 	guardAll,
 	guardAllIn,
 	guardArrayValues,
 	guardOption,
 	hookGuard,
+	isNonNullable,
 	isNull,
 	isTypeString,
+	isUndefined,
 	logGuard,
 	match,
 	matches,
@@ -266,3 +273,35 @@ if (guardAllNoConst(unknownNull)) {
 if (justNull === 'fwe') {
 	expectType<never>(justNull);
 }
+
+/** Excluding */
+const nullableOnly = excludeGuard(
+	fixGuard<
+		typeof testArrWithNull[number],
+		NonNullable<typeof testArrWithNull[number]>
+	>(isNonNullable)
+);
+const undefinedOnly = excludeGuard(
+	fixExclude<typeof testArrWithNull[number], undefined>(
+		negateGuard(isUndefined)
+	)
+);
+
+const testArrWithNull = ['fe', undefined, 'few', 'few', null] as const;
+
+const noUndefined = excludeUndefined(testArrWithNull);
+expectType<readonly ['fe', 'few', 'few', null]>(noUndefined);
+
+const noNullAndUndefinedR = excludeNonNullable(testArrWithNull);
+expectType<readonly ['fe', 'few', 'few']>(noNullAndUndefinedR);
+
+const nullOnlyR = nullableOnly(testArrWithNull);
+expectType<readonly [undefined, null]>(nullOnlyR);
+
+const undefinedOnlyR = undefinedOnly(testArrWithNull);
+expectType<readonly [undefined]>(undefinedOnlyR);
+
+const someGuards = [isFoo, undefined, isTypeString] as const;
+
+const noUndefinedGuards = excludeUndefined(someGuards);
+expectType<readonly [typeof isFoo, typeof isTypeString]>(noUndefinedGuards);

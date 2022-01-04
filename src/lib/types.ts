@@ -80,11 +80,11 @@ type CombineType<
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
-type IterableTypeGuard<Value, Predicate> = (
+type IterableTypeGuard<Value, Result> = (
 	value: Value,
 	i: number,
 	values: readonly Value[]
-) => value is Predicate extends Value ? Predicate : never;
+) => value is Result extends Value ? Result : never;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
@@ -104,38 +104,13 @@ type TypeGuardFn<Result> = <
 	value: Result extends Value ? Value : Result
 ) => value is Predicate;
 
-/** Excludes a type from a array while preserving const order
- *  @example
- * ```ts
- * guardAllIn(
- * 	 guards.filter(
- * 		<Value>(val: Value): val is Exclude<Value, undefined> => val !== undefined
- * 	 ) as unknown as ExcludeFromTuple<typeof guards, undefined>
- * );
- * ```
- */
-type ExcludeFromTuple<
-	Arr extends readonly unknown[],
-	Filter,
-	Result = readonly []
-> = Arr extends readonly []
-	? Result
-	: Arr extends readonly [infer Head, ...infer Tail]
-	? Head extends Filter
-		? ExcludeFromTuple<Tail, Filter, Result>
-		: ExcludeFromTuple<
-				Tail,
-				Filter,
-				Result extends readonly unknown[]
-					? readonly [...Result, Head]
-					: readonly [Head]
-		  >
-	: Result;
+type AnyPrimitive = undefined | null | number | string | symbol | boolean;
 
 /**
  * Given an array of Types Guards, will return a new array of Type Guards where the returned Guard Type value is piped to the arguments of the next function.
  */
 export type {
+	AnyPrimitive,
 	TypeGuardFn,
 	IterableTypeGuard,
 	TypeGuard,
@@ -144,5 +119,4 @@ export type {
 	AnyTypeGuard,
 	CombineType,
 	CombineGuardType,
-	ExcludeFromTuple,
 };

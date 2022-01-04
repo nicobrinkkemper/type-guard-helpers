@@ -1,4 +1,4 @@
-import type { AnyTypeGuard, TypeGuard } from './types';
+import type { TypeGuard } from './types';
 /**
  * Negates the output of any given Type Guard and types accordingly using Exclude.
  * @example
@@ -17,6 +17,6 @@ const negateGuard =
 		value: Value,
 		...args: readonly unknown[]
 	): value is Exclude<Value, Result> =>
-		!(guard as AnyTypeGuard)(value, ...args);
+		!guard(value, ...args);
 
 export { negateGuard };

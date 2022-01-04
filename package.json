@@ -32,7 +32,7 @@
     "cov:send": "run-s cov:lcov && codecov",
     "cov:check": "nyc report && nyc check-coverage --lines 95 --functions 80 --branches 70",
     "doc": "run-s doc:html && open-cli build/docs/index.html",
-    "doc:html": "typedoc src/ --exclude src/spec/ --out build/docs --listInvalidSymbolLinks --logLevel Verbose --tsconfig ./tsconfig.json --excludeNotDocumented",
+    "doc:html": "typedoc src/ --exclude src/spec/ --out build/docs --logLevel Verbose --tsconfig ./tsconfig.json --excludeNotDocumented",
     "doc:json": "typedoc src/ --exclude src/spec/ --json build/docs/typedoc.json --readme ./README.md  --tsconfig ./tsconfig.json --excludeNotDocumented",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
