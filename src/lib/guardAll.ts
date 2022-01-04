@@ -1,5 +1,5 @@
 import { guardAllIn } from './guardAllIn';
-import type { CombineType, ExcludeFromTuple, TypeGuard } from './types';
+import type { AnyTypeGuard, CombineType, TypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard that checks if the given value matches all given Type Guards.
@@ -19,8 +19,8 @@ import type { CombineType, ExcludeFromTuple, TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  *  */
-const guardAll: <Param, A, B, C, D, E, F, G, H, I, J, K>(
-	guard1?: TypeGuard<Param, A>,
+function guardAll<Param, A, B, C, D, E, F, G, H, I, J, K>(
+	guard1: TypeGuard<Param, A>,
 	guard2?: TypeGuard<A, B>,
 	guard3?: TypeGuard<B, C>,
 	guard5?: TypeGuard<C, D>,
@@ -32,17 +32,14 @@ const guardAll: <Param, A, B, C, D, E, F, G, H, I, J, K>(
 	guard11?: TypeGuard<I, J>,
 	guard12?: TypeGuard<J, K>,
 	...guards: ReadonlyArray<TypeGuard<K, K>>
-) => <
+): <
 	Value,
 	Result extends CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
 >(
 	value: Result extends Value ? Value : Result
-) => value is Result extends Value ? Result : never = (...guards) =>
-	guardAllIn(
-		guards.filter(
-			<Value>(val: Value): val is Exclude<Value, undefined> =>
-				typeof val !== 'undefined'
-		) as unknown as ExcludeFromTuple<typeof guards, undefined>
-	);
+) => value is Result extends Value ? Result : never;
+function guardAll<Guards extends readonly AnyTypeGuard[]>(...guards: Guards) {
+	return guardAllIn(guards);
+}
 
 export { guardAll };
