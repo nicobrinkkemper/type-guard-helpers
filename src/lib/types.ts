@@ -105,15 +105,9 @@ type TypeGuardFn<Result> = <
 ) => value is Predicate;
 
 /**
- * Any primitive that would work with a strictly equal operator === or match function
- */
-type AnyPrimitive = undefined | null | number | string | symbol | boolean;
-
-/**
  * Given an array of Types Guards, will return a new array of Type Guards where the returned Guard Type value is piped to the arguments of the next function.
  */
 export type {
-	AnyPrimitive,
 	TypeGuardFn,
 	IterableTypeGuard,
 	TypeGuard,

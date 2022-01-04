@@ -1,5 +1,8 @@
 import { matchIn } from './matchIn';
-import type { AnyPrimitive } from './types';
+/**
+ * Any primitive that would work with a strictly equal operator === or match function
+ */
+type AnyPrimitive = undefined | null | number | string | symbol | boolean;
 
 type MatchesFn<Subject = AnyPrimitive> = <
 	Primitives extends readonly Subject[]
