@@ -24,19 +24,19 @@ import type { AnyTypeGuard, GuardType } from './types';
 const matchPartialSchema =
 	<
 		Schema extends {
-			readonly [k in PropertyKey]: AnyTypeGuard<unknown, unknown>;
+			readonly [k in string]: AnyTypeGuard<unknown, unknown>;
 		}
 	>(
 		schema: Schema
 	) =>
 	<
 		Value,
-		Predicate = {
+		Result = {
 			readonly [k in keyof Schema]?: GuardType<Schema[k]>;
 		}
 	>(
 		value: Value
-	): value is Predicate extends Value ? Predicate : never =>
+	): value is Result extends Value ? Result : never =>
 		isRecord(value) &&
 		Object.entries(schema).findIndex(
 			([key, guard]) => value[key] !== undefined && !guard(value[key])

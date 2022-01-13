@@ -29,16 +29,21 @@ import type { AnyTypeGuard, GuardType } from './types';
 const matchSchema =
 	<
 		Schema extends {
-			readonly [k: PropertyKey]: AnyTypeGuard;
+			readonly [k: string]: AnyTypeGuard<unknown, unknown>;
 		}
 	>(
 		schema: Schema
 	) =>
-	(
-		value: unknown
-	): value is { readonly [k in keyof Schema]: GuardType<Schema[k]> } =>
+	<
+		Value,
+		Result extends { readonly [k in keyof Schema]: GuardType<Schema[k]> }
+	>(
+		value: Result extends Value ? Value : Result
+	): value is Result extends Value ? Result : never =>
 		isRecord(value) &&
-		Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
-			-1;
+		Object.entries(schema).findIndex(
+			([key, guard]: readonly [keyof Schema, AnyTypeGuard<unknown, unknown>]) =>
+				!guard(value[key])
+		) === -1;
 
 export { matchSchema };

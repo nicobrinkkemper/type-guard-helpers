@@ -21,10 +21,10 @@ import type { IterableTypeGuard } from './types';
  * @category Type Guard Composer
  */
 const guardArrayValues =
-	<Param, A, Result extends readonly A[]>(guard: IterableTypeGuard<Param, A>) =>
-	<Value, Predicate extends Result extends Value ? Result : never>(
-		value: Result extends Value ? Value : Result
-	): value is Predicate =>
+	<Param, A>(guard: IterableTypeGuard<Param, A>) =>
+	<Value>(
+		value: Value
+	): value is readonly A[] extends Value ? readonly A[] : never =>
 		Array.isArray(value) && value.findIndex(negateGuard(guard)) === -1;
 
 export { guardArrayValues };

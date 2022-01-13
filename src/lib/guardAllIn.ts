@@ -1,11 +1,39 @@
-import type { AnyTypeGuard, CombineGuardType } from './types';
+import type { AnyTypeGuard, DeepGuardType } from './types';
 
+function guardAllIn<
+	Guards extends readonly [
+		AnyTypeGuard<Param, A>?,
+		AnyTypeGuard<A, B>?,
+		AnyTypeGuard<B, C>?,
+		AnyTypeGuard<C, D>?,
+		AnyTypeGuard<D, E>?,
+		...(readonly AnyTypeGuard<E, F>[])
+	],
+	Param extends unknown = Guards[0] extends (
+		val: infer X,
+		...args: readonly unknown[]
+	) => val is never
+		? X extends never
+			? unknown
+			: X
+		: unknown,
+	A = Guards[0] extends undefined ? unknown : DeepGuardType<Guards[0]>,
+	B = Guards[1] extends undefined ? A : DeepGuardType<Guards[1]>,
+	C = Guards[2] extends undefined ? B : DeepGuardType<Guards[2]>,
+	D = Guards[3] extends undefined ? C : DeepGuardType<Guards[3]>,
+	E = Guards[4] extends undefined ? D : DeepGuardType<Guards[4]>,
+	F = Guards[5] extends undefined ? E : DeepGuardType<Guards[5]>
+>(
+	guards: Guards
+): <Value extends Param, Result extends E & Param & A & B & C & D>(
+	value: Result extends Value ? Value : Result
+) => value is Result extends Value ? Result : never;
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard that checks if the given value matches all given Type Guards.
  *
  * @example
  * ```ts
- * import { guardAll,  match, matchSchema } from 'type-guard-helpers';
+ * import { guardAllIn,  match, matchSchema } from 'type-guard-helpers';
  * const isFooBar = guardAllIn([
  *     matchSchema({ foo: match'foo') }),
  *     matchSchema({ bar: match'bar') })
@@ -13,11 +41,10 @@ import type { AnyTypeGuard, CombineGuardType } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardAllIn =
-	<Guards extends readonly AnyTypeGuard[]>(guards: Guards) =>
-	<Value, Result extends CombineGuardType<Guards>>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
-		guards.findIndex((guard) => !guard(value)) === -1;
+function guardAllIn<Guards extends readonly AnyTypeGuard[]>(guards: Guards) {
+	return function guardAllInArr<Value>(value: Value): value is never {
+		return guards.findIndex((guard) => !guard(value as never)) === -1;
+	};
+}
 
 export { guardAllIn };

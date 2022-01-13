@@ -3,9 +3,9 @@
  *
  * @category Type Guard
  */
-const isNonEmptyArray = (
-	value: unknown
-): value is readonly [unknown, ...(readonly unknown[])] =>
+const isNonEmptyArray = <Value>(
+	value: Value
+): value is Value extends readonly unknown[] ? Value : never =>
 	Array.isArray(value) && value.length > 0;
 
 export { isNonEmptyArray };

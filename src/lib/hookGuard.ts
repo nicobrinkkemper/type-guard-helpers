@@ -18,7 +18,7 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category Type Guard Debugger
  */
-const hookGuard = <Guard extends AnyTypeGuard>(
+const hookGuard = <Guard extends AnyTypeGuard<unknown, unknown>>(
 	guard: Guard,
 	before?: (beforeResult: {
 		readonly value: unknown;

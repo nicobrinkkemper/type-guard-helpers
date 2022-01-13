@@ -29,7 +29,7 @@ import type { AnyTypeGuard, GuardType } from './types';
 const matchExactSchema =
 	<
 		Schema extends {
-			readonly [k in PropertyKey]: AnyTypeGuard<unknown, unknown>;
+			readonly [k in string]: AnyTypeGuard<unknown, unknown>;
 		}
 	>(
 		schema: Schema

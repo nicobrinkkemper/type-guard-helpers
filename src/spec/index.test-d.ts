@@ -123,8 +123,8 @@ if (isFooBarGuardAll(unknownFoobar)) {
 
 // Advanced dummy cases
 const isFooArray = guardAll(
-	negateGuard(matchType('undefined')),
-	negateGuard(matchType('string')),
+	fixExclude<unknown, undefined>(negateGuard(matchType('undefined'))),
+	fixExclude<unknown, string>(negateGuard(matchType('string'))),
 	guardArrayValues(startsWithFoo)
 );
 if (isFooArray(test)) {
@@ -160,7 +160,16 @@ const isFooGuards = [
 // guardAll
 const guardAllGivenSpread = guardAll(...isFooGuards);
 const guardAllGivenInline = guardAll(isFooGuards[0], isFooGuards[1]);
-const guardAllGivenArray = guardAllIn(isFooGuards);
+const guardAllGivenArray = guardAllIn([
+	(val: unknown): val is string => {
+		expectType<unknown>(val);
+		return typeof val === 'string';
+	},
+	(val: string): val is `foo` => {
+		expectType<string>(val);
+		return val === 'foo';
+	},
+]);
 
 if (guardAllGivenInline(unknownFoobar)) {
 	expectType<'foo'>(unknownFoobar);
@@ -260,11 +269,19 @@ if (wrappedNegatedGuard(fooOrBar)) {
 	expectType<'bar' | 'foo'>(fooOrBar);
 }
 
-const guardAllNoConst = guardAllIn(<const>[
-	(hi: unknown): hi is string => typeof hi === 'string',
-	(hi: string): hi is 'foo' => hi === 'foo',
+const guardAllot = guardAllIn([
+	(val1: unknown): val1 is string => typeof val1 === 'string',
+	(val2: string): val2 is `foo${string}` => val2.startsWith('foo'),
+	(val3: `foo${string}`): val3 is 'foobar' => val3 === 'foobar',
 ]);
+if (guardAllot(test)) {
+	expectType<'foobar'>(test);
+}
 
+const guardAllNoConst = guardAllIn([
+	(val1: unknown): val1 is string => typeof val1 === 'string',
+	(val2: string): val2 is 'foo' => val2 === 'foo',
+]);
 const justNull = null;
 const unknownNull: unknown = null; // remove unknown and see error below
 if (guardAllNoConst(unknownNull)) {
@@ -306,10 +323,6 @@ const someGuards = [isFoo, undefined, isTypeString] as const;
 
 const noUndefinedGuards = excludeUndefined(someGuards);
 expectType<readonly [typeof isFoo, typeof isTypeString]>(noUndefinedGuards);
-
-/**
- *
- */
 
 const isTranslation = guardRecord(
 	(val): val is { readonly translation: string } =>

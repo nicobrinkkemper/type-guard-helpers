@@ -39,9 +39,9 @@ type MatchType<Type> = Type extends 'boolean'
  */
 const matchType =
 	<T extends MatchableTypes, A extends MatchType<T>>(type: T) =>
-	<Value, Predicate extends A extends Value ? A : never>(
-		value: A extends Value ? Value : A
-	): value is Predicate =>
+	<Value, Result extends A>(
+		value: Result extends Value ? Value : Result
+	): value is Result extends Value ? Result : never =>
 		typeof value === type;
 
 export { matchType, MatchType, MatchableTypes };

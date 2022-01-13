@@ -9,7 +9,7 @@ test('Should return false when specified values are not present', (t) => {
 			foo: (value: unknown): value is 'foo' => value === 'foo',
 		})({
 			bar: 'not checked',
-		}),
+		} as unknown),
 		false
 	);
 });
@@ -32,7 +32,7 @@ test('Should return true with additional unspecified values', (t) => {
 		})({
 			foo: 'foo',
 			bar: 'not checked, but ok',
-		}),
+		} as unknown),
 		true
 	);
 });
@@ -61,7 +61,7 @@ test('Should not fail if a guard allows undefined and the key is not set', (t) =
 			foo: isTypeUndefined,
 		})({
 			bar: 'bar',
-		}),
+		} as unknown),
 		true
 	);
 });

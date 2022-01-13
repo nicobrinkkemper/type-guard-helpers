@@ -51,5 +51,4 @@ export type {
 	GuardType,
 	AnyTypeGuard,
 	CombineGuardType,
-	AnyIterableTypeGuard,
 } from './types';

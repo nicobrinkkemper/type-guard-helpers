@@ -4,7 +4,7 @@ import { isTypeString, matchArray, matchSchema } from '../lib';
 
 const isRecord = matchSchema({
 	foo: isTypeString,
-	foobar: matchArray(['foo', 'bar'] as const),
+	foobar: matchArray(['foo', 'bar']),
 });
 
 test('Should return true for a matching object', (t) => {
@@ -25,7 +25,7 @@ test('Should return false for anything else', (t) => {
 	t.is(
 		isRecord({
 			foo: '',
-			foobar: ['bar', 'foo'],
+			foobar: ['bar', 'foo'] as unknown,
 		}),
 		false
 	);
