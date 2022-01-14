@@ -2,12 +2,12 @@
 	"compilerOptions": {
 		"incremental": true,
 		"target": "es2017",
-		"outDir": "build/main",
-		"rootDir": "src",
+		"outDir": "build",
+		"rootDir": "./",
 		"moduleResolution": "node",
 		"module": "commonjs",
 		"declaration": true,
-		"inlineSourceMap": false,
+		"inlineSourceMap": true,
 		"esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
 		"resolveJsonModule": true /* Include modules imported with .json extension. */,
 
@@ -41,7 +41,7 @@
 		"types": [],
 		"typeRoots": ["node_modules/@types"]
 	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["node_modules/**"],
+	"include": ["./index.ts", "src/*.ts", "spec/*.ts"],
+	"exclude": ["node_modules/**", "build/**", "lib/**", "module/**"],
 	"compileOnSave": false
 }
