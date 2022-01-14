@@ -15,18 +15,6 @@ npm install type-guard-helpers
 
 > [Official documentation about narrowing in Typescript](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 
-# What these helper functions offer
-
-Full set of predicate functions to validate any variable. Work great within if statements and array methods like `filter`, `find`, etc.
-
-```ts
-import { isUndefined } from 'type-guard-helpers';
-const test = ['a', 'b', undefined, 'c'] as const;
-const result = test.find(isUndefined); // result: undefined
-```
-
-All functions are self checking to a certain degree, meaning that they will try to highlight errors depending on how much is known about the given value.
-
 # Type Guard Basics
 
 A quick introduction to Type Guards in Typescript.
