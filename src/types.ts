@@ -12,9 +12,7 @@ declare type DeepGuardType<Guard> = Guard extends (
 	value: infer X
 ) => value is any
 	? Guard extends (value: X) => value is X & infer Z
-		? Guard extends (value: X) => value is X & Z
-			? Z
-			: GuardType<Guard>
+		? Z
 		: GuardType<Guard>
 	: GuardType<Guard>;
 /**
@@ -31,6 +29,17 @@ declare type GuardType<Guard> = Guard extends (
 ) => value is infer X
 	? X
 	: unknown;
+/**
+ * A type on which Type Guard may extend.
+ * @example
+ * ```ts
+ * <Guard extends AnyTypeGuard>
+ * ```
+ */
+declare type DeepTypeGuard<Value, Result> = (
+	val: Result extends Value ? Value : Result,
+	...args: readonly unknown[]
+) => val is Result extends Value ? Result : never;
 
 /**
  * A type on which Type Guard may extend.
@@ -119,6 +128,7 @@ type AnyPrimitive = undefined | null | number | string | symbol | boolean;
  * Given an array of Type Guards, will return a new array of Type Guards where the returned Guard Type value is piped to the arguments of the next function.
  */
 export type {
+	DeepTypeGuard,
 	AnyPrimitive,
 	TypeGuardFn,
 	IterableTypeGuard,

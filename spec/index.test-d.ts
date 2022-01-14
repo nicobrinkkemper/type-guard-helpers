@@ -79,8 +79,20 @@ const isFooObject = matchSchema({
 if (isFooObject(test)) {
 	expectType<{ readonly foo: 'foo'; readonly bar: 'bar' }>(test);
 }
-if (isFooObject(test)) {
-	expectType<{ readonly foo: 'foo'; readonly bar: 'bar' }>(test);
+const wrongFooObjectTest = { bar: 'foo', foo: 'bar' } as const;
+const jimObject = { jim: 'jim' } as const;
+if (isFooObject(wrongFooObjectTest)) {
+	expectType<{
+		readonly foo: never;
+		readonly bar: never;
+	}>(wrongFooObjectTest);
+}
+if (isFooObject(jimObject)) {
+	expectType<{
+		readonly foo: 'foo';
+		readonly bar: 'bar';
+		readonly jim: 'jim';
+	}>(jimObject);
 }
 
 // negateGuard
@@ -346,10 +358,9 @@ if (isTranslation(test)) {
 }
 
 // compose with matchSchema
-const isFooBar = guardAllIn([
-	matchSchema({ foo: match('foo') }),
-	matchSchema({ bar: match('bar') }),
-]);
+const matchFooSchema = matchSchema({ foo: match('foo') });
+const matchBarSchema = matchSchema({ bar: match('bar') });
+const isFooBar = guardAllIn([matchFooSchema, matchBarSchema]);
 
 if (isFooBar(test)) {
 	expectType<
@@ -359,4 +370,8 @@ if (isFooBar(test)) {
 			readonly bar: 'bar';
 		}
 	>(test);
+}
+const testBar = { foo: 'bar' };
+if (matchFooSchema(testBar)) {
+	expectType<{ readonly foo: 'foo' }>(testBar);
 }

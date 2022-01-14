@@ -1,5 +1,5 @@
 import { isRecord } from './isRecord';
-import type { AnyTypeGuard, GuardType } from './types';
+import type { AnyTypeGuard, DeepGuardType } from './types';
 
 /**
  * Given a Schema, returns a Type Guard that checks if the given value is a Partial representation of Schema.
@@ -24,19 +24,22 @@ import type { AnyTypeGuard, GuardType } from './types';
 const matchPartialSchema =
 	<
 		Schema extends {
-			readonly [k in string]: AnyTypeGuard<unknown, unknown>;
+			readonly [k in string]: AnyTypeGuard;
+		},
+		A = {
+			readonly [k in keyof Schema]?: DeepGuardType<Schema[k]>;
 		}
 	>(
 		schema: Schema
 	) =>
 	<
 		Value,
-		Result = {
-			readonly [k in keyof Schema]?: GuardType<Schema[k]>;
+		Result extends {
+			readonly [k in keyof (Value & A)]: (Value & A)[k];
 		}
 	>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
+		value: Value
+	): value is Result =>
 		isRecord(value) &&
 		Object.entries(schema).findIndex(
 			([key, guard]) => value[key] !== undefined && !guard(value[key])

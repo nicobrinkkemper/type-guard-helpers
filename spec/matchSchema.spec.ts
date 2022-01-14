@@ -71,7 +71,7 @@ test('Should fail if a guard allows undefined and the key IS set', (t) => {
 			foo: isTypeUndefined,
 		})({
 			foo: 'bar',
-		}),
+		} as unknown),
 		false
 	);
 });

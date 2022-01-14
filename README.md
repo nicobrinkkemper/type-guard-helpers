@@ -21,7 +21,11 @@ Full set of predicate functions to validate any variable. Work great within if s
 
 ```ts
 import { isUndefined } from 'type-guard-helpers';
+const test = ['a', 'b', undefined, 'c'] as const;
+const result = test.find(isUndefined); // result: undefined
 ```
+
+All functions are self checking to a certain degree, meaning that they will try to highlight errors depending on how much is known about the given value.
 
 # Type Guard Basics
 
