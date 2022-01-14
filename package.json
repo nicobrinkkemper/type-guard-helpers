@@ -9,7 +9,8 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "build": "run-s build:*",
+    "clean": "rm -rf build lib module tsconfig.lib.tsbuildinfo tsconfig.module.tsbuildinfo",
+    "build": "run-s clean build:*",
     "build:lib": "tsc -p tsconfig.lib.json",
     "build:spec": "tsc -p tsconfig.spec.json",
     "build:module": "tsc -p tsconfig.module.json",
