@@ -1,7 +1,7 @@
 {
 	"root": true,
 	"parser": "@typescript-eslint/parser",
-	"parserOptions": { "project": "./tsconfig.json" },
+	"parserOptions": { "project": ["./tsconfig.json", "./tsconfig.spec.json"] },
 	"env": { "es6": true },
 	"ignorePatterns": ["node_modules", "build", "coverage"],
 	"plugins": ["@typescript-eslint", "import", "eslint-comments", "functional"],
