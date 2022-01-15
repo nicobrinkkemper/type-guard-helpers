@@ -1,8 +1,8 @@
 import test from 'ava';
 
-import { guardBoth, matchType } from '../src';
-
-import { guardArrayValues } from './guardArrayValues';
+import { guardArrayValues } from '../src/guardArrayValues';
+import { guardBoth } from '../src/guardBoth';
+import { matchType } from '../src/matchType';
 
 const isString = matchType('string');
 test('Should return true for string', (t) => {
