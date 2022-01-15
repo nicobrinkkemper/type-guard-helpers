@@ -72,7 +72,7 @@ type TypeGuard<Value, Result> = (
 /**
  * Given the resulting Type, returns a Type Guard function
  */
-type TypeGuardFn<A, Param = unknown> = <Value extends Param, Result extends A>(
+type TypeGuardFn<A> = <Value, Result extends A>(
 	value: Result extends Value ? Value : Result
 ) => value is Result extends Value ? Result : never;
 

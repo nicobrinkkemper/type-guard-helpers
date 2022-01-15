@@ -69,11 +69,10 @@ if (isResponse(test)) {
 ## Composing guards
 
 ```ts
-
 const isFooBar = guardAll(
-	(value): value is string = typeof value === 'string',
-	(value): value is `foo${string}` = value.startsWith('foo'),
-	(value): value is `foobar` = value === 'foobar'
+	(value): value is string => typeof value === 'string',
+	(value): value is `foo${string}` => value.startsWith('foo'),
+	(value): value is `foobar` => value === 'foobar'
 );
 
 if (isFooBar(test)) {

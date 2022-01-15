@@ -20,6 +20,6 @@ const guardEitherIn =
 	<Value, Result extends DeepGuardType<Guards[number]>>(
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
-		guards.findIndex((guard) => guard(value as never)) !== -1;
+		guards.findIndex((guard) => guard(value)) !== -1;
 
 export { guardEitherIn };

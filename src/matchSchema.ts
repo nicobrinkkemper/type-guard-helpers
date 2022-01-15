@@ -49,8 +49,7 @@ const matchSchema =
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
 		isRecord(value) &&
-		Object.entries(schema).findIndex(
-			([key, guard]) => !guard(value[key] as never)
-		) === -1;
+		Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
+			-1;
 
 export { matchSchema };

@@ -12,9 +12,19 @@ if (isRecord(test)) {
 		readonly [x: string]: unknown;
 	}>(test);
 }
-// compose with matchSchema
-const matchFooSchema = matchSchema({ foo: match('foo') });
-const matchBarSchema = matchSchema({ bar: match('bar') });
+// Readme example
+const foo = match('foo');
+const bar = match('bar');
+const matchFooSchema = matchSchema({ foo });
+const matchBarSchema = matchSchema({ bar });
+const isFooBar = guardAll(matchFooSchema, matchBarSchema);
+if (isFooBar(test)) {
+	expectType<{
+		readonly foo: 'foo';
+		readonly bar: 'bar';
+	}>(test);
+}
+
 const isFooBarArray = guardAllIn([isRecord, matchFooSchema, matchBarSchema]);
 const isFooBarInferred = guardAll(isRecord, matchFooSchema, matchBarSchema);
 const isFooBarInline = guardAll(

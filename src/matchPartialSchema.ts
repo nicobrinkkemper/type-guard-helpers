@@ -50,7 +50,7 @@ const matchPartialSchema =
 	): value is Result extends Value ? Result : never =>
 		isPartial(value) &&
 		Object.entries(schema).findIndex(
-			([key, guard]) => key in value && !guard(value[key] as never)
+			([key, guard]) => key in value && !guard(value[key])
 		) === -1;
 
 export { matchPartialSchema };

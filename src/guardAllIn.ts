@@ -37,13 +37,13 @@ function guardAllIn<
  * @category Type Guard Composer
  */
 function guardAllIn<Guards extends readonly AnyTypeGuard[]>(guards: Guards) {
-	return function guardAllInArr<
+	return function _guardAllIn<
 		Value extends Parameters<NonNullable<Guards[0]>>[0],
 		Result extends GuardTypes<Guards>
 	>(
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never {
-		return guards.findIndex((guard) => !guard(value as never)) === -1;
+		return guards.findIndex((guard) => !guard(value)) === -1;
 	};
 }
 

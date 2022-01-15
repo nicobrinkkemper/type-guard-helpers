@@ -353,7 +353,6 @@ if (isTranslation(testTranslation)) {
 
 if (isTranslation(test)) {
 	expectType<{
-		readonly [x: string]: unknown;
 		readonly translation: string;
 	}>(test);
 }

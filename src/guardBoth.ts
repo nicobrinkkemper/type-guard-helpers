@@ -1,4 +1,4 @@
-import type { CombineType, TypeGuard } from './types';
+import type { TypeGuard } from './types';
 
 /**
  * Given two Type Guards as arguments, returns a Type Guard that checks if the given value matches both given Type Guards.
@@ -17,14 +17,11 @@ import type { CombineType, TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  *  */
-function guardBoth<Param, A, B>(
+function guardBoth<Param, A extends Param, B extends A>(
 	guard1: TypeGuard<Param, A>,
 	guard2: TypeGuard<A, B>
 ) {
-	return <
-		Value extends Param,
-		Result extends CombineType<readonly [Param, A, B]>
-	>(
+	return <Value extends Param, Result extends B>(
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
 		guard1(value) && guard2(value);
