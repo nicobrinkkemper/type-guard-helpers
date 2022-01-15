@@ -84,10 +84,23 @@ if (isPartialFooBar(test)) {
 
 The difference between `matchSchema` and `matchExactSchema` is that the latter will also check that there are no unknown keys in the value. Since unknown sources of data are likely to change, it might not be wise to fail when encountering unknown keys.
 
+A benefit to not caring about unknown keys is that you can use it to duck-type objects:
+
+```ts
+const foo = match('foo');
+const bar = match('bar');
+const matchFooSchema = matchSchema({ foo });
+const matchBarSchema = matchSchema({ bar });
+const isFooBar = guardAll(matchFooSchema, matchBarSchema);
+if (isFooBar(test)) {
+	test; // { readonly foo: "foo"; readonly bar: "bar"; }
+}
+```
+
 ## Match arrays
 
 ```ts
-const isStringArray = guardArray(isTypeString);
+const isStringArray = guardArrayValues(isTypeString);
 const isRGB = matchArray(['red', 'green', 'blue']);
 if (isStringArray(test)) {
 	test; // readonly string[]

@@ -15,7 +15,7 @@ test('Should return true for things that start with foo', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-	t.is(isBar(['oo']), false);
+	t.is(isBar(['oo'] as unknown), false);
 	t.is(isBar('foo'), false);
-	t.is(isBar(null), false);
+	t.is(isBar(null as unknown), false);
 });

@@ -14,7 +14,7 @@ test('Should return true for objects with translations', (t) => {
 	});
 	t.is(isTranslation({ translation: '' as unknown }), true);
 	t.is(isTranslation({ translation: 'true', someOtherThing: 'yes' }), true);
-	t.is(isTranslation(strObj), true);
+	t.is(isTranslation(strObj as unknown), true);
 });
 
 test('Should return true for translations', (t) => {
@@ -25,5 +25,5 @@ test('Should return true for translations', (t) => {
 	t.is(isTranslation({ translation: true as unknown }), false);
 	t.is(isTranslation(false as unknown), false);
 	t.is(isTranslation(null as unknown), false);
-	t.is(isTranslation(fnObj), false);
+	t.is(isTranslation(fnObj as unknown), false);
 });

@@ -3,6 +3,8 @@
 /build
 /lib
 /module
+tsconfig.lib.tsbuildinfo
+tsconfig.module.tsbuildinfo
 node_modules
 src/**.js
 coverage

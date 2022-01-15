@@ -81,10 +81,10 @@ if (isFooObject(test)) {
 }
 const wrongFooObjectTest = { bar: 'foo', foo: 'bar' } as const;
 const jimObject = { jim: 'jim' } as const;
-if (isFooObject(wrongFooObjectTest)) {
+if (isFooObject(wrongFooObjectTest as unknown)) {
 	expectType<{
-		readonly foo: never;
-		readonly bar: never;
+		readonly bar: 'foo';
+		readonly foo: 'bar';
 	}>(wrongFooObjectTest);
 }
 if (isFooObject(jimObject)) {
@@ -355,23 +355,4 @@ if (isTranslation(test)) {
 	expectType<{
 		readonly translation: string;
 	}>(test);
-}
-
-// compose with matchSchema
-const matchFooSchema = matchSchema({ foo: match('foo') });
-const matchBarSchema = matchSchema({ bar: match('bar') });
-const isFooBar = guardAllIn([matchFooSchema, matchBarSchema]);
-
-if (isFooBar(test)) {
-	expectType<
-		{
-			readonly foo: 'foo';
-		} & {
-			readonly bar: 'bar';
-		}
-	>(test);
-}
-const testBar = { foo: 'bar' };
-if (matchFooSchema(testBar)) {
-	expectType<{ readonly foo: 'foo' }>(testBar);
 }

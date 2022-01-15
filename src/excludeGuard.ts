@@ -13,14 +13,14 @@ import type { TypeGuard } from './types';
  * );
  * ```
  */
-type ExcludeFromTuple<
+type ExcludeGuard<
 	Arr extends readonly unknown[],
 	Filter,
 	Result extends readonly unknown[] = readonly []
 > = Arr extends readonly []
 	? Result
 	: Required<Arr> extends readonly [infer Head, ...infer Tail]
-	? ExcludeFromTuple<
+	? ExcludeGuard<
 			Tail,
 			Filter,
 			Head extends Filter ? Result : readonly [...Result, Head]
@@ -32,7 +32,7 @@ type ExcludeFromTuple<
 type ExcludeGuardFn = <Param extends unknown, Result>(
 	guard: TypeGuard<Param, Result>
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-) => <A extends readonly any[]>(arr: A) => ExcludeFromTuple<A, Result>;
+) => <A extends readonly any[]>(arr: A) => ExcludeGuard<A, Result>;
 
 const excludeGuard: ExcludeGuardFn = (guard) => (arr) =>
 	arr.filter(guard) as never;
@@ -46,5 +46,5 @@ export {
 	excludeNonNullable,
 	excludeUndefined,
 	excludeNull,
-	ExcludeFromTuple,
+	ExcludeGuard,
 };

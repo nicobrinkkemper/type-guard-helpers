@@ -1,5 +1,6 @@
 import { guardEitherIn } from './guardEitherIn';
-import type { TypeGuard } from './types';
+
+import type { AnyTypeGuard } from '.';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
@@ -7,8 +8,8 @@ import type { TypeGuard } from './types';
  *
  * @example
  * ```ts
- * import { isNull,  match, isEither } from 'type-guard-helpers';
- * const isStringOrNull = isEither(isNull, isString);
+ * import { isNull,  match, guardEither, isTypeString } from 'type-guard-helpers';
+ * const isStringOrNull = guardEither(isNull, isTypeString);
  * const test = {} as unknown;
  * if (isStringOrNull(test)) {
  *   test; // string || null
@@ -16,7 +17,8 @@ import type { TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardEither = <A>(...guards: readonly TypeGuard<unknown, A>[]) =>
-	guardEitherIn(guards);
+const guardEither = <Guards extends readonly AnyTypeGuard[]>(
+	...guards: readonly [...Guards]
+) => guardEitherIn(guards);
 
 export { guardEither };

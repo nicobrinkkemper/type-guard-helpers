@@ -1,4 +1,4 @@
-import { guardArray } from './guardArray';
+import { guardBoth } from './guardBoth';
 import { isNonEmptyArray } from './isNonEmptyArray';
 import type { TypeGuard } from './types';
 
@@ -13,19 +13,12 @@ import type { TypeGuard } from './types';
  * const test = [] as unknown
  * const isStringArray = guardNonEmptyArray(isString)
  * if(isStringArray(test)){
- *    test; // test: readonly [string, ...string[]]
+ *    test; // test: readonly string[]
  * }
  * ```
  * @category | Type Guard Creator
  */
-const guardNonEmptyArray = <Param extends readonly unknown[], A>(
-	guard: TypeGuard<readonly [...Param], A>
-) => {
-	const isValid = guardArray(guard);
-	return <Value extends readonly [...Param]>(
-		value: Value
-	): value is A extends Value ? A : never =>
-		isNonEmptyArray(value) && isValid(value);
-};
-
+const guardNonEmptyArray = <A extends readonly unknown[]>(
+	guard: TypeGuard<readonly unknown[], A>
+) => guardBoth(isNonEmptyArray, guard);
 export { guardNonEmptyArray };

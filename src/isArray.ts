@@ -1,15 +1,10 @@
+import type { TypeGuardFn } from './types';
+
 /**
  * A Type Guard that checks if the given value is an array
  *
  * @category Type Guard
  */
-const isArray = Array.isArray as <
-	Value,
-	Predicate extends readonly unknown[] extends Value
-		? readonly unknown[]
-		: never
->(
-	value: Value
-) => value is Predicate;
+const isArray = Array.isArray as TypeGuardFn<readonly unknown[]>;
 
 export { isArray };

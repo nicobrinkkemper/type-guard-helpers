@@ -21,7 +21,7 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category Type Guard Debugger
  */
-const logGuard = <Guard extends AnyTypeGuard<unknown, unknown>>(
+const logGuard = <Guard extends AnyTypeGuard>(
 	guard: Guard,
 	before = ({
 		value,

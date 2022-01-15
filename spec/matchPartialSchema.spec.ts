@@ -9,7 +9,7 @@ test('Should return true when specified values are not present', (t) => {
 			foo: (value: unknown): value is 'foo' => value === 'foo',
 		})({
 			bar: 'not checked',
-		}),
+		} as unknown),
 		true
 	);
 });
@@ -20,7 +20,7 @@ test('Should return false when specified values are not correct', (t) => {
 			foo: (value: unknown): value is 'foo' => value === 'foo',
 		})({
 			foo: 'bad',
-		}),
+		} as unknown),
 		false
 	);
 });

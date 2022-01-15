@@ -3,7 +3,7 @@
 		"incremental": true,
 		"target": "es2017",
 		"outDir": "build",
-		"rootDirs": ["./src", "./spec"],
+		"rootDirs": ["./src/", "./spec/"],
 		"moduleResolution": "node",
 		"module": "commonjs",
 		"declaration": true,
