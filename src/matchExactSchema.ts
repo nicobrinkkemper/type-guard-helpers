@@ -29,17 +29,17 @@ import type { AnyTypeGuard, GuardType } from './types';
 const matchExactSchema =
 	<
 		Schema extends {
-			readonly [k in string]: AnyTypeGuard;
-		}
+			readonly [k in string]: AnyTypeGuard<Param, B>;
+		},
+		A extends {
+			readonly [k in keyof Schema]: GuardType<Schema[k]>;
+		},
+		Param,
+		B
 	>(
 		schema: Schema
 	) =>
-	<
-		Value,
-		Result extends {
-			readonly [k in keyof Schema]: GuardType<Schema[k]>;
-		}
-	>(
+	<Value, Result extends A>(
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
 		isRecord(value) &&

@@ -1,5 +1,6 @@
 export * from './guardAll';
 export * from './guardAllIn';
+export * from './guardBoth';
 export * from './guardArray';
 export * from './guardEither';
 export * from './guardEitherIn';
@@ -19,6 +20,7 @@ export * from './isNonEmptyArray';
 export * from './isNull';
 export * from './isPropertyKey';
 export * from './isRecord';
+export * from './isPartial';
 export * from './isNullable';
 export * from './isNonNullable';
 export * from './isTrue';
@@ -44,6 +46,8 @@ export * from './matchTypeIn';
 export * from './matchTypes';
 export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
+export type { FilterGuard } from './filterGuard';
+export type { ExcludeGuard } from './excludeGuard';
 export type {
 	AnyPrimitive,
 	TypeGuardFn,

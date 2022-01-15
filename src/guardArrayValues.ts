@@ -21,8 +21,14 @@ import type { IterableTypeGuard } from './types';
  * @category Type Guard Composer
  */
 const guardArrayValues =
-	<Param, A>(guard: IterableTypeGuard<Param, A>) =>
-	<Value extends Param, Result extends readonly A[]>(
+	<Param, A, toArray extends readonly A[]>(
+		guard: IterableTypeGuard<Param, A>
+	) =>
+	<
+		Value,
+		Merged extends Value & toArray,
+		Result extends Merged extends never ? toArray : Merged
+	>(
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
 		Array.isArray(value) && value.findIndex(negateGuard(guard)) === -1;

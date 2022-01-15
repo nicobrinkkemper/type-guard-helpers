@@ -19,12 +19,10 @@ import type { TypeGuard } from './types';
  * @category Type Guard Composer
  */
 const guardArray =
-	<Param extends readonly unknown[], A>(
-		guard: TypeGuard<readonly [...Param], A>
-	) =>
-	<Value extends readonly [...Param]>(
-		value: Value
-	): value is A extends Value ? A : never =>
-		Array.isArray(value) && guard(value);
+	<Param extends readonly unknown[], A>(guard: TypeGuard<Param, A>) =>
+	<Value, Result extends Param & Value & A>(
+		value: Result extends Value ? Value : Result
+	): value is Result extends Value ? Result : never =>
+		Array.isArray(value) && guard(value as never);
 
 export { guardArray };

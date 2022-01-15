@@ -28,7 +28,7 @@ declare type GuardType<Guard> = Guard extends (
 	...args: readonly unknown[]
 ) => value is infer X
 	? X
-	: unknown;
+	: never;
 /**
  * A type on which Type Guard may extend.
  * @example
@@ -48,7 +48,7 @@ declare type DeepTypeGuard<Value, Result> = (
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyTypeGuard<Value = any, Result = any> = (
+declare type AnyTypeGuard<Value = unknown, Result = unknown> = (
 	value: Value,
 	...args: readonly any[]
 ) => value is Result extends Value ? Result : never;
@@ -72,7 +72,7 @@ type TypeGuard<Value, Result> = (
 /**
  * Given the resulting Type, returns a Type Guard function
  */
-type TypeGuardFn<A> = <Value, Result extends A>(
+type TypeGuardFn<A, Param = unknown> = <Value extends Param, Result extends A>(
 	value: Result extends Value ? Value : Result
 ) => value is Result extends Value ? Result : never;
 
@@ -84,27 +84,16 @@ type GuardTypes<
 	Result = unknown
 > = Arr extends readonly []
 	? Result
-	: Arr extends readonly [
-			(value: infer Value, ...args: readonly any[]) => value is any,
-			...infer Tail
-	  ]
-	? Arr extends readonly [
-			(value: Value, ...args: readonly any[]) => value is Value & infer Head,
-			...Tail
-	  ]
-		? Arr extends readonly [
-				(value: Value, ...args: readonly any[]) => value is Value & Head,
-				...Tail
-		  ]
-			? GuardTypes<
-					Tail,
-					Result extends Head
-						? Result
-						: Head extends Result
+	: Arr extends readonly [infer HeadGuard, ...infer Tail]
+	? DeepGuardType<HeadGuard> extends infer Head
+		? GuardTypes<
+				Tail,
+				Result extends Head
+					? Head extends Result
 						? Head
-						: Result & Head
-			  >
-			: never
+						: Result
+					: Result & Head
+		  >
 		: never
 	: never;
 
@@ -117,7 +106,10 @@ type CombineType<
 > = Arr extends readonly []
 	? Result
 	: Arr extends readonly [infer Head, ...infer Tail]
-	? CombineType<Tail, Head extends Result ? Head : Result>
+	? CombineType<
+			Tail,
+			Head extends Result ? Head : Result extends Head ? Result : Head & Result
+	  >
 	: never;
 
 /**

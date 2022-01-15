@@ -1,6 +1,5 @@
-import { guardArray } from './guardArray';
+import { guardBoth } from './guardBoth';
 import { isNonEmptyArray } from './isNonEmptyArray';
-import type { TypeGuard } from './types';
 
 /**
  * Enhances a Type Guard so it can be used to check all values of an array.
@@ -18,14 +17,6 @@ import type { TypeGuard } from './types';
  * ```
  * @category | Type Guard Creator
  */
-const guardNonEmptyArray = <Param extends readonly unknown[], A>(
-	guard: TypeGuard<readonly [...Param], A>
-) => {
-	const isValid = guardArray(guard);
-	return <Value extends readonly [...Param]>(
-		value: Value
-	): value is A extends Value ? A : never =>
-		isNonEmptyArray(value) && isValid(value);
-};
+const guardNonEmptyArray = guardBoth.bind(null, isNonEmptyArray);
 
 export { guardNonEmptyArray };

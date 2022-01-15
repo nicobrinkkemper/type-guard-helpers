@@ -20,10 +20,18 @@ import type { TypeGuard } from './types';
  * @category Type Guard Composer
  */
 const guardRecord =
-	<A>(guard: TypeGuard<Record<string, unknown>, A>) =>
-	<Value, Result extends A>(
+	<Param extends Record<string, unknown>, A>(guard: TypeGuard<Param, A>) =>
+	<
+		Value,
+		Merged extends Param & Value & A,
+		Result extends Merged extends never
+			? A
+			: {
+					readonly [k in keyof Merged]: Merged[k];
+			  }
+	>(
 		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
-		isRecord(value) && guard(value);
+		isRecord(value) && guard(value as never);
 
 export { guardRecord };

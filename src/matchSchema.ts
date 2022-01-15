@@ -39,14 +39,18 @@ const matchSchema =
 	) =>
 	<
 		Value,
-		Result extends {
-			readonly [k in keyof A | keyof Value]: (Value & A)[k];
-		}
+		Merged extends Value & A,
+		Result extends Merged extends never
+			? A
+			: {
+					readonly [k in keyof Merged]: Merged[k];
+			  }
 	>(
-		value: Result extends Value ? Value : never
+		value: Result extends Value ? Value : Result
 	): value is Result extends Value ? Result : never =>
 		isRecord(value) &&
-		Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
-			-1;
+		Object.entries(schema).findIndex(
+			([key, guard]) => !guard(value[key] as never)
+		) === -1;
 
 export { matchSchema };

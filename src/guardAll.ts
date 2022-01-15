@@ -34,11 +34,13 @@ function guardAll<Param, A, B, C, D, E, F, G, H, I, J, K>(
 	...guards: ReadonlyArray<TypeGuard<K, K>>
 ): <
 	Value,
-	Result extends Value & CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
+	Result extends CombineType<readonly [A, B, C, D, E, F, G, H, I, J, K]>
 >(
-	value: Value
-) => value is Result;
-function guardAll<Guards extends readonly AnyTypeGuard[]>(...guards: Guards) {
+	value: Result extends Value ? Value : Result
+) => value is Result extends Value ? Result : never;
+function guardAll<Guards extends readonly AnyTypeGuard<never, never>[]>(
+	...guards: Guards
+) {
 	return guardAllIn(guards);
 }
 

@@ -1,22 +1,27 @@
-import { isRecord } from './isRecord';
-import type { AnyTypeGuard, DeepGuardType } from './types';
+import { isPartial } from './isPartial';
+import type { AnyTypeGuard, GuardType } from './types';
 
 /**
- * Given a Schema, returns a Type Guard that checks if the given value is a Partial representation of Schema.
- * A partial representation should at least have the same type, but all entries are optional and there is no check for missing or unknown keys.
+ * Given a Schema, returns a Type Guard that checks that the given value is an object implementing at least all the entries of the Schema.
+ *
+ * The difference between this Type Guard and {@linkcode matchExactSchema} is that this Type Guard will allow additional entries that are
+ * not specified in the Schema. This is usually intended behavior because banning unknown keys would mean you have to implement
+ * a Type Guard for every value, if you don't care about them.
  *
  * @example
  * ```ts
  * import { matchPartialSchema,  match } from 'type-guard-helpers'
+ *
  * const test = {} as unknown
- * const isFoo = matchKey('foo');
- * const isBar = matchKey('bar');
+ * const isFoo =  match('foo');
+ * const isBar =  match('bar');
  * const isFooObject = matchPartialSchema({
  *    foo: isFoo,
- * 		bar: isBar
+ * 		isBar: isBar
  * })
+ *
  * if(isFooObject(test)){
- *    test; // { readonly foo?: "foo" | undefined; readonly bar?: "bar" | undefined; }
+ *    test; // { readonly foo: "foo"; readonly bar: "bar"; }
  * }
  * ```
  * @category Type Guard Creator
@@ -24,25 +29,28 @@ import type { AnyTypeGuard, DeepGuardType } from './types';
 const matchPartialSchema =
 	<
 		Schema extends {
-			readonly [k in string]: AnyTypeGuard;
+			readonly [k: string]: AnyTypeGuard;
 		},
-		A = {
-			readonly [k in keyof Schema]?: DeepGuardType<Schema[k]>;
+		A extends {
+			readonly [k in keyof Schema]?: GuardType<Schema[k]>;
 		}
 	>(
 		schema: Schema
 	) =>
 	<
 		Value,
-		Result extends {
-			readonly [k in keyof (Value & A)]: (Value & A)[k];
-		}
+		Merged extends Value & A,
+		Result extends Merged extends never
+			? A
+			: {
+					readonly [k in keyof Merged]?: Merged[k];
+			  }
 	>(
-		value: Value
-	): value is Result =>
-		isRecord(value) &&
+		value: Result extends Value ? Value : Result
+	): value is Result extends Value ? Result : never =>
+		isPartial(value) &&
 		Object.entries(schema).findIndex(
-			([key, guard]) => value[key] !== undefined && !guard(value[key])
+			([key, guard]) => key in value && !guard(value[key] as never)
 		) === -1;
 
 export { matchPartialSchema };
