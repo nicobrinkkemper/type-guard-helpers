@@ -1,13 +1,11 @@
-import type { AnyPrimitive } from './types';
-
-type MatchInFn<Subject = AnyPrimitive> = <
-	Primitives extends readonly Subject[]
->(
+type MatchInFn<
+	Subject = undefined | null | number | string | symbol | boolean
+> = <Primitives extends readonly Subject[]>(
 	arr: Primitives
 ) => <Value, Result extends Primitives[number]>(
 	value: Result extends Value
 		? Value
-		: Result extends AnyPrimitive
+		: Result extends undefined | null | number | string | symbol | boolean
 		? Result
 		: never
 ) => value is Result extends Value ? Result : never;
@@ -19,7 +17,9 @@ type MatchInFn<Subject = AnyPrimitive> = <
 const matchIn: MatchInFn =
 	(arr) =>
 	(value): value is never =>
-		arr.indexOf(value as AnyPrimitive) !== -1;
+		arr.indexOf(
+			value as undefined | null | number | string | symbol | boolean
+		) !== -1;
 
 /**
  * Given an array of strings, returns a Type Guard that checks if the given value is strictly equal to any of the given strings.

@@ -119,17 +119,11 @@ type CombineType<
 	: Arr extends readonly [infer Head, ...infer Tail]
 	? CombineType<Tail, Head extends Result ? Head : Result>
 	: never;
-
-/**
- * Anything that may be inferred by Typescript as a primitive
- */
-type AnyPrimitive = undefined | null | number | string | symbol | boolean;
 /**
  * Given an array of Type Guards, will return a new array of Type Guards where the returned Guard Type value is piped to the arguments of the next function.
  */
 export type {
 	DeepTypeGuard,
-	AnyPrimitive,
 	TypeGuardFn,
 	IterableTypeGuard,
 	TypeGuard,

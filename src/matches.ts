@@ -1,14 +1,13 @@
 import { matchIn } from './matchIn';
-import type { AnyPrimitive } from './types';
 
-type MatchesFn<Subject = AnyPrimitive> = <
-	Primitives extends readonly Subject[]
->(
+type MatchesFn<
+	Subject = undefined | null | number | string | symbol | boolean
+> = <Primitives extends readonly Subject[]>(
 	...args: Primitives
 ) => <Value, Result extends Primitives[number]>(
 	value: Result extends Value
 		? Value
-		: Result extends AnyPrimitive
+		: Result extends undefined | null | number | string | symbol | boolean
 		? Result
 		: never
 ) => value is Result extends Value ? Result : never;
