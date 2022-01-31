@@ -1,10 +1,9 @@
-import type { AnyPrimitive } from './types';
-
-type MatchFn<Subject = AnyPrimitive> = <Primitive extends Subject>(
-	type: Primitive
-) => <Value, Result extends Primitive>(
-	value: Result extends Value ? Value : Result
-) => value is Result extends Value ? Result : never;
+type MatchFn<Subject = undefined | null | number | string | symbol | boolean> =
+	<Primitive extends Subject>(
+		type: Primitive
+	) => <Value, Result extends Primitive>(
+		value: Result extends Value ? Value : Result
+	) => value is Result extends Value ? Result : never;
 
 /**
  * Given a primitive, returns a Type Guard that checks if the given value is strictly equal to the given argument.

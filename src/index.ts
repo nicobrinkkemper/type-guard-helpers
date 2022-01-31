@@ -45,7 +45,6 @@ export * from './matchTypes';
 export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
 export type {
-	AnyPrimitive,
 	TypeGuardFn,
 	IterableTypeGuard,
 	TypeGuard,
