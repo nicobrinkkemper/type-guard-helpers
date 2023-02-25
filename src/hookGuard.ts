@@ -19,22 +19,22 @@ import type { AnyTypeGuard } from './types';
  * @category Type Guard Debugger
  */
 const hookGuard = <Guard extends AnyTypeGuard>(
-	guard: Guard,
-	before?: (beforeResult: {
-		readonly value: unknown;
-		readonly guard: Guard;
-	}) => unknown,
-	after?: (afterResult: {
-		readonly value: unknown;
-		readonly guard: Guard;
-		readonly result: boolean;
-	}) => unknown
+  guard: Guard,
+  before?: (beforeResult: {
+    readonly value: unknown;
+    readonly guard: Guard;
+  }) => unknown,
+  after?: (afterResult: {
+    readonly value: unknown;
+    readonly guard: Guard;
+    readonly result: boolean;
+  }) => unknown
 ): Guard =>
-	((value: unknown, ...args: readonly unknown[]): value is unknown => {
-		if (before) before({ value, guard });
-		const result = guard(value, ...args);
-		if (after) after({ value, guard, result });
-		return result;
-	}) as unknown as Guard; // Mirror any given guard regardless of their implementation
+  ((value: unknown, ...args: readonly unknown[]): value is unknown => {
+    if (before) before({ value, guard });
+    const result = guard(value, ...args);
+    if (after) after({ value, guard, result });
+    return result;
+  }) as unknown as Guard; // Mirror any given guard regardless of their implementation
 
 export { hookGuard };

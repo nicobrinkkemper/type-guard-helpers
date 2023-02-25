@@ -11,7 +11,7 @@
  * @category Type Guard Composer
  */
 const isTruthy = <Value, Predicate = Exclude<Value, null | undefined | '' | 0>>(
-	value: Value
+  value: Value
 ): value is Predicate extends Value ? Predicate : never => !!value;
 
 export { isTruthy };

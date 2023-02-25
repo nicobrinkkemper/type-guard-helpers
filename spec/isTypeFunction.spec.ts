@@ -28,6 +28,11 @@ test('Should return false for anything else', (t) => {
 
 	t.is(isTypeFunction({} as unknown), false);
 	t.is(isTypeFunction([] as unknown), false);
-	// eslint-disable-next-line functional/no-class
-	t.is(isTypeFunction(new (class {})()), false);
+	t.is(
+		isTypeFunction(
+			// eslint-disable-next-line functional/no-classes
+			new (class {})()
+		),
+		false
+	);
 });

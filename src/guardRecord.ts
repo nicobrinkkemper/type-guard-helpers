@@ -1,5 +1,5 @@
 import { isRecord } from './isRecord';
-import type { TypeGuard } from './types';
+import type { AnyTypeGuard, TypeGuard, TypeGuardFn } from './types';
 
 /**
  * Given a Type Guard, returns a Type Guard that checks if the given value is a Record and all its entries match the given Type Guard.
@@ -19,21 +19,17 @@ import type { TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardRecord =
-	<Param extends Record<string, unknown>, A extends Param>(
-		guard: TypeGuard<Param, A>
-	) =>
-	<
-		Value,
-		Merged extends Value & A,
-		Result extends Merged extends never
-			? A
-			: {
-					readonly [k in keyof Merged]: Merged[k];
-			  }
-	>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
-		isRecord(value) && guard(value);
+const guardRecord = <Guard extends AnyTypeGuard>(guard: Guard) =>
+  ((value) => isRecord(value) && guard(value)) as Guard extends TypeGuard<
+    infer A,
+    infer B
+  >
+    ? TypeGuardFn<
+        A,
+        {
+          readonly [k in keyof B]: B[k];
+        }
+      >
+    : never;
 
 export { guardRecord };

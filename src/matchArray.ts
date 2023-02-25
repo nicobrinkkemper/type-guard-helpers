@@ -7,10 +7,10 @@ import type { AnyPrimitive, TypeGuardFn } from './types';
  * @category Type Guard Creator
  */
 const matchArray = <A extends readonly AnyPrimitive[]>(
-	array: readonly [...A]
+  array: readonly [...A]
 ) =>
-	guardArrayValues(
-		(value: unknown, i: number): value is A[number] => value === array[i]
-	) as TypeGuardFn<readonly [...A]>;
+  guardArrayValues(
+    (value, i): value is A[number] => value === array[i]
+  ) as TypeGuardFn<readonly unknown[], readonly [...A]>;
 
 export { matchArray };

@@ -29,7 +29,9 @@ const logGuard = <Guard extends AnyTypeGuard>(
 	}: {
 		readonly value: unknown;
 		readonly guard: Guard;
-	}) => console.log({ value, guard }),
+	}) => {
+		console.log({ value, guard });
+	},
 	after = ({
 		result,
 		value,
@@ -38,7 +40,9 @@ const logGuard = <Guard extends AnyTypeGuard>(
 		readonly result: boolean;
 		readonly value: unknown;
 		readonly guard: Guard;
-	}) => console.log({ result, value, guard })
+	}) => {
+		console.log({ result, value, guard });
+	}
 ) => hookGuard(guard, before, after);
 
 export { logGuard };

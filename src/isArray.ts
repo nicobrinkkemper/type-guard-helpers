@@ -5,6 +5,6 @@ import type { TypeGuardFn } from './types';
  *
  * @category Type Guard
  */
-const isArray = Array.isArray as TypeGuardFn<readonly unknown[]>;
+const isArray = Array.isArray as TypeGuardFn<unknown, readonly unknown[]>;
 
 export { isArray };

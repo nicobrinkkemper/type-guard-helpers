@@ -1,4 +1,4 @@
-import type { AnyTypeGuard, DeepGuardType } from './types';
+import type { AnyTypeGuard, DeepGuardType, TypeGuardFn } from './types';
 
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
@@ -15,11 +15,13 @@ import type { AnyTypeGuard, DeepGuardType } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardEitherIn =
-	<Guards extends readonly AnyTypeGuard[]>(guards: readonly [...Guards]) =>
-	<Value, Result extends DeepGuardType<Guards[number]>>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
-		guards.findIndex((guard) => guard(value)) !== -1;
+const guardEitherIn = <Guards extends readonly AnyTypeGuard[]>(
+  guards: readonly [...Guards]
+) =>
+  ((value: unknown) =>
+    guards.findIndex((guard) => guard(value)) !== -1) as TypeGuardFn<
+    unknown,
+    DeepGuardType<Guards[number]>
+  >;
 
 export { guardEitherIn };

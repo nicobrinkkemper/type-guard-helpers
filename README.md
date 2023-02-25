@@ -37,12 +37,35 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-## About these helpers
+## Why these helpers?
 
-These helper functions offer TypeSafe composing of Guards. All provided functions focus on conveniently working with Type Guard functions.
-The functions handle most of the predicate handling.
+These helper functions offer type safe creation and composing of Type Guard functions. 
+The `is` keyword needs to be explicit and must be valid, which makes type guard functions
+different from normal functions.
+
+## Pro active checks
+All provided functions use a pattern that will pro-actively check if the supplied function
+can be used at all, similar to using if statements. For example:
+
+```ts
+// This comparison appears to be unintentional because the types '"home"' and '"about"' have no overlap.ts(2367)
+const page = 'home'
+if (page === 'about') {
+  page; // never
+}
+
+const isAbout = match('about');
+// Argument of type '"home"' is not assignable to parameter of type '"about"'
+if (isAbout(page)) {
+  label; // never
+}
+if (isAbout(page as 'home' | 'about')) {
+  page; // const label: "home"
+}
+```
 
 ## Composing objects
+All functions take one argument at a time. It makes it easier to reuse and compose type guards.
 
 ```ts
 const test = {} as unknown; // unknown
@@ -69,7 +92,7 @@ if (isResponse(test)) {
 ## Composing guards
 
 ```ts
-const isFooBar = guardAll(
+const isFooBar = guardPipe(
 	(value): value is string => typeof value === 'string',
 	(value): value is `foo${string}` => value.startsWith('foo'),
 	(value): value is `foobar` => value === 'foobar'
@@ -83,7 +106,7 @@ if (isFooBar(test)) {
 ## Error catching
 
 ```ts
-const isFoo = guardAll(
+const isFoo = guardPipe(
 	(value): value is string => typeof value === 'string',
 	(value): value is `foo${string}` => value.startsWith('foo'),
 	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
@@ -109,5 +132,31 @@ if (isNotFoo(fooOrBar)) {
 	expectType<'bar'>(fooOrBar);
 }
 ```
+
+Non nullable
+```ts
+const testValue = null as {foo:'bar'} | null
+if (isNonNullable(testValue)) {
+	expectType<{foo:'bar'}>(testValue);
+}
+```
+Composing with non nullable
+```ts
+
+const testValues = [null, { foo: 'bar' }, null] as const;
+const filterNonNullable = filterGuard(
+  // fix the argument to the function
+  isNonNullable as typeof isNonNullable<(typeof testValues)[number]>
+);
+const testValuesFiltered = filterNonNullable(testValues);
+expectType<
+  readonly [
+    {
+      readonly foo: 'bar';
+    }
+  ]
+>(testValuesFiltered);
+```
+
 
 [Go checkout the documentation.](https://nicobrinkkemper.github.io/type-guard-helpers/)

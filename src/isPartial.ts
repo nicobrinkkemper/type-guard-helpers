@@ -6,6 +6,7 @@ import type { TypeGuardFn } from './types';
  *
  * @category Type Guard
  */
-const isPartial: TypeGuardFn<{ readonly [k in string]?: unknown }> = isRecord;
+const isPartial: TypeGuardFn<unknown, { readonly [k in string]-?: unknown }> =
+  isRecord;
 
 export { isPartial };

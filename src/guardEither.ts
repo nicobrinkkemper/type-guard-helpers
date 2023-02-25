@@ -4,7 +4,8 @@ import type { AnyTypeGuard } from '.';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
- * Same as {@link guardEither}, but accepts multiple arguments instead of a single array
+ * Same as {@link guardEitherIn}, but accepts multiple arguments instead of a single array
+ * Same as {@link guardOption}, but can be any number of Type Guards (including less than 2)
  *
  * @example
  * ```ts
@@ -18,7 +19,7 @@ import type { AnyTypeGuard } from '.';
  * @category Type Guard Composer
  */
 const guardEither = <Guards extends readonly AnyTypeGuard[]>(
-	...guards: readonly [...Guards]
+  ...guards: readonly [...Guards]
 ) => guardEitherIn(guards);
 
 export { guardEither };

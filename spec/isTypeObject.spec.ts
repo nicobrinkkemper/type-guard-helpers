@@ -8,7 +8,7 @@ test('Should return true for null, object, array or class', (t) => {
 	t.is(isTypeObject([]), true);
 	t.is(
 		isTypeObject(
-			// eslint-disable-next-line functional/no-class
+			// eslint-disable-next-line functional/no-classes
 			new (class {})()
 		),
 		true

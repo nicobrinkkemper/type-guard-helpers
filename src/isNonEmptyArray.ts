@@ -1,14 +1,15 @@
 import { isArray } from './isArray';
-
-import type { TypeGuardFn } from '.';
+import type { TypeGuardFn } from './types';
 
 /**
  * A Type Guard that checks if the given value is an array of non-zero length.
  *
  * @category Type Guard
  */
-const isNonEmptyArray: TypeGuardFn<readonly unknown[]> = (
-	value
-): value is never => isArray(value) && value.length > 0;
+const isNonEmptyArray = ((value: readonly unknown[]) =>
+  isArray(value) && value.length > 0) as TypeGuardFn<
+  unknown,
+  readonly [unknown, ...unknown[]]
+>;
 
 export { isNonEmptyArray };

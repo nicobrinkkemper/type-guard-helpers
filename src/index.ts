@@ -1,5 +1,5 @@
+export * from './guardPipe';
 export * from './guardAll';
-export * from './guardAllIn';
 export * from './guardBoth';
 export * from './guardArray';
 export * from './guardEither';
@@ -9,10 +9,8 @@ export * from './guardNonEmptyArrayValues';
 export * from './guardOption';
 export * from './guardArrayValues';
 export * from './guardRecord';
-export * from './excludeGuard';
-export * from './fixGuard';
+export * from './filterGuard';
 export * from './isArray';
-export * from './isDefined';
 export * from './isEmptyArray';
 export * from './isFalse';
 export * from './isNil';
@@ -47,15 +45,15 @@ export * from './matchTypes';
 export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
 export type { FilterGuard } from './filterGuard';
-export type { ExcludeGuard } from './excludeGuard';
 export type {
-	AnyPrimitive,
-	TypeGuardFn,
-	IterableTypeGuard,
-	TypeGuard,
-	GuardType,
-	AnyTypeGuard,
-	CombineType,
-	GuardTypes,
-	DeepGuardType,
+  AnyPrimitive,
+  TypeGuardFn,
+  IterableTypeGuard,
+  TypeGuard,
+  GuardType,
+  AnyTypeGuard,
+  CombineTypes,
+  GuardTypes,
+  DeepGuardType,
+  Combine
 } from './types';

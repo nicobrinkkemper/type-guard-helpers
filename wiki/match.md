@@ -91,7 +91,7 @@ const foo = match('foo');
 const bar = match('bar');
 const matchFooSchema = matchSchema({ foo });
 const matchBarSchema = matchSchema({ bar });
-const isFooBar = guardAll(matchFooSchema, matchBarSchema);
+const isFooBar = guardPipe(matchFooSchema, matchBarSchema);
 if (isFooBar(test)) {
 	test; // { readonly foo: "foo"; readonly bar: "bar"; }
 }

@@ -1,8 +1,14 @@
-import type { TypeGuard } from './types';
+import type {
+  AnyTypeGuard,
+  Combine,
+  GuardType,
+  GuardTypeInput,
+  TypeGuardFn
+} from './types';
 
 /**
  * Given two Type Guards as arguments, returns a Type Guard that checks if the given value matches both given Type Guards.
- * Same as {@linkcode guardAllIn}, but accepts multiple arguments instead of a single array
+ * Same as {@linkcode guardAll}, but accepts multiple arguments instead of a single array
  * @example
  * ```ts
  * const isFooBar = guardBoth(
@@ -17,14 +23,18 @@ import type { TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  *  */
-function guardBoth<Param, A extends Param, B extends A>(
-	guard1: TypeGuard<Param, A>,
-	guard2: TypeGuard<A, B>
-) {
-	return <Value extends Param, Result extends B>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
-		guard1(value) && guard2(value);
-}
+const guardBoth =
+  <GuardLeft extends AnyTypeGuard, GuardRight extends AnyTypeGuard>(
+    guardLeft: GuardLeft,
+    guardRight: GuardRight
+  ): TypeGuardFn<
+    Combine<GuardTypeInput<GuardLeft>, GuardTypeInput<GuardRight>>,
+    Combine<
+      Combine<GuardTypeInput<GuardLeft>, GuardTypeInput<GuardRight>>,
+      Combine<GuardType<GuardLeft>, GuardType<GuardRight>>
+    >
+  > =>
+  (value): value is never =>
+    guardLeft(value) && guardRight(value);
 
 export { guardBoth };
