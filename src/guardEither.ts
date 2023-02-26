@@ -1,6 +1,5 @@
 import { guardEitherIn } from './guardEitherIn';
-
-import type { AnyTypeGuard } from '.';
+import type { AnyTypeGuard } from './types';
 
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).

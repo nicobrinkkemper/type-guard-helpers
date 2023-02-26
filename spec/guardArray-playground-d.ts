@@ -5,7 +5,7 @@ import { guardNonEmptyArray } from './guardNonEmptyArray';
 const isStringArr = guardNonEmptyArray(
   (val): val is readonly [string, ...unknown[]] => typeof val[0] === 'string'
 );
-const testArr = ['a', 'b', 'c'] as unknown;
+const testArr = ['a', 'b', 'c'] as readonly unknown[];
 if (isStringArr(testArr)) {
   expectType<readonly [string, ...unknown[]]>(testArr);
 }

@@ -1,10 +1,10 @@
 import test from 'ava';
 
-import { guardOption } from '../src/guardOption';
+import { guardEither } from '../src/guardEither';
 import { isEmptyArray } from '../src/isEmptyArray';
 import { isTypeString } from '../src/isTypeString';
 
-const isEmptyArrayOrString = guardOption(isEmptyArray, isTypeString);
+const isEmptyArrayOrString = guardEither(isEmptyArray, isTypeString);
 test('Should return true for a undefined or null', (t) => {
   t.is(isEmptyArrayOrString([]), true);
   t.is(isEmptyArrayOrString(''), true);

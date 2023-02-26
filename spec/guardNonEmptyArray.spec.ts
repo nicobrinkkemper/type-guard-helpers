@@ -3,7 +3,6 @@ import test from 'ava';
 import {
   guardEither,
   guardNonEmptyArrayValues,
-  guardOption,
   isFalse,
   isNull,
   isTypeNumber,
@@ -12,7 +11,7 @@ import {
 } from '../src';
 
 const isList = guardNonEmptyArrayValues(
-  guardOption(isTypeString, isTypeNumber)
+  guardEither(isTypeString, isTypeNumber)
 );
 const isFalsyList = guardNonEmptyArrayValues(
   guardEither(isUndefined, isNull, isFalse)
@@ -25,9 +24,8 @@ test('Should return true for non empty lists', (t) => {
   t.is(isFalsyList([undefined]), true);
 });
 test('Should return false for anything else', (t) => {
-  t.is(isList('1' as unknown), false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  t.is(isList([] as any), false);
-  t.is(isList({}), false);
-  t.is(isList(Symbol() as unknown), false);
+  t.is(isList('1' as never as unknown[]), false);
+  t.is(isList([]), false);
+  t.is(isList({} as never), false);
+  t.is(isList(Symbol() as never as unknown[]), false);
 });

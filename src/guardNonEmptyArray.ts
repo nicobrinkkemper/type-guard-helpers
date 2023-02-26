@@ -1,4 +1,4 @@
-import { guardBoth } from './guardBoth';
+import { guardPipe } from './guardPipe';
 import { isNonEmptyArray } from './isNonEmptyArray';
 import type { AnyTypeGuard } from './types';
 
@@ -18,6 +18,9 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category | Type Guard Creator
  */
-const guardNonEmptyArray = <Guard extends AnyTypeGuard>(guard: Guard) =>
-  guardBoth(isNonEmptyArray, guard);
+const guardNonEmptyArray = <
+  Guard extends AnyTypeGuard<readonly [unknown, ...unknown[]]>
+>(
+  guard: Guard
+) => guardPipe(isNonEmptyArray, guard);
 export { guardNonEmptyArray };

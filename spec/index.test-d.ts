@@ -1,14 +1,14 @@
 import { expectType } from 'tsd';
 
 import type { Combine } from '../src';
-import { guardPipe } from '../src';
+import { guardEither } from '../src';
 import {
   excludeGuard,
   excludeNullable,
   excludeUndefined,
-  guardAll,
+  guardAllIn,
   guardArrayValues,
-  guardOption,
+  guardPipe,
   guardRecord,
   hookGuard,
   isNonNullable,
@@ -21,8 +21,6 @@ import {
   matchType,
   negateGuard
 } from '../src';
-
-import { guardAllIn } from './guardAllIn';
 
 const foo = 'foo' as const;
 const bar = 'bar' as const;
@@ -44,24 +42,23 @@ if (isBar(test)) {
   expectType<'bar'>(test);
 }
 
-const isFooBarItem = guardOption(isFoo, isBar);
+const isFooBarItem = guardEither(isFoo, isBar);
 const isStatus = matches(200, 404);
 const isFooBarArray = guardArrayValues(isFooBarItem);
-guardArrayValues((val, i, values): val is string => {
-  expectType<unknown>(val);
-  expectType<number>(i);
-  expectType<readonly unknown[]>(values);
-  return typeof val === 'string';
-});
+guardArrayValues((val: unknown): val is string => typeof val === 'string');
 const isResponse = matchSchema({
   items: isFooBarArray,
   status: isStatus
 });
-if (isResponse(test)) {
+const fakeResponse = {
+  items: ['foo', 'bar', 'foo', 'bar'] as readonly string[],
+  status: 200
+};
+if (isResponse(fakeResponse)) {
   expectType<{
     readonly items: readonly ('foo' | 'bar')[];
     readonly status: 200 | 404;
-  }>(test);
+  }>(fakeResponse);
 }
 
 // match
@@ -81,12 +78,16 @@ const isFooObject = matchSchema({
   foo: isFoo,
   bar: isBar
 });
-if (isFooObject(test)) {
-  expectType<{ readonly foo: 'foo'; readonly bar: 'bar' }>(test);
+const fooBarTest = {
+  foo: 'foo',
+  bar: 'bar'
+};
+if (isFooObject(fooBarTest)) {
+  expectType<{ readonly foo: 'foo'; readonly bar: 'bar' }>(fooBarTest);
 }
 const wrongFooObjectTest = { bar: 'foo', foo: 'bar' } as const;
-const jimObject = { jim: 'jim' } as const;
-if (isFooObject(wrongFooObjectTest as unknown)) {
+const jimObject = { jim: 'jim' };
+if (isFooObject(wrongFooObjectTest as never)) {
   expectType<{
     readonly bar: 'foo';
     readonly foo: 'bar';
@@ -96,7 +97,7 @@ if (isFooObject(jimObject)) {
   expectType<{
     readonly foo: 'foo';
     readonly bar: 'bar';
-    readonly jim: 'jim';
+    readonly jim: string;
   }>(jimObject);
 }
 
@@ -110,8 +111,9 @@ if (!isNotString(stringOrNull)) {
 }
 
 // guardAll
-const startsWithFoo = guardPipe(isTypeString, (val): val is `foo${string}` =>
-  val.startsWith('foo')
+const startsWithFoo = guardPipe(
+  isTypeString,
+  (val): val is typeof val & `foo${string}` => val.startsWith('foo')
 );
 
 if (startsWithFoo(test)) {
@@ -120,8 +122,8 @@ if (startsWithFoo(test)) {
 
 const isFooBarGuardPipe = guardPipe(
   matchType('string'),
-  (val): val is `foo${string}` => val.startsWith('foo'),
-  (val): val is `foobar` => val === foobar
+  (val): val is typeof val & `foo${string}` => val.startsWith('foo'),
+  (val): val is typeof val & `foobar` => (val as string) === foobar
 );
 
 if (isFooBarGuardPipe(test)) {
@@ -140,17 +142,16 @@ if (isFooBarGuardPipe(unknownFoobar)) {
 }
 
 const isFooBarInline = guardPipe(
-  (val): val is string => {
-    expectType<unknown>(val);
+  (val: unknown): val is string => {
     return typeof val === 'string';
   },
-  (val): val is `foo${string}` => {
+  (val): val is typeof val & `foo${string}` => {
     expectType<string>(val);
     return val.startsWith('foo');
   },
-  (val): val is `foobar` => {
+  (val): val is typeof val & `foobar` => {
     expectType<`foo${string}`>(val);
-    return val === 'foobar';
+    return (val as string) === 'foobar';
   }
 );
 // guardAll given tuple or spread
@@ -244,8 +245,11 @@ if (logGuard(isNotNull)(stringOrNull)) {
 }
 
 const readmeExample = guardPipe(
-  (value): value is string => typeof value === 'string',
-  (value): value is `foo${string}` => value.startsWith('foo')
+  isTypeString,
+  (value): value is typeof value & `foo${string}` => {
+    expectType<string>(value);
+    return value.startsWith('foo');
+  }
   //	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
 );
 
@@ -265,8 +269,8 @@ if (isNotFoo(fooOrBar)) {
 }
 
 const wrappedNegatedGuard = guardPipe(
-  (val) => isNotFoo(val),
-  (val) => isNotBar(val)
+  isNotFoo as typeof isNotFoo<typeof fooOrBarOrFoobar>,
+  isNotBar as typeof isNotBar<'foobar' | 'bar'>
 );
 
 if (wrappedNegatedGuard(fooOrBarOrFoobar)) {
@@ -275,7 +279,8 @@ if (wrappedNegatedGuard(fooOrBarOrFoobar)) {
 
 const guardAllot = guardPipe(
   (item): item is object => typeof item === 'object' && item !== null,
-  (item): item is { type: string } => 'type' in item,
+  <Value extends object>(item: Value): item is Value & { type: string } =>
+    'type' in item,
   (item): item is Combine<typeof item, { value: string }> => 'value' in item,
   (item): item is Combine<typeof item, { type: 'EnterpriseType' }> =>
     item.type === 'EnterpriseType',
@@ -287,7 +292,7 @@ if (guardAllot(test)) {
   expectType<'Share'>(test.value);
 }
 
-const guardAllNoConst = guardAll([
+const guardAllNoConst = guardAllIn([
   (val1: unknown): val1 is string => typeof val1 === 'string',
   (val2: string): val2 is 'foo' => val2 === 'foo'
 ]);
@@ -318,23 +323,16 @@ const nullOnlyR = nullableOnly(testArrWithNull);
 expectType<readonly [undefined, null]>(nullOnlyR);
 
 const isTranslation = guardRecord(
-  (val): val is { readonly translation: string } =>
-    typeof val.translation === 'string'
+  (val: unknown): val is { translation: 'a' } => !!val
 );
 const testTranslation = {
   translation: 'string',
   someOtherVar: 'var'
-} as const;
+};
 
 if (isTranslation(testTranslation)) {
   expectType<{
-    readonly translation: 'string';
-    readonly someOtherVar: 'var';
+    readonly translation: 'a';
+    readonly someOtherVar: string;
   }>(testTranslation);
-}
-
-if (isTranslation(test)) {
-  expectType<{
-    readonly translation: string;
-  }>(test);
 }

@@ -5,11 +5,8 @@ import { expectType } from 'tsd';
 import {
   excludeGuard,
   guardEither,
-  guardEitherIn,
   isNonNullable,
-  isNull,
   isTypeString,
-  matchExactSchema,
   matchIn,
   matchSchema,
   matchString
@@ -17,46 +14,7 @@ import {
 
 import { filterGuard, filterNonNullable } from './filterGuard';
 
-const foo = matchString('foo');
-const bar = matchString('bar');
-
-const isStringOrNullSpread = guardEither(isNull, isTypeString);
-const isStringOrNullArray = guardEitherIn([isNull, isTypeString]);
-
-const test = {} as unknown;
-if (isStringOrNullSpread(test)) {
-  expectType<string | null>(test);
-}
-if (isStringOrNullArray(test)) {
-  expectType<string | null>(test);
-}
 // compose with matchSchema
-
-const matchBarSchemaExact = matchExactSchema({ bar });
-const matchFooSchemaExact = matchExactSchema({ foo });
-const matchFooBarSchemaExact = matchExactSchema({
-  foo,
-  bar
-});
-const orFooBar = guardEither(
-  matchBarSchemaExact,
-  matchFooSchemaExact,
-  matchFooBarSchemaExact
-);
-if (orFooBar(test)) {
-  expectType<
-    | {
-        readonly foo: 'foo';
-      }
-    | {
-        readonly bar: 'bar';
-      }
-    | {
-        readonly foo: 'foo';
-        readonly bar: 'bar';
-      }
-  >(test);
-}
 
 const teasers = [
   { type: 'a' } as const,
@@ -64,8 +22,7 @@ const teasers = [
   { type: 'b' } as const,
   { type: 'c' } as const
 ];
-
-const types = ['a', 'b', 'C'] as const;
+const types = ['a', 'b', 'c'] as const;
 const isTeaser = guardEither(
   matchSchema({ type: matchString('a') }),
   matchSchema({ type: matchString('b') }),
@@ -75,7 +32,7 @@ const isAnyTeaser = matchSchema({ type: matchIn(types) });
 const isTeasers = filterGuard(isAnyTeaser)(teasers);
 expectType<
   readonly {
-    readonly type: 'a' | 'b' | 'C';
+    readonly type: 'a' | 'b' | 'c';
   }[]
 >(isTeasers);
 
@@ -96,29 +53,15 @@ expectType<
 
 const isTeasersNative = teasers.filter(isTeaser);
 expectType<
-  (
-    | { readonly type: 'a' }
-    | { readonly type: 'b' }
-    | { readonly type: 'c' }
-    | {
-        type: string;
-      }
-  )[]
+  ({ readonly type: 'a' } | { readonly type: 'b' } | { readonly type: 'c' })[]
 >(isTeasersNative);
 
 const isNotTeaser = excludeGuard(isTeaser)(teasers);
-expectType<
-  readonly {
-    type: string;
-  }[]
->(isNotTeaser);
+expectType<readonly never[]>(isNotTeaser);
 
-const isNotTeaser2 = excludeGuard(isAnyTeaser)(teasers);
-expectType<
-  readonly {
-    type: string;
-  }[]
->(isNotTeaser2);
+const excludeAnyTeaser = excludeGuard(isAnyTeaser);
+const isNotTeaser2 = excludeAnyTeaser(teasers);
+expectType<readonly never[]>(isNotTeaser2);
 
 // Filter const
 const teasersConst = [
@@ -148,11 +91,24 @@ expectType<
 >(isTeasersConst);
 
 // excluding
-const isTeasersExclude = excludeGuard(isTeaser)(teasers);
+const teasersConstExclude = [
+  { type: 'a' },
+  { type: 'a' },
+  { type: 'b' },
+  { type: 'im in exclude result and so is D' },
+  { type: 'c' },
+  { type: 'D' }
+] as const;
+const isTeasersExclude = excludeGuard(isTeaser)(teasersConstExclude);
 expectType<
-  readonly {
-    type: string;
-  }[]
+  readonly [
+    {
+      readonly type: 'im in exclude result and so is D';
+    },
+    {
+      readonly type: 'D';
+    }
+  ]
 >(isTeasersExclude);
 
 const isTeasersConstExclude = excludeGuard(isTeaser)(teasersConst);

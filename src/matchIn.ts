@@ -1,25 +1,17 @@
-import type { AnyPrimitive } from './types';
+import type { AnyPrimitive, TypeGuardFn } from './types';
 
-type MatchInFn<Subject = AnyPrimitive> = <
-	Primitives extends readonly Subject[]
->(
-	arr: Primitives
-) => <Value, Result extends Primitives[number]>(
-	value: Result extends Value
-		? Value
-		: Result extends AnyPrimitive
-		? Result
-		: never
-) => value is Result extends Value ? Result : never;
+type MatchInFn<Input = AnyPrimitive> = <Arr extends readonly Input[]>(
+  arr: readonly [...Arr]
+) => TypeGuardFn<Input, Arr[number]>;
 
 /**
  * Given an array of primitives, returns a Type Guard that checks if the given value is strictly equal to any of the given primitives.
  * @category Type Guard Creator
  */
 const matchIn: MatchInFn =
-	(arr) =>
-	(value): value is never =>
-		arr.indexOf(value as AnyPrimitive) !== -1;
+  (arr) =>
+  (value): value is never =>
+    arr.indexOf(value) !== -1;
 
 /**
  * Given an array of strings, returns a Type Guard that checks if the given value is strictly equal to any of the given strings.
@@ -31,13 +23,13 @@ const matchStringIn: MatchInFn<string> = matchIn;
  * Given an array of numbers, returns a Type Guard that checks if the given value is strictly equal to any of the given numbers.
  * @category Type Guard Creator
  */
-const matchNumberIn: MatchInFn<string> = matchIn;
+const matchNumberIn: MatchInFn<number> = matchIn;
 
 /**
  * Given an array of booleans, returns a Type Guard that checks if the given value is strictly equal to any of the given booleans.
  * @category Type Guard Creator
  */
-const matchBooleanIn: MatchInFn<string> = matchIn;
+const matchBooleanIn: MatchInFn<boolean> = matchIn;
 
 /**
  * Given an array of PropertyKeys, returns a Type Guard that checks if the given value is strictly equal to any of the given PropertyKeys.
@@ -47,9 +39,9 @@ const matchPropertyKeyIn: MatchInFn<PropertyKey> = matchIn;
 
 export type { MatchInFn };
 export {
-	matchIn,
-	matchStringIn,
-	matchNumberIn,
-	matchBooleanIn,
-	matchPropertyKeyIn,
+  matchIn,
+  matchStringIn,
+  matchNumberIn,
+  matchBooleanIn,
+  matchPropertyKeyIn
 };

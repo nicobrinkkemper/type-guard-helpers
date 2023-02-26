@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Returns a type that a Guard will assign to a variable.
  * @example
@@ -7,11 +9,10 @@
  * ```
  */
 declare type GuardType<Guard> = Guard extends TypeGuard<
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  infer _,
+  infer Input,
   infer Return
 >
-  ? Return
+  ? Combine<Input, Return>
   : never;
 
 /**
@@ -24,7 +25,7 @@ declare type GuardType<Guard> = Guard extends TypeGuard<
  */
 type PipeGuard<Guard extends AnyTypeGuard> = (
   value: GuardType<Guard>
-) => value is GuardType<Guard>;
+) => value is typeof value;
 
 /**
  * Returns a type that a Guard will assign to a variable.
@@ -36,7 +37,6 @@ type PipeGuard<Guard extends AnyTypeGuard> = (
  */
 declare type GuardTypeInput<Guard> = Guard extends TypeGuard<
   infer Input,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   infer _
 >
   ? Input
@@ -53,7 +53,6 @@ declare type GuardTypeInput<Guard> = Guard extends TypeGuard<
  */
 declare type DeepGuardType<Guard> = Guard extends (
   value: infer X
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ) => value is any
   ? Guard extends (value: X) => value is X & infer Z
     ? Z
@@ -67,13 +66,12 @@ declare type DeepGuardType<Guard> = Guard extends (
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyIterableTypeGuard = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any,
+
+declare type AnyIterableTypeGuard<Input = any, Output = any> = (
+  value: Input,
   index: number,
-  values: readonly (typeof value)[]
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-) => value is any;
+  values: readonly Input[]
+) => value is Input & Output;
 
 /**
  * A type on which Type Guard may extend. Should be used when it can be a multi parameter guard.
@@ -82,11 +80,11 @@ declare type AnyIterableTypeGuard = (
  * <Guard extends AnyTypeGuard>
  * ```
  */
-declare type AnyTypeGuard = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any,
+
+declare type AnyTypeGuard<Input = any, Output extends Input = Input> = (
+  value: Input,
   ...args: readonly any[]
-) => value is any;
+) => value is Output;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
@@ -111,12 +109,22 @@ type NegateTypeGuard<Result> = <Value>(
 /**
  * Given the resulting Type, returns a Type Guard function
  */
-declare type TypeGuardFn<Input, Output extends Input> = <
+declare type TypeGuardFn<Input, Output> = <
   Value extends Input,
-  Result extends Combine<Value, Output>
+  Result extends Output = Output
 >(
-  value: Result extends Value ? Value : Result
-) => value is Result extends Value ? Result : never;
+  value: Value
+) => value is Combine<Value, Result>;
+
+/**
+ * Given the resulting Type, returns a Type Guard function
+ */
+declare type ObjectTypeGuardFn<Input, Output> = <
+  Value extends Input,
+  Result extends Output = Output
+>(
+  value: Value
+) => value is CombineObject<Value, Result>;
 
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements excluding those types
@@ -160,20 +168,14 @@ declare type CombineTypes<
 /**
  * Given two types, will return a object intersection of all the types. The difference between this and `CombineType` is that this will merge object based on keys.
  */
-declare type Combine<A, B> = A & B;
+declare type Combine<A, B> = B extends A ? B : A extends B ? A : A & B;
 
 declare type CombineObject<A, B> = B extends A
   ? B
   : A extends B
   ? A
   : {
-      [K in keyof A | keyof B]: K extends keyof A
-        ? K extends keyof B
-          ? Combine<A[K], B[K]>
-          : A[K]
-        : K extends keyof B
-        ? B[K]
-        : never;
+      readonly [K in keyof (A & B)]-?: (A & B)[K];
     };
 /**
  * Anything that may be inferred by Typescript as a primitive
@@ -202,6 +204,7 @@ export type {
   Combine,
   PipeGuard,
   CombineObject,
+  ObjectTypeGuardFn,
   DeepGuardType,
   AnyIterableTypeGuard
 };

@@ -1,11 +1,16 @@
-import type { AnyTypeGuard, GuardTypes, TypeGuardFn } from './types';
+import type {
+  AnyTypeGuard,
+  GuardTypeInput,
+  GuardTypes,
+  TypeGuardFn
+} from './types';
 
 type GuardAll<Guards extends readonly AnyTypeGuard[]> =
   Guards extends readonly [
     infer Head extends AnyTypeGuard,
     ...infer Tail extends AnyTypeGuard[]
   ]
-    ? TypeGuardFn<unknown, GuardTypes<readonly [Head, ...Tail]>>
+    ? TypeGuardFn<GuardTypeInput<Head>, GuardTypes<readonly [Head, ...Tail]>>
     : never;
 
 /**

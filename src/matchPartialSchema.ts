@@ -1,12 +1,19 @@
 import { isPartial } from './isPartial';
-import type { AnyTypeGuard, GuardType, TypeGuardFn } from './types';
+import type {
+  AnyTypeGuard,
+  GuardType,
+  GuardTypeInput,
+  TypeGuardFn
+} from './types';
 
 /**
  * Given a Schema, returns a Type Guard that checks that the given value is an object implementing the entries of the Schema.
  *
  * The difference between this Type Guard and {@linkcode matchExactSchema} is that this Type Guard will allow additional entries that are
- * not specified in the Schema. This is usually intended behavior because banning unknown keys would mean you have to implement
- * a Type Guard for every value, if you don't care about them.
+ * not specified in the Schema.
+ *
+ * The difference between this Type Guard and {@linkcode matchSchema} is that this Type Guard will allow additional entries that are
+ * not specified in the Schema.
  *
  * @example
  * ```ts
@@ -26,23 +33,24 @@ import type { AnyTypeGuard, GuardType, TypeGuardFn } from './types';
  * ```
  * @category Type Guard Creator
  */
-const matchPartialSchema =
-  <
-    Schema extends {
-      readonly [k: string]: AnyTypeGuard;
-    }
-  >(
-    schema: Schema
-  ): TypeGuardFn<
-    unknown,
-    {
-      readonly [k in keyof Schema]-?: GuardType<Schema[k]>;
-    }
-  > =>
-  (value: unknown): value is never =>
+const matchPartialSchema = <
+  Schema extends {
+    readonly [k: string]: AnyTypeGuard;
+  }
+>(
+  schema: Schema
+) =>
+  ((value) =>
     isPartial(value) &&
     Object.entries(schema).findIndex(
       ([key, guard]) => key in value && !guard(value[key])
-    ) === -1;
+    ) === -1) as TypeGuardFn<
+    {
+      readonly [k in keyof Schema]: GuardTypeInput<Schema[k]>;
+    },
+    {
+      readonly [k in keyof Schema]-?: GuardType<Schema[k]>;
+    }
+  >;
 
 export { matchPartialSchema };

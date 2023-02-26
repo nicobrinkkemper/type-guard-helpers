@@ -20,7 +20,7 @@ test('Should return true for things that start with foo', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-  t.is(isFooArray(['barf'] as unknown), false);
+  t.is(isFooArray(['barf'] as readonly unknown[]), false);
   t.is(startsWithFoo(['oo'] as unknown), false);
   t.is(startsWithFoo('bar'), false);
 });

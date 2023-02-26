@@ -9,7 +9,7 @@ type MatchFn<Input, Output extends Input> = <Result extends Output>(
  * @category Type Guard Creator
  */
 const match: MatchFn<unknown, AnyPrimitive> =
-  (argument) =>
+  (argument: unknown) =>
   (value): value is never =>
     argument === value;
 

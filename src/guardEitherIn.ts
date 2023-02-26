@@ -1,4 +1,9 @@
-import type { AnyTypeGuard, DeepGuardType, TypeGuardFn } from './types';
+import type {
+  AnyTypeGuard,
+  GuardType,
+  GuardTypeInput,
+  TypeGuardFn
+} from './types';
 
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
@@ -20,8 +25,8 @@ const guardEitherIn = <Guards extends readonly AnyTypeGuard[]>(
 ) =>
   ((value: unknown) =>
     guards.findIndex((guard) => guard(value)) !== -1) as TypeGuardFn<
-    unknown,
-    DeepGuardType<Guards[number]>
+    GuardTypeInput<Guards[number]>,
+    GuardType<Guards[number]>
   >;
 
 export { guardEitherIn };

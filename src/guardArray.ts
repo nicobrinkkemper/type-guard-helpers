@@ -1,4 +1,4 @@
-import { guardBoth } from './guardBoth';
+import { guardAll } from './guardAll';
 import { isArray } from './isArray';
 import type { TypeGuard } from './types';
 
@@ -22,7 +22,7 @@ import type { TypeGuard } from './types';
  * @category Type Guard Composer
  */
 const guardArray = <A extends readonly unknown[]>(
-	guard: TypeGuard<readonly unknown[], A>
-) => guardBoth(isArray, guard);
+  guard: TypeGuard<readonly unknown[], A>
+) => guardAll(isArray, guard);
 
 export { guardArray };
