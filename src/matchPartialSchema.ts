@@ -55,3 +55,4 @@ const matchPartialSchema: MatchPartialSchema =
     ) === -1;
 
 export { matchPartialSchema };
+export type { MatchPartialSchema, MatchPartialSchemaFn };

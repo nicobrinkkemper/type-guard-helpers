@@ -19,3 +19,4 @@ const matchArray: MatchArray = (array) =>
   guardArrayValues((value, i): value is never => value === array[i]);
 
 export { matchArray };
+export type { MatchArray, MatchArrayFn };

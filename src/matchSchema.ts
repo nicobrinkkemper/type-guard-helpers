@@ -52,3 +52,4 @@ const matchSchema: MatchSchema =
     -1;
 
 export { matchSchema };
+export type { MatchSchema, MatchSchemaFn };

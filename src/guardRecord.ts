@@ -27,3 +27,4 @@ type GuardRecord = <Guard extends AnyTypeGuard<Record<string, unknown>>>(
 const guardRecord: GuardRecord = (guard) => guardPipe(isRecord, guard);
 
 export { guardRecord };
+export type { GuardRecord };

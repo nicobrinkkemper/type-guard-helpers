@@ -20,4 +20,5 @@ const matchTypeIn: MatchTypeIn =
   (value): value is never =>
     types.indexOf(typeof value) !== -1;
 
-export { matchTypeIn, MatchTypeInFn, MatchTypeIn };
+export { matchTypeIn };
+export type { MatchTypeIn, MatchTypeInFn };

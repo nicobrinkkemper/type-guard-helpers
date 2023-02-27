@@ -40,3 +40,4 @@ const guardNonEmptyArrayValues: GuardNonEmptyArrayValues =
     value.findIndex(negateIterableGuard(guard)) === -1;
 
 export { guardNonEmptyArrayValues };
+export type { GuardNonEmptyArrayValues };

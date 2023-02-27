@@ -14,3 +14,4 @@ type MatchTypes = <Types extends readonly MatchableTypes[]>(
 const matchTypes: MatchTypes = (...types) => matchTypeIn(types);
 
 export { matchTypes };
+export type { MatchTypes };

@@ -52,3 +52,4 @@ const matchExactSchema: MatchExactSchema =
     ) === -1;
 
 export { matchExactSchema };
+export type { MatchExactSchema, MatchExactSchemaFn };

@@ -54,3 +54,4 @@ const logGuard: LogGuard = (
 ) => hookGuard(guard, before, after);
 
 export { logGuard };
+export type { LogGuard };

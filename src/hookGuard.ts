@@ -40,3 +40,4 @@ const hookGuard: HookGuard = (guard, before?, after?) =>
   }) as typeof guard;
 
 export { hookGuard };
+export type { HookGuard };

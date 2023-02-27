@@ -41,13 +41,12 @@ export * from './matchType';
 export * from './matchTypeIn';
 export * from './matchTypes';
 export * from './negateGuard';
-export type { MatchableTypes } from './matchType';
-export type { FilterGuard } from './filterGuard';
 export type {
   TypeGuardSchema,
   AnyPrimitive,
   TypeGuardFn,
   IterableTypeGuard,
+  NegateIterableTypeGuardFn,
   TypeGuard,
   NegateTypeGuardFn,
   GuardType,

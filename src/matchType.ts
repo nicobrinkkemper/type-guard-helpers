@@ -54,8 +54,10 @@ const matchType: MatchType =
 
 export {
   matchType,
+};
+export type {
   MatchType,
   MatchableTypes,
   MatchTypeFromString,
   MatchTypeFn
-};
+}

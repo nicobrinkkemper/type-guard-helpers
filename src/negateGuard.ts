@@ -49,3 +49,4 @@ const negateIterableGuard: NegateIterableGuard =
     !guard(value, i, values);
 
 export { negateIterableGuard, negateGuard };
+export type { NegateGuard, NegateIterableGuard };
