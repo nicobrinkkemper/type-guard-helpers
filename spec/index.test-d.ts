@@ -1,6 +1,7 @@
 import { expectType } from 'tsd';
 
 import type { Combine } from '../src';
+import { guardAll } from '../src';
 import {
   excludeNullable,
   excludeUndefined,
@@ -15,6 +16,40 @@ import {
   matchSchema,
   negateGuard
 } from '../src';
+
+import { matchEither } from './matchEither';
+
+// Readme example 1
+const readmeExample = {} as Record<string, unknown>; // unknown
+type expectedReadmeExample = {
+  readonly items: readonly { readonly type: 'a' | 'b' }[];
+};
+const isItemType = matchEither('a', 'b');
+const isItem = matchSchema({ type: isItemType });
+const isItems = guardArrayValues(isItem);
+
+const isItemResponse = matchSchema({
+  items: isItems
+});
+
+if (isItemResponse(readmeExample)) {
+  expectType<expectedReadmeExample>(readmeExample);
+}
+
+// readme example guard all
+const isSubItem = guardAll(
+  (value: unknown): value is { type: 'a' } => typeof value === 'string',
+  (value: unknown): value is { subType: 'b' } => value === 'foobar'
+);
+const isSubItemInput = {} as unknown;
+if (isSubItem(isSubItemInput)) {
+  expectType<{
+    readonly type: 'a';
+    readonly subType: 'b';
+  }>(isSubItemInput);
+}
+
+// some random playground stuff
 
 const foo = 'foo' as const;
 const bar = 'bar' as const;

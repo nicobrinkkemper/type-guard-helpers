@@ -37,60 +37,49 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-## Why these helpers?
-
-These helper functions offer type safe creation and composing of Type Guard functions. 
-The `is` keyword needs to be explicit and must be valid, which makes type guard functions
-different from normal functions.
-
-## Pro active checks
-All provided functions use a pattern that will pro-actively check if the supplied function
-can be used at all, similar to using if statements. For example:
+## Composing objects
+We can compose complex type predicates by combining several small ones.
+It helps to write them all out while making the name more specific each time a predicate is made.
 
 ```ts
-// This comparison appears to be unintentional because the types '"home"' and '"about"' have no overlap.ts(2367)
-const page = 'home'
-if (page === 'about') {
-  page; // never
-}
 
-const isAbout = match('about');
-// Argument of type '"home"' is not assignable to parameter of type '"about"'
-if (isAbout(page)) {
-  label; // never
-}
-if (isAbout(page as 'home' | 'about')) {
-  page; // const label: "home"
+const isItemType = matchEither('a', 'b');
+const isItem = matchSchema({ type: isItemType });
+const isItems = guardArrayValues(isItem);
+
+const isItemResponse = matchSchema({
+  items: isItems
+});
+
+const Input = {} as Record<string, unknown>; // unknown
+
+if (isItemResponse(Input)) {
+  expectType<{
+	readonly items: readonly ({ type: 'a' | 'b' })[];
+  }>(Input);
 }
 ```
 
-## Composing objects
-All functions take one argument at a time. It makes it easier to reuse and compose type guards.
 
+## Combining guards
+The output of several guards can be combined to narrow to a single type
 ```ts
-const test = {} as unknown; // unknown
-const foo = 'foo';
-const bar = 'bar';
-const isBar = match(bar);
-const isFoo = match(foo);
-const isFooBarItem = guardEither(isFoo, isBar);
-const isStatus = matchEither(200, 404);
-const isFooBarArray = guardArrayValues(isFooBarItem);
-const isResponse = matchSchema({
-	items: isFooBarArray,
-	status: isStatus,
-});
+const isFooBar = guardAll(
+	(value: {type?:string}): value is {type:'a'} => value.type === 'a',
+	(value: {subType?:string}): value is {subType:'b'} => value.subType === 'b'
+);
 
-if (isResponse(test)) {
+if (isFooBar(test)) {
 	expectType<{
-		readonly items: readonly ('foo' | 'bar')[];
-		readonly status: 200 | 404;
+		readonly type: 'a',
+		readonly subType: 'b'
 	}>(test);
 }
 ```
-
-## Composing guards
-
+## Piping guards
+It is also possible to pipe type guards top to bottom. This works best
+when functions are inlined. The output of the each guard is piped
+to the parameter of the next.
 ```ts
 const isFooBar = guardPipe(
 	(value): value is string => typeof value === 'string',
@@ -103,27 +92,8 @@ if (isFooBar(test)) {
 }
 ```
 
-## Error catching
-
-```ts
-const isFoo = guardPipe(
-	(value): value is string => typeof value === 'string',
-	(value): value is `foo${string}` => value.startsWith('foo'),
-	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
-);
-```
-
-```ts
-const foo = 'foo';
-const isNull = match(null);
-// Argument of type '"foo"' is not assignable to parameter of type 'null'.
-if (isNull(foo)) {
-	expectType<never>(foo);
-}
-```
-
 ## Negating guards
-
+Negating guards is possible, though it adds some complexity so it's best to avoid using it if possible.
 ```ts
 const isNotFoo = negateGuard(isFoo);
 const fooOrBar = 'foo' as 'foo' | 'bar';
@@ -140,14 +110,15 @@ if (isNonNullable(testValue)) {
 	expectType<{foo:'bar'}>(testValue);
 }
 ```
-Composing with non nullable
+If you must use a negating type guard inside a composing function, you can bind the 
+input of the function as such:
 ```ts
-
 const testValues = [null, { foo: 'bar' }, null] as const;
 const filterNonNullable = filterGuard(
   // fix the argument to the function
   isNonNullable as typeof isNonNullable<(typeof testValues)[number]>
 );
+// same as excludeGuard(isNullable)
 const testValuesFiltered = filterNonNullable(testValues);
 expectType<
   readonly [

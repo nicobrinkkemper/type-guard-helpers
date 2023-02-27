@@ -146,8 +146,12 @@ declare type Combine<A, B> = B extends A
   ? B
   : A extends B
   ? A
-  : CombineObject<A, B> extends A & B
-  ? CombineObject<A, B>
+  : {
+      readonly [K in keyof (A & B)]-?: (A & B)[K];
+    } extends A & B
+  ? {
+      readonly [K in keyof (A & B)]-?: (A & B)[K];
+    }
   : A & B;
 
 declare type CombineObject<A, B> = {
