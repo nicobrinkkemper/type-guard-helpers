@@ -78,7 +78,7 @@ if (isFooBar(test)) {
 ```
 ## Piping guards
 It is also possible to pipe type guards top to bottom. This works best
-when functions are inlined. The output of the each guard is piped
+when functions are inlined. The output of each guard is piped
 to the parameter of the next.
 ```ts
 const isFooBar = guardPipe(
