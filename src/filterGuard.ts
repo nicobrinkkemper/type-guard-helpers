@@ -1,23 +1,71 @@
 import { isNonNullable } from './isNonNullable';
-import type { TypeGuard } from './types';
+import { isNull } from './isNull';
+import { isNullable } from './isNullable';
+import { isUndefined } from './isUndefined';
+import { negateIterableGuard } from './negateGuard';
+import type {
+  AnyIterableTypeGuard,
+  Combine,
+  GuardType,
+  GuardTypeInput
+} from './types';
 
-type FilterGuard<
-	T extends readonly unknown[],
-	U,
-	A extends readonly unknown[] = readonly []
-> = T extends readonly []
-	? A
-	: T extends readonly [infer F, ...infer L]
-	? FilterGuard<L, U, F extends U ? readonly [...A, F] : A>
-	: never;
+type FilterGuardRecursive<
+  Arr extends readonly unknown[],
+  Filter,
+  Result extends readonly unknown[] = readonly []
+> = Arr extends readonly []
+  ? Result
+  : Arr extends readonly [infer Head, ...infer Tail]
+  ? FilterGuardRecursive<
+      Tail,
+      Filter,
+      Head extends Filter ? readonly [...Result, Combine<Filter, Head>] : Result
+    >
+  : readonly Filter[];
 
-type filterGuardFn = <Param, Result>(
-	guard: TypeGuard<Param, Result>
-) => <A extends readonly []>(arr: A) => FilterGuard<typeof arr, Result>;
+type FilterGuardFn<Guard extends AnyIterableTypeGuard> = <
+  Arr extends GuardTypeInput<Guard>[]
+>(
+  arr: Readonly<[...Arr]>
+) => FilterGuardRecursive<[...Arr], GuardType<Guard>>;
 
-const filterGuard: filterGuardFn = (guard) => (arr) =>
-	arr.filter(guard) as never;
+type ExcludeGuardFn<Guard extends AnyIterableTypeGuard> = <
+  Arr extends GuardTypeInput<Guard>[]
+>(
+  arr: Readonly<[...Arr]>
+) => FilterGuardRecursive<[...Arr], Exclude<Arr[number], GuardType<Guard>>>;
 
-const filterNonNullable = filterGuard(isNonNullable);
+type FilterGuard = <Guard extends AnyIterableTypeGuard>(
+  guard: Guard
+) => FilterGuardFn<Guard>;
 
-export { filterGuard, filterNonNullable };
+type ExcludeGuard = <Guard extends AnyIterableTypeGuard>(
+  guard: Guard
+) => ExcludeGuardFn<Guard>;
+
+const filterGuard: FilterGuard = (guard) => (arr) => arr.filter(guard) as never;
+
+const excludeGuard: ExcludeGuard = (guard) => (arr) =>
+  arr.filter(negateIterableGuard(guard)) as never;
+
+const filterNonNullable = filterGuard(isNonNullable) as typeof excludeNullable;
+const excludeNullable = excludeGuard(isNullable);
+const excludeUndefined = excludeGuard(isUndefined);
+const excludeNull = excludeGuard(isNull);
+
+export {
+  filterGuard,
+  filterNonNullable,
+  excludeGuard,
+  excludeNullable,
+  excludeUndefined,
+  excludeNull
+};
+export type {
+  FilterGuardRecursive,
+  FilterGuardFn,
+  ExcludeGuardFn,
+  FilterGuard,
+  ExcludeGuard
+};

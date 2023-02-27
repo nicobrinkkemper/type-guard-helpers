@@ -1,5 +1,10 @@
-const isNullable = <Value, Result extends null | undefined>(
-	value: Result extends Value ? Value : Result
-): value is Result extends Value ? Result : never => !(value != null);
+import type { MatchEitherFn } from './matchEither';
+import { matchEither } from './matchEither';
+
+const isNullable = matchEither(null, undefined) as MatchEitherFn<
+  unknown,
+  null,
+  undefined
+>;
 
 export { isNullable };

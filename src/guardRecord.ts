@@ -1,5 +1,10 @@
+import { guardPipe } from './guardPipe';
 import { isRecord } from './isRecord';
-import type { TypeGuard } from './types';
+import type { AnyTypeGuard } from './types';
+
+type GuardRecord = <Guard extends AnyTypeGuard<Record<string, unknown>>>(
+  guard: Guard
+) => ReturnType<typeof guardPipe<typeof isRecord, Guard>>;
 
 /**
  * Given a Type Guard, returns a Type Guard that checks if the given value is a Record and all its entries match the given Type Guard.
@@ -19,11 +24,6 @@ import type { TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardRecord =
-	<A>(guard: TypeGuard<Record<string, unknown>, A>) =>
-	<Value, Result extends A>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
-		isRecord(value) && guard(value);
+const guardRecord: GuardRecord = (guard) => guardPipe(isRecord, guard);
 
 export { guardRecord };

@@ -7,9 +7,9 @@ test('Should return true for an array', (t) => {
 });
 
 test('Should return false for anything else', (t) => {
-	t.is(isArray(''), false);
-	t.is(isArray(1), false);
-	t.is(isArray(true), false);
+	t.is(isArray('' as unknown), false);
+	t.is(isArray(1 as unknown), false);
+	t.is(isArray(true as unknown), false);
 	t.is(isArray({}), false);
-	t.is(isArray(Symbol()), false);
+	t.is(isArray(Symbol() as unknown), false);
 });

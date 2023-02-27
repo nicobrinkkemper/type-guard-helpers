@@ -1,32 +1,28 @@
-import type { DeepGuardType, DeepTypeGuard, GuardTypes } from './types';
+import type {
+  AnyTypeGuard,
+  GuardTypeInput,
+  GuardTypes,
+  TypeGuardFn
+} from './types';
 
-function guardAllIn<
-	Guards extends readonly [
-		DeepTypeGuard<Param, A>?,
-		DeepTypeGuard<A, B>?,
-		DeepTypeGuard<B, C>?,
-		DeepTypeGuard<C, D>?,
-		DeepTypeGuard<C, D>?,
-		...(readonly DeepTypeGuard<E, F>[])
-	],
-	Param = Parameters<NonNullable<Guards[0]>>[0],
-	A = Param & DeepGuardType<Required<Guards>[0]>,
-	B = A & DeepGuardType<Required<Guards>[1]>,
-	C = B & DeepGuardType<Required<Guards>[2]>,
-	D = C & DeepGuardType<Required<Guards>[3]>,
-	E = D & DeepGuardType<Required<Guards>[4]>,
-	F = E & DeepGuardType<Required<Guards>[5]>
->(
-	guards: Guards
-): <Value extends Param, Result extends GuardTypes<Guards>>(
-	value: Result extends Value ? Value : Result
-) => value is Result extends Value ? Result : never;
+type GuardAllInFn<Guards extends readonly AnyTypeGuard[]> =
+  Guards extends readonly [
+    infer Head extends AnyTypeGuard,
+    ...infer Tail extends AnyTypeGuard[]
+  ]
+    ? TypeGuardFn<GuardTypeInput<Head>, GuardTypes<readonly [Head, ...Tail]>>
+    : never;
+
+type GuardAllIn = <Guards extends readonly AnyTypeGuard[]>(
+  guards: Readonly<[...Guards]>
+) => GuardAllInFn<Guards>;
+
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard that checks if the given value matches all given Type Guards.
  *
  * @example
  * ```ts
- * import { guardAllIn,  match, matchSchema } from 'type-guard-helpers';
+ * import { guardPipe In,  match, matchSchema } from 'type-guard-helpers';
  * const isFooBar = guardAllIn([
  *     matchSchema({ foo: match'foo') }),
  *     matchSchema({ bar: match'bar') })
@@ -34,16 +30,11 @@ function guardAllIn<
  * ```
  * @category Type Guard Composer
  */
-function guardAllIn<
-	Param,
-	A extends GuardTypes<Guards>,
-	Guards extends readonly DeepTypeGuard<Param, A>[]
->(guards: Guards) {
-	return function guardAllInArr<Value extends Param, Result extends A>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never {
-		return guards.findIndex((guard) => !guard(value as never)) === -1;
-	};
-}
+const guardAllIn: GuardAllIn = (guards) =>
+  ((value) =>
+    guards.findIndex((guard) => !guard(value)) === -1) as GuardAllInFn<
+    typeof guards
+  >;
 
 export { guardAllIn };
+export type { GuardAllInFn, GuardAllIn };

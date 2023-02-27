@@ -37,43 +37,54 @@ const isSuccess = (value: unknown): value is 'success' => value === 'success';
 if (isSuccess(status)) status; // status: 'success'
 ```
 
-## About these helpers
-
-These helper functions offer TypeSafe composing of Guards. All provided functions focus on conveniently working with Type Guard functions.
-The functions handle most of the predicate handling.
-
 ## Composing objects
+We can compose complex type predicates by combining several small ones.
+It helps to write them all out while making the name more specific each time a predicate is made.
 
 ```ts
-const test = {} as unknown; // unknown
-const foo = 'foo';
-const bar = 'bar';
-const isBar = match(bar);
-const isFoo = match(foo);
-const isFooBarItem = guardEither(isFoo, isBar);
-const isStatus = matchEither(200, 404);
-const isFooBarArray = guardArrayValues(isFooBarItem);
-const isResponse = matchSchema({
-	items: isFooBarArray,
-	status: isStatus,
+
+const isItemType = matchEither('a', 'b');
+const isItem = matchSchema({ type: isItemType });
+const isItems = guardArrayValues(isItem);
+
+const isItemResponse = matchSchema({
+  items: isItems
 });
 
-if (isResponse(test)) {
-	expectType<{
-		readonly items: readonly ('foo' | 'bar')[];
-		readonly status: 200 | 404;
-	}>(test);
+const Input = {} as Record<string, unknown>; // unknown
+
+if (isItemResponse(Input)) {
+  expectType<{
+	readonly items: readonly ({ type: 'a' | 'b' })[];
+  }>(Input);
 }
 ```
 
-## Composing guards
 
+## Combining guards
+The output of several guards can be combined to narrow to a single type
 ```ts
-
 const isFooBar = guardAll(
-	(value): value is string = typeof value === 'string',
-	(value): value is `foo${string}` = value.startsWith('foo'),
-	(value): value is `foobar` = value === 'foobar'
+	(value: {type?:string}): value is {type:'a'} => value.type === 'a',
+	(value: {subType?:string}): value is {subType:'b'} => value.subType === 'b'
+);
+
+if (isFooBar(test)) {
+	expectType<{
+		readonly type: 'a',
+		readonly subType: 'b'
+	}>(test);
+}
+```
+## Piping guards
+It is also possible to pipe type guards top to bottom. This works best
+when functions are inlined. The output of the each guard is piped
+to the parameter of the next.
+```ts
+const isFooBar = guardPipe(
+	(value): value is string => typeof value === 'string',
+	(value): value is `foo${string}` => value.startsWith('foo'),
+	(value): value is `foobar` => value === 'foobar'
 );
 
 if (isFooBar(test)) {
@@ -81,27 +92,8 @@ if (isFooBar(test)) {
 }
 ```
 
-## Error catching
-
-```ts
-const isFoo = guardAll(
-	(value): value is string => typeof value === 'string',
-	(value): value is `foo${string}` => value.startsWith('foo'),
-	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
-);
-```
-
-```ts
-const foo = 'foo';
-const isNull = match(null);
-// Argument of type '"foo"' is not assignable to parameter of type 'null'.
-if (isNull(foo)) {
-	expectType<never>(foo);
-}
-```
-
 ## Negating guards
-
+Negating guards is possible, though it adds some complexity so it's best to avoid using it if possible.
 ```ts
 const isNotFoo = negateGuard(isFoo);
 const fooOrBar = 'foo' as 'foo' | 'bar';
@@ -110,5 +102,32 @@ if (isNotFoo(fooOrBar)) {
 	expectType<'bar'>(fooOrBar);
 }
 ```
+
+Non nullable
+```ts
+const testValue = null as {foo:'bar'} | null
+if (isNonNullable(testValue)) {
+	expectType<{foo:'bar'}>(testValue);
+}
+```
+If you must use a negating type guard inside a composing function, you can bind the 
+input of the function as such:
+```ts
+const testValues = [null, { foo: 'bar' }, null] as const;
+const filterNonNullable = filterGuard(
+  // fix the argument to the function
+  isNonNullable as typeof isNonNullable<(typeof testValues)[number]>
+);
+// same as excludeGuard(isNullable)
+const testValuesFiltered = filterNonNullable(testValues);
+expectType<
+  readonly [
+    {
+      readonly foo: 'bar';
+    }
+  ]
+>(testValuesFiltered);
+```
+
 
 [Go checkout the documentation.](https://nicobrinkkemper.github.io/type-guard-helpers/)

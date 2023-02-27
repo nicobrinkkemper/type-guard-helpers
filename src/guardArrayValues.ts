@@ -1,5 +1,14 @@
-import { negateGuard } from './negateGuard';
-import type { IterableTypeGuard } from './types';
+import { negateIterableGuard } from './negateGuard';
+import type {
+  AnyIterableTypeGuard,
+  GuardType,
+  GuardTypeInput,
+  TypeGuardFn
+} from './types';
+
+type GuardArrayValues = <Guard extends AnyIterableTypeGuard>(
+  guard: Guard
+) => TypeGuardFn<readonly GuardTypeInput<Guard>[], readonly GuardType<Guard>[]>;
 
 /**
  * Given a Type Guard, returns a Type Guard that checks if the given value is an array and if all its values match the given Type Guard.
@@ -20,11 +29,10 @@ import type { IterableTypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardArrayValues =
-	<Param, A>(guard: IterableTypeGuard<Param, A>) =>
-	<Value extends Param, Result extends readonly A[]>(
-		value: Result extends Value ? Value : Result
-	): value is Result extends Value ? Result : never =>
-		Array.isArray(value) && value.findIndex(negateGuard(guard)) === -1;
+const guardArrayValues: GuardArrayValues =
+  (guard) =>
+  (value): value is never =>
+    value.findIndex(negateIterableGuard(guard) as never) === -1;
 
 export { guardArrayValues };
+export type { GuardArrayValues };

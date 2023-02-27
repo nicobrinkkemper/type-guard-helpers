@@ -1,4 +1,11 @@
-import type { TypeGuard } from './types';
+import { guardPipe } from './guardPipe';
+import { isArray } from './isArray';
+import type { AnyTypeGuard } from './types';
+
+type GuardArray = <Guard extends AnyTypeGuard<readonly unknown[]>>(
+  guard: Guard
+) => ReturnType<typeof guardPipe<typeof isArray, Guard>>;
+
 /**
  * Given a Type Guard, returns a Type Guard that checks if the given value is an array and matches the given Type Guard.
  *
@@ -18,13 +25,7 @@ import type { TypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardArray =
-	<Param extends readonly unknown[], A>(
-		guard: TypeGuard<readonly [...Param], A>
-	) =>
-	<Value extends readonly [...Param]>(
-		value: Value
-	): value is A extends Value ? A : never =>
-		Array.isArray(value) && guard(value);
+const guardArray: GuardArray = (guard) => guardPipe(isArray, guard);
 
 export { guardArray };
+export type { GuardArray };

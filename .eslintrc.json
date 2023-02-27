@@ -10,8 +10,6 @@
 		"plugin:eslint-comments/recommended",
 		"plugin:@typescript-eslint/recommended",
 		"plugin:@typescript-eslint/recommended-requiring-type-checking",
-		"plugin:import/typescript",
-		"plugin:functional/lite",
 		"prettier"
 	],
 	"globals": { "BigInt": true, "console": true, "WebAssembly": true },
@@ -26,6 +24,12 @@
 					"count": "atLeastOne",
 					"ignoreIIFE": true
 				}
+			}
+		],
+		"functional/no-return-void": [
+			1,
+			{
+				"ignoreInferredTypes": true
 			}
 		],
 		"eslint-comments/disable-enable-pair": [

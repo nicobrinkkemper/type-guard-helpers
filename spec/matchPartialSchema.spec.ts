@@ -4,43 +4,47 @@ import { isTypeString } from '../src';
 import { matchPartialSchema } from '../src/matchPartialSchema';
 
 test('Should return true when specified values are not present', (t) => {
-	t.is(
-		matchPartialSchema({
-			foo: (value: unknown): value is 'foo' => value === 'foo',
-		})({
-			bar: 'not checked',
-		}),
-		true
-	);
+  t.is(
+    matchPartialSchema({
+      foo: (value: unknown): value is 'foo' => value === 'foo'
+    })({
+      bar: 'not checked'
+    } as unknown as {
+      foo: unknown;
+    }),
+    true
+  );
 });
 
 test('Should return false when specified values are not correct', (t) => {
-	t.is(
-		matchPartialSchema({
-			foo: (value: unknown): value is 'foo' => value === 'foo',
-		})({
-			foo: 'bad',
-		}),
-		false
-	);
+  t.is(
+    matchPartialSchema({
+      foo: (value: unknown): value is 'foo' => value === 'foo'
+    })({
+      foo: 'bad'
+    } as {
+      foo: unknown;
+    }),
+    false
+  );
 });
 
 test('Should return true with additional unspecified values', (t) => {
-	t.is(
-		matchPartialSchema({
-			foo: (value: unknown): value is 'foo' => value === 'foo',
-		})({
-			foo: 'foo',
-			bar: 'not checked, but ok',
-		}),
-		true
-	);
+  t.is(
+    matchPartialSchema({
+      foo: (value: unknown): value is 'foo' => value === 'foo'
+    })({
+      foo: 'foo',
+      bar: 'not checked, but ok'
+    }),
+    true
+  );
 });
 
 test('Should work with Array.isArray', (t) => {
-	t.is(matchPartialSchema({ foo: Array.isArray })({ foo: [], bar: {} }), true);
+  t.is(matchPartialSchema({ foo: Array.isArray })({ foo: [], bar: {} }), true);
 });
 
 test('Should return true for empty object', (t) => {
-	t.is(matchPartialSchema({ key: isTypeString })({}), true);
+  t.is(matchPartialSchema({ key: isTypeString })({} as never), true);
 });

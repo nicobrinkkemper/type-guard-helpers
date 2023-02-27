@@ -5,6 +5,6 @@ import { match } from './match';
  *
  * @category Type Guard
  */
-const isNull = match(null);
+const isNull = match(null); // null does not need to match a primitive
 
 export { isNull };

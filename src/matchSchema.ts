@@ -1,5 +1,24 @@
-import { isRecord } from './isRecord';
-import type { AnyTypeGuard, GuardType } from './types';
+import type {
+  GuardType,
+  GuardTypeInput,
+  TypeGuardFn,
+  TypeGuardSchema
+} from './types';
+
+type MatchSchemaFn<Schema extends TypeGuardSchema> = TypeGuardFn<
+  {
+    [K in keyof Schema | string]-?: K extends keyof Schema
+      ? GuardTypeInput<Schema[K]>
+      : unknown;
+  },
+  {
+    readonly [k in keyof Schema]: GuardType<Schema[k]>;
+  }
+>;
+
+type MatchSchema = <Schema extends TypeGuardSchema>(
+  schema: Schema
+) => MatchSchemaFn<Schema>;
 
 /**
  * Given a Schema, returns a Type Guard that checks that the given value is an object implementing at least all the entries of the Schema.
@@ -26,27 +45,11 @@ import type { AnyTypeGuard, GuardType } from './types';
  * ```
  * @category Type Guard Creator
  */
-const matchSchema =
-	<
-		Schema extends {
-			readonly [k: string]: AnyTypeGuard;
-		},
-		A extends {
-			readonly [k in keyof Schema]: GuardType<Schema[k]>;
-		}
-	>(
-		schema: Schema
-	) =>
-	<
-		Value,
-		Result extends {
-			readonly [k in keyof A | keyof Value]: (Value & A)[k];
-		}
-	>(
-		value: Result extends Value ? Value : never
-	): value is Result extends Value ? Result : never =>
-		isRecord(value) &&
-		Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
-			-1;
+const matchSchema: MatchSchema =
+  (schema) =>
+  (value): value is never =>
+    Object.entries(
+      schema as unknown as Record<string, (a: unknown) => never>
+    ).findIndex(([key, guard]) => !guard(value[key])) === -1;
 
 export { matchSchema };

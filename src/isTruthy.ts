@@ -1,3 +1,5 @@
+import type { NegateTypeGuardFn } from './types';
+
 /**
  * Calls any guard
  * @example
@@ -10,8 +12,8 @@
  * ```
  * @category Type Guard Composer
  */
-const isTruthy = <Value, Predicate = Exclude<Value, null | undefined | '' | 0>>(
-	value: Value
-): value is Predicate extends Value ? Predicate : never => !!value;
+const isTruthy: NegateTypeGuardFn<
+  null | undefined | '' | 0 | false | unknown
+> = (value): value is never => !!value;
 
 export { isTruthy };

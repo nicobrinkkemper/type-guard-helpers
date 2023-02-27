@@ -1,3 +1,4 @@
+export * from './guardPipe';
 export * from './guardAll';
 export * from './guardAllIn';
 export * from './guardArray';
@@ -5,20 +6,17 @@ export * from './guardEither';
 export * from './guardEitherIn';
 export * from './guardNonEmptyArray';
 export * from './guardNonEmptyArrayValues';
-export * from './guardOption';
 export * from './guardArrayValues';
 export * from './guardRecord';
-export * from './excludeGuard';
-export * from './fixGuard';
+export * from './filterGuard';
 export * from './isArray';
-export * from './isDefined';
 export * from './isEmptyArray';
 export * from './isFalse';
-export * from './isNil';
 export * from './isNonEmptyArray';
 export * from './isNull';
 export * from './isPropertyKey';
 export * from './isRecord';
+export * from './isPartial';
 export * from './isNullable';
 export * from './isNonNullable';
 export * from './isTrue';
@@ -44,13 +42,22 @@ export * from './matchTypeIn';
 export * from './matchTypes';
 export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
+export type { FilterGuard } from './filterGuard';
 export type {
-	TypeGuardFn,
-	IterableTypeGuard,
-	TypeGuard,
-	GuardType,
-	AnyTypeGuard,
-	CombineType,
-	GuardTypes,
-	DeepGuardType,
+  TypeGuardSchema,
+  AnyPrimitive,
+  TypeGuardFn,
+  IterableTypeGuard,
+  TypeGuard,
+  NegateTypeGuardFn,
+  GuardType,
+  GuardTypeInput,
+  AnyTypeGuard,
+  ExcludeTypeGuardFn,
+  GuardTypes,
+  Combine,
+  PipeGuard,
+  CombineObject,
+  DeepGuardType,
+  AnyIterableTypeGuard
 } from './types';
