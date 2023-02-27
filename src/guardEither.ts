@@ -8,7 +8,6 @@ type GuardEither = <Guards extends readonly AnyTypeGuard[]>(
 /**
  * Given one or multiple Type Guards as arguments, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
  * Same as {@link guardEitherIn}, but accepts multiple arguments instead of a single array
- * Same as {@link guardOption}, but can be any number of Type Guards (including less than 2)
  *
  * @example
  * ```ts

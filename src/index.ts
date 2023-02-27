@@ -10,6 +10,7 @@ export * from './guardArrayValues';
 export * from './guardRecord';
 export * from './filterGuard';
 export * from './isArray';
+export * from './isObject';
 export * from './isEmptyArray';
 export * from './isFalse';
 export * from './isNonEmptyArray';
