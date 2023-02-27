@@ -15,6 +15,10 @@ declare type GuardType<Guard> = Guard extends TypeGuard<
   ? Combine<Input, Return>
   : never;
 
+declare type TypeGuardSchema = {
+  readonly [k in string]: AnyTypeGuard;
+};
+
 /**
  * Returns a type that a Guard that will extend the output of the given Guard.
  * @example
@@ -102,9 +106,9 @@ type TypeGuard<Value, Result extends Value> = (value: Value) => value is Result;
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
-type NegateTypeGuard<Result> = <Value>(
+type NegateTypeGuardFn<Excluded> = <Value>(
   value: Value
-) => value is Exclude<Value, Result>;
+) => value is Exclude<Value, Excluded>;
 
 /**
  * Given the resulting Type, returns a Type Guard function
@@ -115,24 +119,6 @@ declare type TypeGuardFn<Input, Output> = <
 >(
   value: Value
 ) => value is Combine<Value, Result>;
-
-/**
- * Given the resulting Type, returns a Type Guard function
- */
-declare type ObjectTypeGuardFn<Input, Output> = <
-  Value extends Input,
-  Result extends Output = Output
->(
-  value: Value
-) => value is CombineObject<Value, Result>;
-
-/**
- * Given a parameter and a predicate, return a new generic Type Guard that implements excluding those types
- */
-declare type NegateTypeGuardFn<Guard extends AnyTypeGuard> =
-  Guard extends TypeGuard<infer Input, infer Output>
-    ? <Value extends Input>(value: Value) => value is Exclude<Value, Output>
-    : never;
 
 /**
  * Given the resulting Type, returns a Type Guard function
@@ -154,29 +140,19 @@ declare type GuardTypes<
   : Result;
 
 /**
- * Given an array, will return a intersection of all the types. The difference between this and `CombineObjectType` is that this will simply use & to combine types.
+ * Given two types, will return a intersection of all the types. The difference between this and `CombineType` is that this will merge object based on keys.
  */
-declare type CombineTypes<
-  Arr extends readonly unknown[],
-  Result = unknown
-> = Arr extends readonly []
-  ? Result
-  : Arr extends readonly [infer Head, ...infer Tail]
-  ? CombineTypes<Tail, Combine<Head, Result>>
-  : never;
-
-/**
- * Given two types, will return a object intersection of all the types. The difference between this and `CombineType` is that this will merge object based on keys.
- */
-declare type Combine<A, B> = B extends A ? B : A extends B ? A : A & B;
-
-declare type CombineObject<A, B> = B extends A
+declare type Combine<A, B> = B extends A
   ? B
   : A extends B
   ? A
-  : {
-      readonly [K in keyof (A & B)]-?: (A & B)[K];
-    };
+  : CombineObject<A, B> extends A & B
+  ? CombineObject<A, B>
+  : A & B;
+
+declare type CombineObject<A, B> = {
+  readonly [K in keyof (A & B)]-?: (A & B)[K];
+};
 /**
  * Anything that may be inferred by Typescript as a primitive
  */
@@ -189,22 +165,20 @@ declare type AnyPrimitive =
   | boolean;
 
 export type {
-  NegateTypeGuardFn,
+  TypeGuardSchema,
   AnyPrimitive,
   TypeGuardFn,
   IterableTypeGuard,
   TypeGuard,
-  NegateTypeGuard,
+  NegateTypeGuardFn,
   GuardType,
   GuardTypeInput,
   AnyTypeGuard,
   ExcludeTypeGuardFn,
-  CombineTypes,
   GuardTypes,
   Combine,
   PipeGuard,
   CombineObject,
-  ObjectTypeGuardFn,
   DeepGuardType,
   AnyIterableTypeGuard
 };

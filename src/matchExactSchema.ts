@@ -1,10 +1,23 @@
 import { isRecord } from './isRecord';
 import type {
-  AnyTypeGuard,
   GuardType,
   GuardTypeInput,
-  TypeGuardFn
+  TypeGuardFn,
+  TypeGuardSchema
 } from './types';
+
+type MatchExactSchemaFn<Schema extends TypeGuardSchema> = TypeGuardFn<
+  {
+    [K in keyof Schema]: GuardTypeInput<Schema[K]>;
+  },
+  {
+    readonly [k in keyof Schema]: GuardType<Schema[k]>;
+  }
+>;
+
+type MatchExactSchema = <Schema extends TypeGuardSchema>(
+  schema: Schema
+) => MatchExactSchemaFn<Schema>;
 
 /**
  *
@@ -31,25 +44,13 @@ import type {
  * ```
  * @category Type Guard Creator
  */
-const matchExactSchema = <
-  Schema extends {
-    readonly [k in string]: AnyTypeGuard;
-  }
->(
-  schema: Schema
-) =>
-  ((value) =>
+const matchExactSchema: MatchExactSchema =
+  (schema) =>
+  (value): value is never =>
     isRecord(value) &&
     Object.keys(value).findIndex((key) => !(key in schema)) === -1 &&
     Object.entries(schema).findIndex(
       ([key, guard]) => !(key in value && guard(value[key]))
-    ) === -1) as TypeGuardFn<
-    {
-      readonly [k in keyof Schema]: GuardTypeInput<Schema[k]>;
-    },
-    {
-      readonly [k in keyof Schema]: GuardType<Schema[k]>;
-    }
-  >;
+    ) === -1;
 
 export { matchExactSchema };

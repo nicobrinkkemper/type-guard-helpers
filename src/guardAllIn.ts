@@ -5,13 +5,17 @@ import type {
   TypeGuardFn
 } from './types';
 
-type GuardAll<Guards extends readonly AnyTypeGuard[]> =
+type GuardAllInFn<Guards extends readonly AnyTypeGuard[]> =
   Guards extends readonly [
     infer Head extends AnyTypeGuard,
     ...infer Tail extends AnyTypeGuard[]
   ]
     ? TypeGuardFn<GuardTypeInput<Head>, GuardTypes<readonly [Head, ...Tail]>>
     : never;
+
+type GuardAllIn = <Guards extends readonly AnyTypeGuard[]>(
+  guards: Readonly<[...Guards]>
+) => GuardAllInFn<Guards>;
 
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard that checks if the given value matches all given Type Guards.
@@ -26,10 +30,11 @@ type GuardAll<Guards extends readonly AnyTypeGuard[]> =
  * ```
  * @category Type Guard Composer
  */
-const guardAllIn = <Guards extends readonly AnyTypeGuard[]>(
-  guards: Readonly<[...Guards]>
-) =>
+const guardAllIn: GuardAllIn = (guards) =>
   ((value) =>
-    guards.findIndex((guard) => !guard(value)) === -1) as GuardAll<Guards>;
+    guards.findIndex((guard) => !guard(value)) === -1) as GuardAllInFn<
+    typeof guards
+  >;
 
 export { guardAllIn };
+export type { GuardAllInFn, GuardAllIn };

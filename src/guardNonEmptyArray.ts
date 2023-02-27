@@ -2,6 +2,12 @@ import { guardPipe } from './guardPipe';
 import { isNonEmptyArray } from './isNonEmptyArray';
 import type { AnyTypeGuard } from './types';
 
+type GuardNonEmptyArray = <
+  Guard extends AnyTypeGuard<readonly [unknown, ...unknown[]]>
+>(
+  guard: Guard
+) => ReturnType<typeof guardPipe<typeof isNonEmptyArray, Guard>>;
+
 /**
  * Enhances a Type Guard so it can be used to check all values of an array. It also checks if the array is non-empty.
  *
@@ -18,9 +24,8 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category | Type Guard Creator
  */
-const guardNonEmptyArray = <
-  Guard extends AnyTypeGuard<readonly [unknown, ...unknown[]]>
->(
-  guard: Guard
-) => guardPipe(isNonEmptyArray, guard);
+const guardNonEmptyArray: GuardNonEmptyArray = (guard) =>
+  guardPipe(isNonEmptyArray, guard);
+
 export { guardNonEmptyArray };
+export type { GuardNonEmptyArray };

@@ -1,35 +1,38 @@
+import type { MatchInFn } from './matchIn';
 import { matchIn } from './matchIn';
-import type { AnyPrimitive, TypeGuardFn } from './types';
+import type { AnyPrimitive } from './types';
 
-type MatchesFn<Input = AnyPrimitive> = <Args extends readonly Input[]>(
+type Matches<Input extends AnyPrimitive = AnyPrimitive> = <
+  Args extends readonly Input[]
+>(
   ...args: readonly [...Args]
-) => TypeGuardFn<Input, Args[number]>;
+) => MatchInFn<Input, Args>;
 
 /**
  * Given primitives as arguments, returns a Type Guard that checks if the given value is strictly equal to one of the given primitives.
  * @category Type Guard Creator
  */
-const matches: MatchesFn = (...args) => matchIn(args);
+const matches: Matches = (...args) => matchIn(args);
 /**
  * Given strings as arguments, returns a Type Guard that checks if the given value is strictly equal to one of the given primitives.
  * @category Type Guard Creator
  */
-const matchStrings: MatchesFn<string> = matches;
+const matchStrings: Matches<string> = matches;
 /**
  * Given numbers as arguments, returns a Type Guard that checks if the given value is strictly equal to one of the given primitives.
  * @category Type Guard Creator
  */
-const matchNumbers: MatchesFn<number> = matches;
+const matchNumbers: Matches<number> = matches;
 /**
  * Given booleans as arguments, returns a Type Guard that checks if the given value is strictly equal to one of the given primitives.
  * @category Type Guard Creator
  */
-const matchBooleans: MatchesFn<boolean> = matches;
+const matchBooleans: Matches<boolean> = matches;
 /**
  * Given PropertyKeys as arguments, returns a Type Guard that checks if the given value is strictly equal to one of the given primitives.
  * @category Type Guard Creator
  */
-const matchPropertyKeys: MatchesFn<PropertyKey> = matches;
+const matchPropertyKeys: Matches<PropertyKey> = matches;
 
 export {
   matches,
@@ -38,4 +41,4 @@ export {
   matchPropertyKeys,
   matchBooleans
 };
-export type { MatchesFn };
+export type { Matches };

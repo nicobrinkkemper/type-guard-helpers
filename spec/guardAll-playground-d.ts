@@ -24,25 +24,19 @@ if (isFooBarRecord(test)) {
 }
 const isFooBar2 = guardAllIn([matchFooSchema, matchBarSchema]);
 if (isFooBar2(test)) {
-  expectType<
-    {
-      readonly bar: 'bar';
-    } & {
-      readonly foo: 'foo';
-    }
-  >(test);
+  expectType<{
+    readonly foo: 'foo';
+    readonly bar: 'bar';
+  }>(test);
 }
 
 // Guard all in
 const isFooBarGuardAllIn = guardAll(isObject, matchFooSchema, matchBarSchema);
 if (isFooBarGuardAllIn(test)) {
-  expectType<
-    {
-      readonly bar: 'bar';
-    } & {
-      readonly foo: 'foo';
-    }
-  >(test);
+  expectType<{
+    readonly foo: 'foo';
+    readonly bar: 'bar';
+  }>(test);
 }
 
 // inline in
@@ -55,11 +49,8 @@ const isFooBarInline2 = guardAll(
   (obj: { bar?: string }): obj is { readonly bar: 'bar' } => obj?.bar === 'bar'
 );
 if (isFooBarInline2(test)) {
-  expectType<
-    {
-      readonly bar: 'bar';
-    } & {
-      readonly foo: 'foo';
-    }
-  >(test);
+  expectType<{
+    readonly foo: 'foo';
+    readonly bar: 'bar';
+  }>(test);
 }

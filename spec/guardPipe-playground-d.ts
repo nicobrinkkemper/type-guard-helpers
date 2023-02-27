@@ -1,6 +1,12 @@
 import { expectType } from 'tsd';
 
-import { guardPipe, matchSchema, matchString } from '../src';
+import {
+  guardPipe,
+  isTypeString,
+  matchSchema,
+  matchString,
+  matchType
+} from '../src';
 
 import type { CombineObject } from './types';
 
@@ -62,4 +68,96 @@ if (isFooBarPipeInline(testUnknown)) {
     readonly foo: 'foo';
     readonly bar: 'bar';
   }>(testUnknown);
+}
+
+const unknownFoobar = 'foobar' as unknown;
+const foobar = 'foobar' as string;
+const startsWithFoo = guardPipe(
+  isTypeString,
+  (val): val is typeof val & `foo${string}` => val.startsWith('foo')
+);
+
+if (startsWithFoo(foobar)) {
+  expectType<`foo${string}`>(foobar);
+}
+
+const isFooBarGuardPipe = guardPipe(
+  matchType('string'),
+  (val): val is typeof val & `foo${string}` => val.startsWith('foo'),
+  (val): val is typeof val & `foobar` => (val as string) === foobar
+);
+
+if (isFooBarGuardPipe(foobar)) {
+  expectType<'foobar'>(foobar);
+} else {
+  expectType<string>(foobar);
+}
+
+if (isFooBarGuardPipe(unknownFoobar)) {
+  expectType<'foobar'>(unknownFoobar);
+} else {
+  expectType<unknown>(unknownFoobar);
+}
+
+const isFooBarInline = guardPipe(
+  (val: unknown): val is string => {
+    return typeof val === 'string';
+  },
+  (val): val is typeof val & `foo${string}` => {
+    expectType<string>(val);
+    return val.startsWith('foo');
+  },
+  (val): val is typeof val & `foobar` => {
+    expectType<`foo${string}`>(val);
+    return (val as string) === 'foobar';
+  }
+);
+// guardAll given tuple or spread
+const isFooGuards = [
+  (val: unknown): val is string => {
+    return typeof val === 'string';
+  },
+  (val: string): val is `foo` => {
+    return val === 'foo';
+  }
+] as const;
+
+// guardAll
+const guardAllGivenSpread = guardPipe(...isFooGuards);
+const guardAllGivenInline = guardPipe(isFooGuards[0], isFooGuards[1]);
+if (guardAllGivenInline(unknownFoobar)) {
+  expectType<'foo'>(unknownFoobar);
+} else {
+  expectType<unknown>(unknownFoobar);
+}
+
+if (guardAllGivenSpread(foobar)) {
+  expectType<'foo'>(foobar);
+}
+
+if (isFooBarInline(foobar)) {
+  expectType<'foobar'>(foobar);
+} else {
+  expectType<string>(foobar);
+}
+
+if (isFooBarInline(unknownFoobar)) {
+  expectType<'foobar'>(unknownFoobar);
+} else {
+  expectType<unknown>(unknownFoobar);
+}
+
+const readmeExample = guardPipe(
+  isTypeString,
+  (value): value is typeof value & `foo${string}` => {
+    expectType<string>(value);
+    return value.startsWith('foo');
+  }
+  //	(value): value is number => typeof value === 'number' // Type 'number' is not assignable to type '`foo${string}`'
+);
+
+if (readmeExample(foobar)) {
+  const t = foobar.startsWith('foo'); //  no error
+  expectType<boolean>(t);
+  expectType<`foo${string}`>(foobar);
 }

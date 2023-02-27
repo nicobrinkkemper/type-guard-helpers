@@ -37,24 +37,26 @@ expectType<
 >(isTeasers);
 
 const isTeasers3 = filterGuard(isTeaser)(teasers);
-expectType<
-  readonly (
-    | {
-        readonly type: 'a';
-      }
-    | {
-        readonly type: 'b';
-      }
-    | {
-        readonly type: 'c';
-      }
-  )[]
->(isTeasers3);
+type expectIsTeasers3 = readonly (
+  | {
+      readonly type: 'a';
+    }
+  | {
+      readonly type: 'b';
+    }
+  | {
+      readonly type: 'c';
+    }
+)[];
+expectType<expectIsTeasers3>(isTeasers3);
 
 const isTeasersNative = teasers.filter(isTeaser);
-expectType<
-  ({ readonly type: 'a' } | { readonly type: 'b' } | { readonly type: 'c' })[]
->(isTeasersNative);
+type expectIsTeasersNative = (
+  | { readonly type: 'a' }
+  | { readonly type: 'b' }
+  | { readonly type: 'c' }
+)[];
+expectType<expectIsTeasersNative>(isTeasersNative);
 
 const isNotTeaser = excludeGuard(isTeaser)(teasers);
 expectType<readonly never[]>(isNotTeaser);

@@ -44,11 +44,13 @@ if (orFooBar(testExact)) {
         readonly foo: 'foo';
         readonly bar: 'bar';
       }
-    | (Record<'foo' | 'bar', string> & {
+    | {
+        readonly foo: string;
         readonly bar: 'bar';
-      })
-    | (Record<'foo' | 'bar', string> & {
+      }
+    | {
         readonly foo: 'foo';
-      })
+        readonly bar: string;
+      }
   >(testExact);
 }

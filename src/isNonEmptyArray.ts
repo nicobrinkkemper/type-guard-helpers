@@ -6,10 +6,9 @@ import type { TypeGuardFn } from './types';
  *
  * @category Type Guard
  */
-const isNonEmptyArray = ((value: readonly unknown[]) =>
-  isArray(value) && value.length > 0) as TypeGuardFn<
+const isNonEmptyArray: TypeGuardFn<
   unknown,
   readonly [unknown, ...unknown[]]
->;
+> = (value): value is never => isArray(value) && value.length > 0;
 
 export { isNonEmptyArray };

@@ -12,7 +12,6 @@ export * from './filterGuard';
 export * from './isArray';
 export * from './isEmptyArray';
 export * from './isFalse';
-export * from './isNil';
 export * from './isNonEmptyArray';
 export * from './isNull';
 export * from './isPropertyKey';
@@ -45,14 +44,20 @@ export * from './negateGuard';
 export type { MatchableTypes } from './matchType';
 export type { FilterGuard } from './filterGuard';
 export type {
+  TypeGuardSchema,
   AnyPrimitive,
   TypeGuardFn,
   IterableTypeGuard,
   TypeGuard,
+  NegateTypeGuardFn,
   GuardType,
+  GuardTypeInput,
   AnyTypeGuard,
-  CombineTypes,
+  ExcludeTypeGuardFn,
   GuardTypes,
+  Combine,
+  PipeGuard,
+  CombineObject,
   DeepGuardType,
-  Combine
+  AnyIterableTypeGuard
 } from './types';

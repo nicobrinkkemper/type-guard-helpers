@@ -1,10 +1,25 @@
 import { isPartial } from './isPartial';
 import type {
-  AnyTypeGuard,
   GuardType,
   GuardTypeInput,
-  TypeGuardFn
+  TypeGuardFn,
+  TypeGuardSchema
 } from './types';
+
+type MatchPartialSchemaFn<Schema extends TypeGuardSchema> = TypeGuardFn<
+  {
+    [K in keyof Schema | string]-?: K extends keyof Schema
+      ? GuardTypeInput<Schema[K]>
+      : unknown;
+  },
+  {
+    readonly [k in keyof Schema]?: GuardType<Schema[k]>;
+  }
+>;
+
+type MatchPartialSchema = <Schema extends TypeGuardSchema>(
+  schema: Schema
+) => MatchPartialSchemaFn<Schema>;
 
 /**
  * Given a Schema, returns a Type Guard that checks that the given value is an object implementing the entries of the Schema.
@@ -33,24 +48,12 @@ import type {
  * ```
  * @category Type Guard Creator
  */
-const matchPartialSchema = <
-  Schema extends {
-    readonly [k: string]: AnyTypeGuard;
-  }
->(
-  schema: Schema
-) =>
-  ((value) =>
+const matchPartialSchema: MatchPartialSchema =
+  (schema) =>
+  (value): value is never =>
     isPartial(value) &&
     Object.entries(schema).findIndex(
       ([key, guard]) => key in value && !guard(value[key])
-    ) === -1) as TypeGuardFn<
-    {
-      readonly [k in keyof Schema]: GuardTypeInput<Schema[k]>;
-    },
-    {
-      readonly [k in keyof Schema]-?: GuardType<Schema[k]>;
-    }
-  >;
+    ) === -1;
 
 export { matchPartialSchema };

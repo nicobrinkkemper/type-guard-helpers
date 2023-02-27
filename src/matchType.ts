@@ -16,7 +16,7 @@ type MatchableTypes =
 /**
  * A type to convert the string returned by `typeof x` to its typescript type
  */
-type MatchType<Type> = Type extends 'boolean'
+type MatchTypeFromString<Type> = Type extends 'boolean'
   ? boolean
   : Type extends 'bigint'
   ? bigint
@@ -35,15 +35,27 @@ type MatchType<Type> = Type extends 'boolean'
   ? undefined
   : never;
 
+type MatchTypeFn<Type extends MatchableTypes = never> = TypeGuardFn<
+  unknown,
+  MatchTypeFromString<Type>
+>;
+type MatchType = <Type extends MatchableTypes>(
+  value: Type
+) => MatchTypeFn<Type>;
+
 /**
  * Given any argument, returns a Type Guard that checks if the given value is strictly equal to the given argument.
  * @category Type Guard Creator
  */
-const matchType =
-  <Type extends MatchableTypes>(
-    type: Type
-  ): TypeGuardFn<unknown, MatchType<Type>> =>
+const matchType: MatchType =
+  (type) =>
   (value): value is never =>
     typeof value === type;
 
-export { matchType, MatchType, MatchableTypes };
+export {
+  matchType,
+  MatchType,
+  MatchableTypes,
+  MatchTypeFromString,
+  MatchTypeFn
+};

@@ -5,6 +5,10 @@ import type {
   TypeGuardFn
 } from './types';
 
+type GuardEitherIn = <Guards extends readonly AnyTypeGuard[]>(
+  guards: readonly [...Guards]
+) => TypeGuardFn<GuardTypeInput<Guards[number]>, GuardType<Guards[number]>>;
+
 /**
  * Given one or multiple Type Guards as array, returns a Type Guard to check if a value matches at least one of the given Type Guard(s).
  * Same as {@link guardEither}, but accepts a single array instead of multiple arguments
@@ -20,13 +24,10 @@ import type {
  * ```
  * @category Type Guard Composer
  */
-const guardEitherIn = <Guards extends readonly AnyTypeGuard[]>(
-  guards: readonly [...Guards]
-) =>
-  ((value: unknown) =>
-    guards.findIndex((guard) => guard(value)) !== -1) as TypeGuardFn<
-    GuardTypeInput<Guards[number]>,
-    GuardType<Guards[number]>
-  >;
+const guardEitherIn: GuardEitherIn =
+  (guards) =>
+  (value): value is never =>
+    guards.findIndex((guard) => guard(value)) !== -1;
 
 export { guardEitherIn };
+export type { GuardEitherIn };

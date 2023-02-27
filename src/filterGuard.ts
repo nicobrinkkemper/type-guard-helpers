@@ -10,14 +10,14 @@ import type {
   GuardTypeInput
 } from './types';
 
-type FilterGuard<
+type FilterGuardRecursive<
   Arr extends readonly unknown[],
   Filter,
   Result extends readonly unknown[] = readonly []
 > = Arr extends readonly []
   ? Result
   : Arr extends readonly [infer Head, ...infer Tail]
-  ? FilterGuard<
+  ? FilterGuardRecursive<
       Tail,
       Filter,
       Head extends Filter ? readonly [...Result, Combine<Filter, Head>] : Result
@@ -28,23 +28,26 @@ type FilterGuardFn<Guard extends AnyIterableTypeGuard> = <
   Arr extends GuardTypeInput<Guard>[]
 >(
   arr: Readonly<[...Arr]>
-) => FilterGuard<[...Arr], GuardType<Guard>>;
+) => FilterGuardRecursive<[...Arr], GuardType<Guard>>;
 
 type ExcludeGuardFn<Guard extends AnyIterableTypeGuard> = <
   Arr extends GuardTypeInput<Guard>[]
 >(
   arr: Readonly<[...Arr]>
-) => FilterGuard<[...Arr], Exclude<Arr[number], GuardType<Guard>>>;
+) => FilterGuardRecursive<[...Arr], Exclude<Arr[number], GuardType<Guard>>>;
 
-const filterGuard =
-  <Guard extends AnyIterableTypeGuard>(guard: Guard): FilterGuardFn<Guard> =>
-  (arr) =>
-    arr.filter(guard) as never;
+type FilterGuard = <Guard extends AnyIterableTypeGuard>(
+  guard: Guard
+) => FilterGuardFn<Guard>;
 
-const excludeGuard =
-  <Guard extends AnyIterableTypeGuard>(guard: Guard): ExcludeGuardFn<Guard> =>
-  (arr) =>
-    arr.filter(negateIterableGuard(guard) as never) as never;
+type ExcludeGuard = <Guard extends AnyIterableTypeGuard>(
+  guard: Guard
+) => ExcludeGuardFn<Guard>;
+
+const filterGuard: FilterGuard = (guard) => (arr) => arr.filter(guard) as never;
+
+const excludeGuard: ExcludeGuard = (guard) => (arr) =>
+  arr.filter(negateIterableGuard(guard)) as never;
 
 const filterNonNullable = filterGuard(isNonNullable) as typeof excludeNullable;
 const excludeNullable = excludeGuard(isNullable);
@@ -59,4 +62,10 @@ export {
   excludeUndefined,
   excludeNull
 };
-export type { FilterGuard };
+export type {
+  FilterGuardRecursive,
+  FilterGuardFn,
+  ExcludeGuardFn,
+  FilterGuard,
+  ExcludeGuard
+};

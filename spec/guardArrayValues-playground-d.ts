@@ -18,19 +18,18 @@ const isTeaser = guardEither(
 const isTeasers = guardArrayValues(isTeaser);
 if (isTeasers(teasers)) {
   const first = teasers[0];
-  expectType<
-    {
-      type: string;
-    } & (
-      | {
-          readonly type: 'a';
-        }
-      | {
-          readonly type: 'b';
-        }
-      | {
-          readonly type: 'c';
-        }
-    )
-  >(first);
+  type expectFirst = {
+    type: string;
+  } & (
+    | {
+        readonly type: 'a';
+      }
+    | {
+        readonly type: 'b';
+      }
+    | {
+        readonly type: 'c';
+      }
+  );
+  expectType<expectFirst>(first);
 }

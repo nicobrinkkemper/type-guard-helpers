@@ -1,8 +1,19 @@
-import type { TypeGuard } from './types';
+import type { AnyPrimitive, TypeGuard } from './types';
 
-const matchEither =
-  <T, T2>(subjectA: T, subjectB: T2): TypeGuard<unknown, T | T2> =>
+type MatchEitherFn<Input, A extends Input, B extends Input> = TypeGuard<
+  Input,
+  A | B
+>;
+
+type MatchEither<Input = AnyPrimitive> = <A extends Input, B extends Input>(
+  subjectA: A,
+  subjectB: B
+) => MatchEitherFn<Input, A, B>;
+
+const matchEither: MatchEither =
+  (subjectA, subjectB) =>
   (value): value is never =>
     value === subjectA || value === subjectB;
 
 export { matchEither };
+export type { MatchEitherFn, MatchEither };

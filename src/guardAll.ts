@@ -1,5 +1,10 @@
+import type { GuardAllInFn } from './guardAllIn';
 import { guardAllIn } from './guardAllIn';
 import type { AnyTypeGuard } from './types';
+
+type GuardAll = <Guards extends readonly AnyTypeGuard[]>(
+  ...guards: Readonly<[...Guards]>
+) => GuardAllInFn<Guards>;
 
 /**
  * Given one or multiple Type Guards as parameters, returns a Type Guard that checks if the given value matches all given Type Guards.
@@ -14,8 +19,7 @@ import type { AnyTypeGuard } from './types';
  * ```
  * @category Type Guard Composer
  */
-const guardAll = <Guards extends readonly AnyTypeGuard[]>(
-  ...guards: Readonly<[...Guards]>
-) => guardAllIn(guards);
+const guardAll: GuardAll = (...guards) => guardAllIn(guards);
 
 export { guardAll };
+export type { GuardAll };
