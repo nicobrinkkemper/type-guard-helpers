@@ -1,7 +1,6 @@
 import test from 'ava';
 
-import { filterGuard } from './filterGuard';
-import { matchString } from './match';
+import { filterGuard, matchString } from '../src';
 
 const isBar = matchString('bar');
 const isFoo = matchString('foo');

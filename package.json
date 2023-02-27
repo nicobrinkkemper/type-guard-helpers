@@ -10,10 +10,11 @@
   "keywords": [],
   "scripts": {
     "clean": "rm -rf build lib module tsconfig.lib.tsbuildinfo tsconfig.module.tsbuildinfo",
-    "build": "run-s clean build:*",
+    "build": "run-s clean build:* fixup",
     "build:spec": "tsc -p tsconfig.json",
     "build:lib": "tsc -p tsconfig.lib.json",
     "build:module": "tsc -p tsconfig.module.json",
+    "fixup": "./fixup.sh",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/*.ts\" --write",
     "fix:prettier-spec": "prettier \"spec/*.ts\" --write",
@@ -117,8 +118,6 @@
     "singleQuote": true
   },
   "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "all": true,
     "exclude": [
       "**/spec/**"
     ]
