@@ -48,8 +48,7 @@ type MatchSchema = <Schema extends TypeGuardSchema>(
 const matchSchema: MatchSchema =
   (schema) =>
   (value): value is never =>
-    Object.entries(
-      schema as unknown as Record<string, (a: unknown) => never>
-    ).findIndex(([key, guard]) => !guard(value[key])) === -1;
+    Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
+    -1;
 
 export { matchSchema };

@@ -1,4 +1,3 @@
-import { isPartial } from './isPartial';
 import type {
   GuardType,
   GuardTypeInput,
@@ -51,7 +50,6 @@ type MatchPartialSchema = <Schema extends TypeGuardSchema>(
 const matchPartialSchema: MatchPartialSchema =
   (schema) =>
   (value): value is never =>
-    isPartial(value) &&
     Object.entries(schema).findIndex(
       ([key, guard]) => key in value && !guard(value[key])
     ) === -1;

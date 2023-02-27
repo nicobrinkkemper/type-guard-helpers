@@ -2,6 +2,7 @@ import type {
   AnyIterableTypeGuard,
   AnyTypeGuard,
   GuardType,
+  NegateIterableTypeGuardFn,
   NegateTypeGuardFn
 } from './types';
 
@@ -11,7 +12,7 @@ type NegateGuard = <Guard extends AnyTypeGuard>(
 
 type NegateIterableGuard = <Guard extends AnyIterableTypeGuard = never>(
   guard: Guard
-) => NegateTypeGuardFn<GuardType<Guard>>;
+) => NegateIterableTypeGuardFn<GuardType<Guard>>;
 
 /**
  * Negates the output of any given Type Guard and types accordingly using Exclude.
@@ -42,6 +43,9 @@ const negateGuard: NegateGuard =
  * ```
  * @category Type Guard Composer
  */
-const negateIterableGuard: NegateIterableGuard = negateGuard;
+const negateIterableGuard: NegateIterableGuard =
+  (guard) =>
+  (value, i, values): value is never =>
+    !guard(value, i, values);
 
 export { negateIterableGuard, negateGuard };

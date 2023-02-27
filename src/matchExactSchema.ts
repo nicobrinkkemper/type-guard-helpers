@@ -1,4 +1,3 @@
-import { isRecord } from './isRecord';
 import type {
   GuardType,
   GuardTypeInput,
@@ -47,7 +46,6 @@ type MatchExactSchema = <Schema extends TypeGuardSchema>(
 const matchExactSchema: MatchExactSchema =
   (schema) =>
   (value): value is never =>
-    isRecord(value) &&
     Object.keys(value).findIndex((key) => !(key in schema)) === -1 &&
     Object.entries(schema).findIndex(
       ([key, guard]) => !(key in value && guard(value[key]))

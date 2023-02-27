@@ -103,11 +103,21 @@ declare type IterableTypeGuard<Value, Result> = (
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
 type TypeGuard<Value, Result extends Value> = (value: Value) => value is Result;
+
 /**
  * Given a parameter and a predicate, return a new generic Type Guard that implements those
  */
 type NegateTypeGuardFn<Excluded> = <Value>(
   value: Value
+) => value is Exclude<Value, Excluded>;
+
+/**
+ * Given a parameter and a predicate, return a new generic Type Guard that implements those
+ */
+type NegateIterableTypeGuardFn<Excluded> = <Value>(
+  value: Value,
+  i: number,
+  values: readonly Value[]
 ) => value is Exclude<Value, Excluded>;
 
 /**
@@ -173,6 +183,7 @@ export type {
   AnyPrimitive,
   TypeGuardFn,
   IterableTypeGuard,
+  NegateIterableTypeGuardFn,
   TypeGuard,
   NegateTypeGuardFn,
   GuardType,
