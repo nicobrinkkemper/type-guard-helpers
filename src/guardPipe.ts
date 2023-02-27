@@ -52,7 +52,7 @@ declare function GuardPipe<
   G extends PipeGuard<F>
 >(
   ...guard: readonly [A, B, C, D, E, F, G]
-): TypeGuardFn<GuardTypeInput<A>, GuardType<B>>;
+): TypeGuardFn<GuardTypeInput<A>, GuardType<G>>;
 declare function GuardPipe<
   A extends AnyTypeGuard,
   B extends PipeGuard<A>,
