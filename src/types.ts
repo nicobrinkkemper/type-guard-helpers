@@ -20,7 +20,7 @@ declare type TypeGuardSchema = {
 };
 
 /**
- * Returns a type that a Guard that will extend the output of the given Guard.
+ * Returns a type that a Guard will extend the output of the given Guard.
  * @example
  * ```ts
  * GuardType<typeof isTypeString> // string
