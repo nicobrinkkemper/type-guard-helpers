@@ -46,10 +46,10 @@ type MatchExactSchema = <Schema extends TypeGuardSchema>(
 const matchExactSchema: MatchExactSchema =
   (schema) =>
   (value): value is never =>
-    Object.keys(value).findIndex((key) => !(key in schema)) === -1 &&
-    Object.entries(schema).findIndex(
-      ([key, guard]) => !(key in value && guard(value[key]))
-    ) === -1;
+    Object.keys(value).every((key) => key in schema) &&
+    Object.entries(schema).every(
+      ([key, guard]) => key in value && guard(value[key])
+    );
 
 export { matchExactSchema };
 export type { MatchExactSchema, MatchExactSchemaFn };

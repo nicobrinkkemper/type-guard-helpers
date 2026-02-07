@@ -32,9 +32,7 @@ type GuardAllIn = <Guards extends readonly AnyTypeGuard[]>(
  */
 const guardAllIn: GuardAllIn = (guards) =>
   ((value) =>
-    guards.findIndex((guard) => !guard(value)) === -1) as GuardAllInFn<
-    typeof guards
-  >;
+    guards.every((guard) => guard(value))) as GuardAllInFn<typeof guards>;
 
 export { guardAllIn };
 export type { GuardAllInFn, GuardAllIn };
