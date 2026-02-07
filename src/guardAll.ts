@@ -11,10 +11,10 @@ type GuardAll = <Guards extends readonly AnyTypeGuard[]>(
  *
  * @example
  * ```ts
- * import { guardPipe In,  match, matchSchema } from 'type-guard-helpers';
+ * import { guardAllIn, match, matchSchema } from 'type-guard-helpers';
  * const isFooBar = guardAll(
- *     matchSchema({ foo: match'foo') }),
- *     matchSchema({ bar: match'bar') })
+ *     matchSchema({ foo: match('foo') }),
+ *     matchSchema({ bar: match('bar') })
  * ); // val is { readonly foo: "foo"; } & { readonly bar: "bar"; }
  * ```
  * @category Type Guard Composer

@@ -150,7 +150,7 @@ declare type GuardTypes<
   : Result;
 
 /**
- * Given two types, will return a intersection of all the types. The difference between this and `CombineType` is that this will merge object based on keys.
+ * Given two types, will return an intersection of all the types. The difference between this and `CombineType` is that this will merge object based on keys.
  */
 declare type Combine<A, B> = B extends A
   ? B
