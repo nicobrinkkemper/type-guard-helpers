@@ -1,4 +1,4 @@
-import { expectType, expectAssignable } from 'tsd';
+import { expectAssignable, expectType } from 'tsd';
 // these -d.ts files are a playground to test the type-check patterns
 // try messing any of the types up to see what errors you'll get
 
