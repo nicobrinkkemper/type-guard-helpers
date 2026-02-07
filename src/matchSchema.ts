@@ -48,8 +48,7 @@ type MatchSchema = <Schema extends TypeGuardSchema>(
 const matchSchema: MatchSchema =
   (schema) =>
   (value): value is never =>
-    Object.entries(schema).findIndex(([key, guard]) => !guard(value[key])) ===
-    -1;
+    Object.entries(schema).every(([key, guard]) => guard(value[key]));
 
 export { matchSchema };
 export type { MatchSchema, MatchSchemaFn };

@@ -1,4 +1,3 @@
-import { isArray } from './isArray';
 import type { TypeGuardFn } from './types';
 
 /**
@@ -9,6 +8,6 @@ import type { TypeGuardFn } from './types';
 const isNonEmptyArray: TypeGuardFn<
   unknown,
   readonly [unknown, ...unknown[]]
-> = (value): value is never => isArray(value) && value.length > 0;
+> = (value): value is never => Array.isArray(value) && value.length > 0;
 
 export { isNonEmptyArray };

@@ -27,7 +27,7 @@ type GuardEitherIn = <Guards extends readonly AnyTypeGuard[]>(
 const guardEitherIn: GuardEitherIn =
   (guards) =>
   (value): value is never =>
-    guards.findIndex((guard) => guard(value)) !== -1;
+    guards.some((guard) => guard(value));
 
 export { guardEitherIn };
 export type { GuardEitherIn };
