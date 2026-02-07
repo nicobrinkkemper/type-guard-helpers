@@ -1,4 +1,4 @@
-import { expectType } from 'tsd';
+import { expectType, expectAssignable } from 'tsd';
 // these -d.ts files are a playground to test the type-check patterns
 // try messing any of the types up to see what errors you'll get
 
@@ -49,8 +49,8 @@ const isFooBarInline2 = guardAll(
   (obj: { bar?: string }): obj is { readonly bar: 'bar' } => obj?.bar === 'bar'
 );
 if (isFooBarInline2(test)) {
-  expectType<{
-    readonly foo: 'foo';
+  expectAssignable<{
     readonly bar: 'bar';
+    readonly foo: 'foo';
   }>(test);
 }
