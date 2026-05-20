@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.25](https://github.com/nicobrinkkemper/type-guard-helpers/compare/v1.1.21...v1.1.25) (2026-02-07)
+
+
+### Bug Fixes
+
+* typo readme ([7a1c856](https://github.com/nicobrinkkemper/type-guard-helpers/commit/7a1c856ada03c95092b4d4e5288f2f838d3599b5))
+
 ### [1.1.23](https://github.com/nicobrinkkemper/type-guard-helpers/compare/v1.1.21...v1.1.23) (2026-02-07)
 
 

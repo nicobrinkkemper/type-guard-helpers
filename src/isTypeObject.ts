@@ -3,7 +3,7 @@ import { matchType } from './matchType';
 /**
  * A Type Guard to check if given value type is equal to "object"
  *
- * If you don't want to allow null, which is also considered a object type, use {@linkcode isRecord} or {@linkcode isObject} instead.
+ * If you don't want to allow null, which is also considered an object type, use {@linkcode isRecord} or {@linkcode isObject} instead.
  *
  * @example
  * ```ts

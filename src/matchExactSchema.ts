@@ -20,7 +20,7 @@ type MatchExactSchema = <Schema extends TypeGuardSchema>(
 
 /**
  *
- * Given a Schema, returns a Type Guard that checks that the given value is a object exactly implementing the entries of the Schema.
+ * Given a Schema, returns a Type Guard that checks that the given value is an object exactly implementing the entries of the Schema.
  *
  * This Type Guard returns false if a given value contains keys that are not specified in the Schema.
  * If you want to allow unknown keys, see {@linkcode matchSchema}
@@ -30,8 +30,8 @@ type MatchExactSchema = <Schema extends TypeGuardSchema>(
  * import { matchExactSchema,  match } from 'type-guard-helpers'
  *
  * const test = {} as unknown
- * const isFoo = match'foo');
- * const isBar = match'bar');
+ * const isFoo = match('foo');
+ * const isBar = match('bar');
  * const isFooObject = matchExactSchema({
  *    foo: isFoo,
  *    bar: isBar

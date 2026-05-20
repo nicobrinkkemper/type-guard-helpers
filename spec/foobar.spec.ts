@@ -58,7 +58,7 @@ test("Should return true because it's a correct nested foo bar", (t) => {
   t.is(isFooNested({ foobar: { foo: 'foo', bar: 'bar' } }), true);
 });
 
-test("Should return false because it's a nested foo bar that contains a additional unknown value", (t) => {
+test("Should return false because it's a nested foo bar that contains an additional unknown value", (t) => {
   t.is(
     isFooNested({
       foo: 'foo',

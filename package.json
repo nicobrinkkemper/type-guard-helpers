@@ -1,6 +1,6 @@
 {
   "name": "type-guard-helpers",
-  "version": "1.1.23",
+  "version": "1.1.25",
   "description": "A set of helper functions for type guarding in Typescript.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -121,9 +121,5 @@
     "exclude": [
       "**/spec/**"
     ]
-  },
-  "dependencies": {
-    "ansi-regex": "^6.0.1",
-    "commitizen": "^4.3.0"
   }
 }
